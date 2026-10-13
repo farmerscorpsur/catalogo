@@ -41,9 +41,9 @@
   --pad:clamp(14px,3vw,32px);
 }
 *{box-sizing:border-box}
-html{color-scheme:dark}
+html{color-scheme:dark;overflow-x:clip}
 body{
-  margin:0;background:var(--bg);color:var(--text);
+  margin:0;background:var(--bg);color:var(--text);overflow-x:clip;
   font:400 15px/1.45 'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   background-image:
     linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
@@ -103,7 +103,7 @@ a{color:inherit}
 .ddc:hover{color:var(--text);background:var(--surface)}
 @media(max-width:899px){
   .bar{flex-wrap:wrap;row-gap:10px}
-  .nav{order:3;flex:1 0 100%;display:flex;gap:6px}
+  .nav{order:3;flex:1 0 100%;display:flex;flex-wrap:wrap;gap:6px}
   .ddb,.ddc{min-height:36px;padding:0 12px;font-size:13.5px}
   .ddm{min-width:200px;max-height:min(52vh,380px)}
 }
@@ -398,9 +398,10 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
 
 /* ---------- filas por categoria ---------- */
 .catrow{margin-bottom:6px}
-.catrow .sech{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:40px 0 16px}
-.catrow .sech .sec{margin:0}
-.catrow .sech a.seemore{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);text-decoration:none;white-space:nowrap}
+.catrow .sech{display:flex;flex-direction:column;align-items:center;gap:6px;margin:44px 0 18px;text-align:center}
+.catrow .sech .sec{margin:0;font-size:clamp(19px,5vw,28px);font-weight:800;font-stretch:125%;letter-spacing:.01em;text-transform:none;color:var(--text);gap:12px}
+.catrow .sech .sec span{font-size:.62em}
+.catrow .sech a.seemore{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);text-decoration:none;white-space:nowrap}
 .catrow .sech a.seemore:hover{color:var(--text)}
 </style>
 <script type="application/ld+json">
