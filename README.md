@@ -85,8 +85,8 @@ Los talles se guardan por producto y la ficha muestra chips seleccionables que s
 ## 7. Medición y compartir
 La web emite eventos en `window.dataLayer` (`select_item`, `add_to_cart`, `begin_checkout`, `share`, `ver_stock`). Para medir conectá Google Tag Manager / GA4 usando esos nombres. Los links a la tienda llevan parámetros `utm_source`/`utm_medium`/`utm_campaign`.
 
-## 8. Textos del encargue
-Están en `site/index.html`, dentro de `<section id="encargue">`. Se editan como texto normal.
+## 8. Textos de encargos y envíos
+Están en `site/encargos.html` (página aparte: envíos de stock, cómo funciona el encargue, opciones, tutorial Puerta a Puerta y FAQ). Se editan como texto normal. La home muestra 4 filas de productos por categoría; para cambiarlas, editá `HOME_CATS` en `site/index.html`.
 
 ## 9. Publicar gratis
 Netlify: arrastrá la carpeta `site` en app.netlify.com/drop. Cloudflare Pages: Workers & Pages → Create → Pages → Upload assets → carpeta `site`. Para actualizar, volvés a subirla.

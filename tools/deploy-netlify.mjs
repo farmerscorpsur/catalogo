@@ -19,7 +19,7 @@ const auth = { Authorization: `Bearer ${TOKEN}` };
 console.log(`Creando ZIP desde ${SITE_DIR} ...`);
 execFileSync(
   "tar",
-  ["-a", "-c", "-f", ZIP, "-C", SITE_DIR, "index.html", "404.html", "factura.html", "config.json", "_headers", "manifest.webmanifest", "robots.txt", "sitemap.xml", "data", "img", "logos", "brand"],
+  ["-a", "-c", "-f", ZIP, "-C", SITE_DIR, "index.html", "encargos.html", "404.html", "factura.html", "config.json", "_headers", "manifest.webmanifest", "robots.txt", "sitemap.xml", "data", "img", "logos", "brand"],
   { stdio: "inherit" }
 );
 
