@@ -243,10 +243,6 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .tile .nm{padding:0 8px;font-size:13.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tile .meta{padding:0 8px;font-size:12px;color:var(--mute);display:flex;gap:10px}
 .ph{position:relative}
-.wm{position:absolute;inset:0;background:url("brand/monograma-tile.png");background-size:120px 150px;opacity:0;pointer-events:none;transform:scale(1);transition:opacity .3s ease,transform .3s ease}
-.tile:hover .wm,.card:hover .wm,.pic:hover .wm{opacity:.28;transform:scale(1.04)}
-@media(hover:none){.wm{display:none}}
-@media(prefers-reduced-motion:reduce){.wm{transition:none}}
 .empty{padding:60px 0;text-align:center;color:var(--mute)}
 .empty .btn{display:inline-flex;margin-top:14px}
 #sentinel{height:1px}
@@ -526,7 +522,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
 <dialog id="dlg" aria-labelledby="dName">
   <button class="x" id="close" type="button" aria-label="Cerrar">×</button>
   <div class="sheet">
-    <div class="pic"><img id="dImg" alt=""><span class="wm" aria-hidden="true"></span></div>
+    <div class="pic"><img id="dImg" alt=""></div>
     <div class="info">
       <h2 id="dName"></h2>
       <p class="sub" id="dSub"></p>
@@ -870,7 +866,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     $('#featured').replaceChildren(...onePerBrand().map((p) => {
       const a = document.createElement('a');
       a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"><span class="wm" aria-hidden="true"></span></span>` +
+      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"></span>` +
         `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
       return a;
     }));
@@ -890,7 +886,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     const card = (p) => {
       const a = document.createElement('a');
       a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"><span class="wm" aria-hidden="true"></span></span>` +
+      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"></span>` +
         `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
       return a;
     };
@@ -979,7 +975,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     d.className = 'tile'; d.dataset.i = i; d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0');
     const inCart = !!cartEntry(p.id);
     d.innerHTML =
-      `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt=""><span class="wm" aria-hidden="true"></span>` +
+      `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="">` +
       `<button type="button" class="qa${inCart ? ' in' : ''}" data-i="${i}" aria-label="${inCart ? `Tu pedido tiene ${esc(p.name)}. Tocalo para verlo.` : `Agregar ${esc(p.name)} a tu pedido`}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2V3a1 1 0 0 1 1-1Zm0 4H4v14h16V6h-2v1H6V6Zm2-2v3h8V4H8Z"/></svg></button></span>` +
       `<span class="nm">${esc(p.name)}</span>` +
       `<span class="meta"><span class="bm">${esc(p.brand)}</span>${p.num != null ? `<span>#${p.num}</span>` : ''}${priceSpan(p)}</span>`;
