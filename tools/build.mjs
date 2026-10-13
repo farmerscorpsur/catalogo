@@ -28,6 +28,10 @@ const slug = (s) =>
 // "RO Shoes (36-46)" -> "RO Shoes",  "Tops (DEPENDE PROVEEDOR)" -> "Tops"
 const cleanFolder = (s) => s.replace(/\s*\([^)]*\)/g, '').trim();
 
+// Clave estable para conservar datos curados (tipo/talles/precio/usd) entre builds,
+// independiente del id (que incluye el tamaño del archivo): marca + numero + nombre.
+const dataKey = (brandSlug, num, name) => `${brandSlug}:${num ?? 'x'}:${slug(name || '')}`;
+
 // ---------- tipos (Remeras, Shorts, ...) ----------
 const norm = (s) => slug(s).replace(/-/g, ' ');
 const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -98,8 +102,9 @@ async function main() {
   await fs.mkdir(path.join(out, 'img'), { recursive: true });
   await fs.mkdir(path.join(out, 'data'), { recursive: true });
 
-  // Si ya existe products.json, conservamos la clasificación curada de cada producto
-  // (id -> tipo), los talles, el precio y el usd. Solo los productos nuevos se clasifican con tools/tipos.json.
+  // Si ya existe products.json, conservamos la clasificación curada de cada producto,
+  // los talles, el precio y el usd. La clave es estable (marca+numero+nombre), así
+  // reemplazar o recortar las fotos no borra esos datos. Solo lo nuevo se clasifica con tools/tipos.json.
   const prevTipo = new Map();
   const prevTalles = new Map();
   const prevPrice = new Map();
@@ -107,10 +112,11 @@ async function main() {
   try {
     const ex = JSON.parse(await fs.readFile(path.join(out, 'data', 'products.json'), 'utf8'));
     for (const p of ex.products || []) {
-      if (p.id && p.tipo) prevTipo.set(p.id, p.tipo);
-      if (p.id && p.talles) prevTalles.set(p.id, p.talles);
-      if (p.id && p.price != null) prevPrice.set(p.id, p.price);
-      if (p.id && p.usd != null) prevUsd.set(p.id, p.usd);
+      const k = dataKey(p.brandSlug || slug(p.brand || ''), p.num, p.name);
+      if (p.tipo) prevTipo.set(k, p.tipo);
+      if (p.talles) prevTalles.set(k, p.talles);
+      if (p.price != null) prevPrice.set(k, p.price);
+      if (p.usd != null) prevUsd.set(k, p.usd);
     }
   } catch {}
 
@@ -142,6 +148,7 @@ async function main() {
     const hash = crypto.createHash('sha1').update(job.rel + stat.size).digest('hex').slice(0, 8);
     const brandSlug = slug(job.brandRaw);
     const id = `${brandSlug}-${job.num ?? 'x'}-${hash}`;
+    const key = dataKey(brandSlug, job.num, job.name);
     const cured = curaduria.get(`${brandSlug}:${job.num ?? 'x'}`) || {};
     const thumbRel = `img/${id}-s.webp`;
     const fullRel = `img/${id}.webp`;
@@ -151,12 +158,12 @@ async function main() {
       await img.clone().resize({ width: FULL.w, withoutEnlargement: true }).webp({ quality: FULL.q }).toFile(path.join(out, fullRel));
     }
     const curPrice = job.num != null && cured.precio != null ? cured.precio : undefined;
-    const prevP = prevPrice.get(id);
-    const prevU = prevUsd.get(id);
+    const prevP = prevPrice.get(key);
+    const prevU = prevUsd.get(key);
     products.push({
-      id, brand: job.brandRaw, brandSlug, category: job.category, tipo: prevTipo.get(id) || cured.tipo || classify(job.category, job.name), num: job.num, name: job.name,
+      id, brand: job.brandRaw, brandSlug, category: job.category, tipo: prevTipo.get(key) || cured.tipo || classify(job.category, job.name), num: job.num, name: job.name,
       thumb: thumbRel, img: fullRel,
-      ...(prevTalles.has(id) ? { talles: prevTalles.get(id) } : cured.talles ? { talles: cured.talles } : {}),
+      ...(prevTalles.has(key) ? { talles: prevTalles.get(key) } : cured.talles ? { talles: cured.talles } : {}),
       ...(curPrice != null ? { price: curPrice } : prevP != null ? { price: prevP } : prices.has(`${brandSlug}:${job.num}`) ? { price: prices.get(`${brandSlug}:${job.num}`) } : {}),
       ...(prevU != null ? { usd: prevU } : usd.has(`${brandSlug}:${job.num}`) ? { usd: usd.get(`${brandSlug}:${job.num}`) } : {}),
     });
