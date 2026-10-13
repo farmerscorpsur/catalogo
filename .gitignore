@@ -10,3 +10,8 @@ node_modules/
 
 # Zip de deploy
 supplyba-site.zip
+
+# Limpieza de bordes (derivados de clean_edges.py, no versionar)
+out/
+out_test/
+edge_preview/

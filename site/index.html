@@ -258,6 +258,12 @@ dialog::backdrop{background:rgba(0,0,0,.84)}
 @media(min-width:800px){.sheet{grid-template-columns:minmax(0,340px) minmax(0,1fr)}}
 .pic{position:relative;background:var(--surface);aspect-ratio:1/1;display:grid;place-items:center;min-width:0}
 .pic img{width:100%;height:100%;object-fit:contain}
+/* ---------- escenario + glow para recortes ---------- */
+.card .ph,.tile .ph,.pic{background:
+  radial-gradient(56% 14% at 50% 86%,rgba(0,0,0,.6),transparent 72%),
+  radial-gradient(92% 78% at 50% 20%,#1a1c22 0%,#0e0f13 62%,#0a0b0e 100%)}
+.card img,.tile img,.pic img{filter:drop-shadow(0 0 8px rgba(255,255,255,.13))}
+@media(min-width:800px){.pic img{filter:drop-shadow(0 0 8px rgba(255,255,255,.13)) drop-shadow(0 22px 26px rgba(0,0,0,.55))}}
 .info{padding:24px var(--pad) 28px;display:flex;flex-direction:column;gap:14px;min-width:0}
 @media(min-width:800px){.info{gap:10px;padding:16px 22px 18px}}
 .info h2{margin:0;font-size:clamp(20px,3.4vw,26px);font-weight:700;line-height:1.2;overflow-wrap:anywhere;min-width:0}
@@ -277,9 +283,32 @@ dialog::backdrop{background:rgba(0,0,0,.84)}
 .nav{display:flex;gap:8px;margin-top:auto;padding-top:10px}
 .nav .btn{flex:1;min-height:42px;font-weight:500;color:var(--mute)}
 .x{
-  position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:50%;
-  background:rgba(0,0,0,.65);border:1px solid #3a3d44;font-size:22px;line-height:1;cursor:pointer;z-index:2;
+  position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:3px;
+  display:grid;place-items:center;background:rgba(10,10,12,.72);border:1px solid #2c2e34;
+  color:#cfd4da;font-size:20px;line-height:1;cursor:pointer;z-index:5;
+  transition:background .2s,color .2s,border-color .2s;
 }
+.x:hover{background:#26282e;color:#fff;border-color:#3a3d44}
+.x svg{width:16px;height:16px;display:block}
+
+/* ---------- ficha: jerarquía ---------- */
+.ihead{display:flex;flex-direction:column;gap:7px}
+.info .eyebrow{align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#cfd4da;text-decoration:none}
+.info .eyebrow:hover{color:#fff}
+.info .eyebrow[hidden]{display:none}
+.info h2{font-size:clamp(22px,5.4vw,30px);font-weight:800;letter-spacing:-.01em;line-height:1.12}
+@media(min-width:800px){.info h2{font-size:26px}}
+.pricerow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.info .price{font-size:26px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.info .price small{margin-left:8px;font-size:13px;color:var(--mute);font-weight:500}
+.info .price .apc{font-size:16px;font-weight:600}
+.ptag{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#cfd4da;border:1px solid #34373e;background:rgba(20,21,25,.9);padding:5px 8px;border-radius:2px}
+.iserv{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0}
+.iserv li{font-size:12.5px;color:var(--text);background:var(--surface);border:1px solid var(--line);padding:7px 11px;display:inline-flex;align-items:center;gap:7px}
+.iserv li::before{content:'';width:6px;height:6px;border-radius:50%;background:#1db954;flex:none}
+.altlinks{display:flex;flex-wrap:wrap;gap:2px 18px;align-items:center;margin-top:2px}
+.altlinks a,.altlinks .lnk{font:inherit;font-size:13px;color:var(--mute);background:none;border:0;padding:0;cursor:pointer;text-decoration:none;min-height:34px;display:inline-flex;align-items:center}
+.altlinks a:hover,.altlinks .lnk:hover{color:var(--text)}
 
 footer{padding:34px var(--pad) 44px;border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;align-items:center}
 footer a{color:var(--text)}
@@ -300,6 +329,16 @@ footer a{color:var(--text)}
 
 /* ---------- conversión ---------- */
 .topbar{text-align:center;font-size:12.5px;letter-spacing:.04em;padding:9px 14px;background:var(--chrome);color:#000;font-weight:700}
+.topbar .tb{display:inline-block;transition:opacity .35s ease,transform .35s ease}
+.topbar .tb.out{opacity:0;transform:translateY(-5px)}
+.bd{position:absolute;top:8px;left:8px;z-index:2;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:2px;line-height:1;background:rgba(20,21,25,.9);border:1px solid #34373e;color:#cfd4da}
+.trust{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:22px 0 0}
+@media(min-width:700px){.trust{grid-template-columns:repeat(4,1fr)}}
+.trust div{border:1px solid var(--line);background:var(--surface);padding:13px 15px;display:flex;gap:11px;align-items:center}
+.trust svg{width:20px;height:20px;flex:none;color:#cfd4da}
+.trust b{display:block;font-size:13.5px}
+.trust p{margin:2px 0 0;color:var(--mute);font-size:12px;line-height:1.3}
+@media(prefers-reduced-motion:reduce){.topbar .tb{transition:none}}
 .hcta{min-height:42px;padding:0 16px;font-size:14px}
 @media(max-width:899px){.hcta{display:none}}
 .stats{margin:22px 0 0;color:var(--mute);font-size:13.5px;display:flex;gap:18px;flex-wrap:wrap}
@@ -334,11 +373,15 @@ body.lock .mbar{display:none}
 .btn.add{border-color:#4ade80;color:#4ade80;font-weight:700}
 .btn.add:hover{background:rgba(74,222,128,.08)}
 .btn.add.added{background:#0d2a18;border-color:#1db954;color:#4ade80}
-dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
-#cart .cinfo{padding:26px var(--pad) 30px;display:flex;flex-direction:column;gap:16px}
-#cart h2{margin:0;font-size:24px;font-weight:700}
+dialog#cart{position:fixed;inset:0 0 0 auto;margin:0;width:min(440px,100vw);height:100dvh;max-height:100dvh;border:0;border-left:1px solid var(--line);background:#08080a;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
+dialog#cart[open]{transform:translateX(0)}
+@starting-style{dialog#cart[open]{transform:translateX(100%)}}
+dialog#cart::backdrop{background:rgba(0,0,0,.6)}
+@media(prefers-reduced-motion:reduce){dialog#cart{transition:none}}
+#cart .cinfo{height:100%;padding:22px var(--pad) calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+#cart h2{margin:0;font-size:22px;font-weight:800}
 #cart .sub{margin:0;color:var(--mute)}
-.citems{display:flex;flex-direction:column;gap:10px;max-height:46vh;overflow:auto}
+.citems{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;overflow:auto}
 .citem{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--surface);padding:10px}
 .citem .cth{flex:none;width:56px;height:56px;background:#0a0a0c;display:grid;place-items:center;overflow:hidden}
 .citem img{max-width:100%;max-height:100%;object-fit:contain}
@@ -360,6 +403,22 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
 .cactions .btn{width:100%}
 .cactions .maincol{grid-column:1/-1}
 @media(max-width:480px){.citem{flex-wrap:wrap}.citem .ci{flex:1 1 100%;order:1}.citem .cth{order:0}.citem .qty{order:2}.citem .rm{order:3}}
+
+/* ---------- guía de talles / cookies ---------- */
+.cinfo{padding:24px var(--pad);display:flex;flex-direction:column;gap:14px}
+#sizeDlg{width:min(560px,100vw);height:auto;max-height:92dvh;border:0;background:#08080a}
+@media(min-width:800px){#sizeDlg{border:1px solid var(--line)}}
+#sizeDlg .sub{color:var(--mute);margin:0}
+.guide{list-style:none;display:grid;gap:12px;margin:2px 0 0;padding:0}
+.guide li{font-size:14px;line-height:1.45;color:var(--mute);padding-left:16px;position:relative}
+.guide li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#1db954}
+.guide b{color:var(--text)}
+.tguide{align-self:flex-start;background:none;border:0;padding:0;margin-top:-4px;color:var(--mute);font:inherit;font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.tguide:hover{color:var(--text)}
+.cookie{position:fixed;left:16px;bottom:16px;z-index:40;max-width:min(460px,calc(100vw - 32px));display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#141519;border:1px solid var(--line);border-radius:3px;padding:12px 14px;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+.cookie p{margin:0;font-size:12.5px;color:var(--mute);line-height:1.4}
+.cookie .btn{min-height:36px}
+@media(max-width:899px){.cookie{bottom:88px;left:10px;right:10px;max-width:none}}
 
 /* ---------- agregado rápido + relacionados ---------- */
 .tile{cursor:pointer}
@@ -399,6 +458,60 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
 .catrow .sech .sec span{font-size:.62em}
 .catrow .sech a.seemore{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);text-decoration:none;white-space:nowrap}
 .catrow .sech a.seemore:hover{color:var(--text)}
+
+/* ---------- selector de moneda ---------- */
+.curbtn{flex:none;height:42px;padding:0 12px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--text);font:inherit;font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.curbtn:hover{border-color:#3a3d44}
+
+/* ---------- mega-menú ---------- */
+.ddm.mega{min-width:min(92vw,460px);max-width:calc(100vw - 24px);padding:10px;gap:10px}
+.megahd{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:2px 4px 8px;border-bottom:1px solid var(--line)}
+.megahd span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.megahd a{font-size:12px;color:var(--text);text-decoration:none}
+.megahd a:hover{text-decoration:underline}
+.megagrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px}
+.megagrid a{display:flex;align-items:center;justify-content:flex-start;gap:10px;padding:8px;border-radius:3px;color:var(--text);text-decoration:none;font-size:13.5px;min-width:0}
+.megagrid a:hover{background:#26282e}
+.ddm.mega .megagrid a.on{background:var(--chrome);color:#000;font-weight:600}
+.megagrid img{width:28px;height:28px;object-fit:contain;flex:none;background:#0f1013;border:1px solid var(--line);border-radius:3px;padding:2px}
+.megagrid a>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.megagrid small{margin-left:auto;color:var(--mute);font-size:12px;flex:none}
+.megagrid a.on small{color:rgba(0,0,0,.6)}
+@media(max-width:899px){.ddm.mega{min-width:min(94vw,340px)}.megagrid{grid-template-columns:1fr}}
+
+/* ---------- popup de bienvenida ---------- */
+#welcome{width:min(440px,100vw);height:auto;max-height:92dvh;border:0;background:#08080a}
+@media(min-width:800px){#welcome{border:1px solid var(--line)}}
+.wlc{gap:12px;text-align:center;align-items:center}
+.wtag{align-self:center;font-size:10.5px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#04130a;background:var(--chrome);padding:5px 10px;border-radius:2px}
+#welcome h2{margin:2px 0 0;font-size:clamp(22px,5.4vw,28px);font-weight:800;letter-spacing:-.01em}
+#welcome .sub{margin:0;color:var(--mute);font-size:14px;line-height:1.45}
+.wcupon{align-self:center;display:flex;align-items:center;gap:10px;border:1px dashed #3a3d44;border-radius:3px;padding:10px 14px;margin:2px 0}
+.wcupon span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.wcupon b{font-size:18px;font-weight:800;letter-spacing:.1em;color:#4ade80}
+.wcupon .lnk{font-size:12px}
+#welcome .cta{width:100%}
+#welcome .cta .btn{width:100%}
+.wskip{align-self:center;font-size:12.5px;margin-top:2px}
+.lnk{background:none;border:0;padding:0;font:inherit;cursor:pointer;color:var(--mute);text-decoration:underline;text-underline-offset:3px}
+.lnk:hover{color:var(--text)}
+
+/* ---------- reseñas / colecciones (contenido opcional) ---------- */
+#reviewsWrap,#colsWrap{margin-top:8px}
+.revgrid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:760px){.revgrid{grid-template-columns:repeat(3,1fr)}}
+.rev{border:1px solid var(--line);background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:8px}
+.rev .stars{color:var(--chrome);font-size:13px;letter-spacing:.12em}
+.rev p{margin:0;font-size:14px;line-height:1.5;color:var(--text)}
+.rev b{font-size:12.5px;color:var(--mute);font-weight:600}
+.cols{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:860px){.cols{grid-template-columns:1fr 1fr}}
+.col{position:relative;overflow:hidden;border:1px solid var(--line);min-height:180px;display:flex;align-items:flex-end;text-decoration:none;background:#191b1f}
+.col .ph{position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 0%,#2d3036,#17191d);background-size:cover;background-position:center;transition:transform .5s ease}
+.col:hover .ph{transform:scale(1.05)}
+.col .lb2{position:relative;padding:18px;background:linear-gradient(180deg,transparent,rgba(8,9,11,.85));width:100%}
+.col b{display:block;color:#fff;font-size:clamp(18px,3vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.col small{display:block;color:#cfd4da;font-size:13px;margin-top:4px}
 </style>
 <script type="application/ld+json">
 {
@@ -414,10 +527,11 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
   "sameAs": ["https://www.instagram.com/supply_ba_/", "https://supplyba.com.ar"]
 }
 </script>
+<script type="application/ld+json" id="ldProduct"></script>
 </head>
 <body data-view="home">
 
-<div class="topbar">Envíos a todo el país · Encargues con seña del 50% · Respondemos por WhatsApp todos los días</div>
+<div class="topbar"><span class="tb" id="tb">Envíos a todo el país · Encargues con seña del 50% · Respondemos por WhatsApp todos los días</span></div>
 <header class="top">
   <div class="bar">
     <a class="logo" href="#" id="home" aria-label="Supply BA, ir al inicio">
@@ -439,6 +553,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
       <input type="search" id="q" placeholder="Buscar producto" autocomplete="off" enterkeyhint="search">
     </label>
     <a class="btn main hcta" id="hWa" href="#" target="_blank" rel="noopener">Encargar por WhatsApp</a>
+    <button class="curbtn" id="curBtn" type="button" hidden aria-label="Cambiar moneda">ARS</button>
     <button class="cartbtn" id="cartBtn" type="button" aria-label="Ver mi pedido" aria-haspopup="dialog">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2V3a1 1 0 0 1 1-1Zm0 4H4v14h16V6h-2v1H6V6Zm2-2v3h8V4H8Z"/></svg>
       <span class="ct" id="cartBadge" hidden>0</span>
@@ -468,6 +583,13 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
         <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 .8C7.6.8.8 7.6.8 16c0 2.7.7 5.3 2 7.6L.7 31.3l7.9-2.1c2.1 1.1 4.5 1.8 7.4 1.8 8.4 0 15.2-6.8 15.2-15.2S24.4.8 16 .8zm0 27.8c-2.3 0-4.4-.7-6.2-1.8l-.4-.2-4.7 1.2 1.3-4.6-.3-.5c-1.3-1.9-2-4.2-2-6.6 0-7 5.7-12.6 12.6-12.6s12.6 5.7 12.6 12.6S23 28.6 16 28.6zm7-9.4c-.4-.2-2.3-1.1-2.7-1.2-.4-.2-.6-.2-.8.2-.2.4-1 1.2-1.2 1.5-.2.2-.4.2-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.6.2-.2.2-.4.4-.6.1-.2 0-.4 0-.6-.1-.2-.8-1.9-1.1-2.6-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9s1.2 3.4 1.4 3.6c.2.2 2.4 3.7 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2.3-.9 2.6-1.9.3-.9.3-1.7.2-1.9-.1-.1-.3-.2-.7-.4z"/></svg>
       </a>
     </div>
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M1 3h13v11H1z"/><path d="M14 7h4l3 3v4h-7z"/><circle cx="5.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/></svg><span><b>Envíos a todo el país</b><p>Con seguimiento</p></span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span><b>Seña del 50%</b><p>Y el resto al recibir</p></span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span><b>25 a 35 días</b><p>Plazo habitual</p></span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span><b>Atención diaria</b><p>Por WhatsApp e Instagram</p></span></div>
+    </div>
+    <p class="stats" id="heroStats"></p>
     <h2 class="sec"><span aria-hidden="true">✦</span> Marcas</h2>
     <div class="brandgrid" id="brandTiles"></div>
     <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados</h2>
@@ -479,6 +601,8 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     <h2 class="sec"><span aria-hidden="true">✦</span> Categorías</h2>
     <div class="cats" id="tipoTiles"></div>
     <div id="catRows"></div>
+    <div id="reviewsWrap" hidden></div>
+    <div id="colsWrap" hidden></div>
 
   </div>
 
@@ -520,32 +644,37 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
 </a>
 
 <dialog id="dlg" aria-labelledby="dName">
-  <button class="x" id="close" type="button" aria-label="Cerrar">×</button>
+  <button class="x" id="close" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg></button>
   <div class="sheet">
     <div class="pic"><img id="dImg" alt=""></div>
     <div class="info">
-      <h2 id="dName"></h2>
-      <p class="sub" id="dSub"></p>
-      <a class="brandlink" id="dBrand" href="#">Ver más de esta marca →</a>
-      <div class="price" id="dPrice" hidden></div>
-      <div class="talles" id="dTalles" hidden></div>
-      <div class="dlv">
-        <span class="go">Disponible por encargue</span>
-        <span>Seña 50%</span>
-        <span>Llegada ~4 semanas</span>
-        <span>Seguimiento</span>
+      <div class="ihead">
+        <a class="eyebrow" id="dBrand" href="#" hidden></a>
+        <h2 id="dName"></h2>
+        <p class="sub" id="dSub"></p>
       </div>
+      <div class="pricerow">
+        <div class="price" id="dPrice" hidden></div>
+        <span class="ptag">Por encargue</span>
+      </div>
+      <div class="talles" id="dTalles" hidden></div>
+      <button class="tguide" id="dGuide" type="button">¿Cómo elijo mi talle?</button>
+      <ul class="iserv">
+        <li>Seña del 50%</li>
+        <li>Llegada 25–35 días</li>
+        <li>Seguimiento personalizado</li>
+      </ul>
       <div class="cta">
         <button class="btn add" id="dAdd" type="button">Agregar al pedido</button>
         <a class="btn main" id="dWa" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
       </div>
-      <div class="more">
-        <a class="btn" id="dIg" href="#" target="_blank" rel="noopener">Pedir por Instagram</a>
-        <a class="btn" id="dStock" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=ficha&utm_campaign=ver_stock" target="_blank" rel="noopener">Ver stock en la tienda</a>
-        <button class="btn ghost" id="dShare" type="button">Compartir este producto</button>
-        <button class="btn ghost" id="dCopy" type="button">Copiar nombre y código</button>
-        <p class="hint">Encargue: seña del 50% y llegada habitual dentro de las 4 semanas. <a href="encargos.html">Cómo funciona y opciones de envío</a></p>
+      <div class="altlinks">
+        <a id="dIg" href="#" target="_blank" rel="noopener">Pedir por Instagram</a>
+        <a id="dStock" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=ficha&utm_campaign=ver_stock" target="_blank" rel="noopener">Ver stock en la tienda</a>
+        <button class="lnk" id="dShare" type="button">Compartir</button>
+        <button class="lnk" id="dCopy" type="button">Copiar</button>
       </div>
+      <p class="hint">Todo es por encargue: seña del 50% y llegada habitual dentro de las 4 semanas. <a href="encargos.html">Cómo funciona y envíos</a></p>
       <div class="relwrap" id="dRelWrap" hidden>
         <div class="secl"><span aria-hidden="true">✦</span> Te puede gustar</div>
         <div class="rail" id="dRel"></div>
@@ -562,6 +691,39 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
   <a class="btn stock" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=barra&utm_campaign=ver_stock" target="_blank" rel="noopener">Ver stock</a>
   <a class="btn main" id="mWa" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
 </div>
+
+<dialog id="sizeDlg" aria-labelledby="sizeTitle">
+  <button class="x" id="sizeClose" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg></button>
+  <div class="cinfo">
+    <h2 id="sizeTitle">¿Cómo elijo mi talle?</h2>
+    <p class="sub">Los talles disponibles de cada producto están en su ficha. Tené en cuenta que la numeración puede variar según la marca.</p>
+    <ul class="guide">
+      <li><b>Ropa (superiores e inferiores):</b> suelen usar numeración US (S, M, L, XL…). Si estás entre dos talles, elegí el más grande para un calce más suelto.</li>
+      <li><b>Calzado:</b> la numeración es US/UK. Medí tu pie de talón a punta y consultanos si dudás entre dos números.</li>
+      <li><b>¿No estás seguro?</b> Escribinos con tu talle habitual, altura y peso, y te recomendamos según la marca.</li>
+    </ul>
+    <p class="hint">Algunas prendas tienen calce oversize por diseño, no es un error de talle.</p>
+    <div class="cta"><a class="btn main" id="sizeWa" href="#" target="_blank" rel="noopener">Consultar mi talle por WhatsApp</a></div>
+  </div>
+</dialog>
+
+<dialog id="welcome" aria-labelledby="wTitle">
+  <button class="x" id="wClose" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg></button>
+  <div class="cinfo wlc">
+    <span class="wtag" id="wTag">BIENVENIDO</span>
+    <h2 id="wTitle">10% OFF en tu primer encargue</h2>
+    <p class="sub" id="wText">Es tu primera vez en Supply BA. Te dejamos un 10% de descuento en tu primer encargue: escribinos por WhatsApp y aplicá tu cupón.</p>
+    <div class="wcupon"><span>Tu cupón</span><b id="wCupon">BIENVENIDO10</b><button class="lnk" id="wCopy" type="button">Copiar</button></div>
+    <div class="cta"><a class="btn main" id="wWa" href="#" target="_blank" rel="noopener">Usar mi 10% por WhatsApp</a></div>
+    <button class="lnk wskip" id="wSkip" type="button">Seguir sin el descuento</button>
+  </div>
+</dialog>
+
+<div class="cookie" id="cookie" hidden>
+  <p>Usamos cookies para mejorar tu experiencia de navegación. Al continuar, aceptás su uso.</p>
+  <button class="btn" id="cookieOk" type="button">Entendido</button>
+</div>
+
 <dialog id="cart" aria-labelledby="cartTitle">
   <button class="x" id="cartClose" type="button" aria-label="Cerrar">×</button>
   <div class="cinfo">
@@ -636,13 +798,20 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     : null;
   const usdOn = () => !!(usdCfg.mostrar && cotiz.val > 0);
   const arsOf = (usd) => { const r = Number(usdCfg.redondeo) || 1000; return fmtArs(Math.ceil((usd * cotiz.val) / r) * r); };
+  let divisa = 'ARS';
+  try { divisa = localStorage.getItem('supplyba_cur_v1') === 'USD' ? 'USD' : 'ARS'; } catch {}
+  const fmtUsd = (v) => 'US$ ' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(Math.round(v));
   const priceSpan = (p) => {
     if (usdOn() && p.usd != null && p.usd > 0) return `<span>${arsOf(p.usd)}<small>US$ ${p.usd}</small></span>`;
-    if (money && p.price) return `<span>${money.format(p.price)}</span>`;
+    if (money && p.price) {
+      if (divisa === 'USD' && cotiz.val > 0) return `<span>${fmtUsd(p.price / cotiz.val)}<small>${money.format(p.price)}</small></span>`;
+      return `<span>${money.format(p.price)}</span>`;
+    }
     if (money) return `<span class="apc">Precio a convenir</span>`;
     return '';
   };
-  if (usdCfg.mostrar) await asegurarCotizacion();
+  const encBadge = '<span class="bd">Por encargue</span>';
+  if (usdCfg.mostrar || (divisa === 'USD' && money)) await asegurarCotizacion();
   if (cfg.logoFondo) document.documentElement.style.setProperty('--logo-bg', cfg.logoFondo);
 
   const tipoBySlug = new Map(data.tipos.map((t) => [t.slug, t]));
@@ -666,19 +835,30 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
   /* ---------- menús del header ---------- */
   function buildHeaderMenus() {
     const countOf = (slug) => data.products.reduce((n, p) => n + (p.brandSlug === slug ? 1 : 0), 0);
-    const mk = (href, label, cnt, isOn) => {
+    const head = (label) => {
+      const h = document.createElement('div'); h.className = 'megahd';
+      h.innerHTML = `<span>${esc(label)}</span><a href="#ver=todo">Ver todo</a>`;
+      return h;
+    };
+    const item = (href, label, cnt, isOn, img) => {
       const a = document.createElement('a');
       a.href = href; a.dataset.slug = href;
       a.classList.toggle('on', !!isOn);
-      a.innerHTML = `<span>${esc(label)}</span><small>${cnt}</small>`;
+      a.innerHTML = `${img ? `<img loading="lazy" decoding="async" src="${esc(img)}" alt="">` : ''}<span>${esc(label)}</span><small>${cnt}</small>`;
+      const im = a.querySelector('img');
+      if (im) im.addEventListener('error', () => im.remove(), { once: true });
       return a;
     };
-    const mm = $('#ddmMarcas');
-    mm.replaceChildren(...[...data.brands]
+    const mm = $('#ddmMarcas'); mm.classList.add('mega');
+    const bg = document.createElement('div'); bg.className = 'megagrid';
+    bg.append(...[...data.brands]
       .sort((a, b) => countOf(b.slug) - countOf(a.slug) || a.name.localeCompare(b.name, 'es'))
-      .map((b) => mk(`#marca=${b.slug}`, b.name, countOf(b.slug), state.brand === b.slug)));
-    const mt = $('#ddmTipos');
-    mt.replaceChildren(...data.tipos.map((t) => mk(`#tipo=${t.slug}`, t.name, t.count, state.tipo === t.slug)));
+      .map((b) => item(`#marca=${b.slug}`, b.name, countOf(b.slug), state.brand === b.slug, b.logo || `logos/${b.slug}.webp`)));
+    mm.replaceChildren(head('Marcas'), bg);
+    const mt = $('#ddmTipos'); mt.classList.add('mega');
+    const tg = document.createElement('div'); tg.className = 'megagrid';
+    tg.append(...data.tipos.map((t) => item(`#tipo=${t.slug}`, t.name, t.count, state.tipo === t.slug, t.cover)));
+    mt.replaceChildren(head('Categorías'), tg);
     const curBrand = state.brand && brandBySlug.get(state.brand);
     const curTipo = state.tipo && tipoBySlug.get(state.tipo);
     $('#ddMarcas .ddb').childNodes[0].textContent = curBrand ? curBrand.name : 'Marcas';
@@ -866,7 +1046,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     $('#featured').replaceChildren(...onePerBrand().map((p) => {
       const a = document.createElement('a');
       a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"></span>` +
+      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}">${encBadge}</span>` +
         `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
       return a;
     }));
@@ -877,6 +1057,48 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
       return a;
     }));
     buildCatRows();
+    renderExtras();
+  }
+
+  /* ---------- reseñas / colecciones (se llenan desde config.json) ---------- */
+  function renderExtras() {
+    const rw = $('#reviewsWrap');
+    if (rw) {
+      const resenas = (Array.isArray(cfg.resenas) ? cfg.resenas : []).filter((r) => r && (r.texto || r.text));
+      if (resenas.length) {
+        const grid = document.createElement('div'); grid.className = 'revgrid';
+        resenas.forEach((r) => {
+          const n = Math.max(1, Math.min(5, Number(r.estrellas ?? r.stars) || 5));
+          const d = document.createElement('div'); d.className = 'rev';
+          const st = document.createElement('span'); st.className = 'stars'; st.setAttribute('aria-hidden', 'true'); st.textContent = '★'.repeat(n) + '☆'.repeat(5 - n);
+          const tx = document.createElement('p'); tx.textContent = r.texto || r.text || '';
+          const nm = document.createElement('b'); nm.textContent = r.nombre || r.name || '';
+          d.append(st, tx, nm); grid.append(d);
+        });
+        const h = document.createElement('h2'); h.className = 'sec'; h.innerHTML = '<span aria-hidden="true">✦</span> Opiniones';
+        rw.replaceChildren(h, grid); rw.hidden = false;
+      } else rw.hidden = true;
+    }
+    const cw = $('#colsWrap');
+    if (cw) {
+      const cols = (Array.isArray(cfg.colecciones) ? cfg.colecciones : []).filter((c) => c && (c.titulo || c.title));
+      if (cols.length) {
+        const grid = document.createElement('div'); grid.className = 'cols';
+        cols.forEach((c) => {
+          const a = document.createElement('a'); a.className = 'col'; a.href = c.href || c.url || '#ver=todo';
+          const ph = document.createElement('span'); ph.className = 'ph';
+          if (c.img) ph.style.backgroundImage = `url("${c.img}")`;
+          const lb = document.createElement('span'); lb.className = 'lb2';
+          const b = document.createElement('b'); b.textContent = c.titulo || c.title || '';
+          lb.append(b);
+          const sub = c.texto || c.sub;
+          if (sub) { const s = document.createElement('small'); s.textContent = sub; lb.append(s); }
+          a.append(ph, lb); grid.append(a);
+        });
+        const h = document.createElement('h2'); h.className = 'sec'; h.innerHTML = '<span aria-hidden="true">✦</span> Colecciones';
+        cw.replaceChildren(h, grid); cw.hidden = false;
+      } else cw.hidden = true;
+    }
   }
 
   /* ---------- filas por categoría ---------- */
@@ -886,7 +1108,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     const card = (p) => {
       const a = document.createElement('a');
       a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}"></span>` +
+      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}">${encBadge}</span>` +
         `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
       return a;
     };
@@ -975,7 +1197,7 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     d.className = 'tile'; d.dataset.i = i; d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0');
     const inCart = !!cartEntry(p.id);
     d.innerHTML =
-      `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="">` +
+      `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="">${encBadge}` +
       `<button type="button" class="qa${inCart ? ' in' : ''}" data-i="${i}" aria-label="${inCart ? `Tu pedido tiene ${esc(p.name)}. Tocalo para verlo.` : `Agregar ${esc(p.name)} a tu pedido`}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2V3a1 1 0 0 1 1-1Zm0 4H4v14h16V6h-2v1H6V6Zm2-2v3h8V4H8Z"/></svg></button></span>` +
       `<span class="nm">${esc(p.name)}</span>` +
       `<span class="meta"><span class="bm">${esc(p.brand)}</span>${p.num != null ? `<span>#${p.num}</span>` : ''}${priceSpan(p)}</span>`;
@@ -1052,10 +1274,10 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
     if (!fromHash) { state.p = p.id; history.replaceState(null, '', '#' + hashFor(state)); }
     $('#dName').textContent = p.name;
     const kind = p.tipo && p.tipo !== 'Otros' ? p.tipo : (p.category !== 'General' ? p.category : '');
-    $('#dSub').textContent = [p.brand, kind, p.num != null ? `#${p.num}` : ''].filter(Boolean).join(' · ');
+    $('#dSub').textContent = [kind, p.num != null ? `#${p.num}` : ''].filter(Boolean).join(' · ');
     const bl = $('#dBrand');
     if (p.brandSlug && brandBySlug.has(p.brandSlug)) {
-      bl.hidden = false; bl.textContent = `Ver más de ${p.brand} →`; bl.dataset.slug = p.brandSlug;
+      bl.hidden = false; bl.textContent = p.brand; bl.dataset.slug = p.brandSlug;
     } else { bl.hidden = true; }
     const pr = $('#dPrice'); pr.hidden = !priceSpan(p); if (!pr.hidden) pr.innerHTML = priceSpan(p);
     const tl = $('#dTalles'); selTalle = '';
@@ -1091,6 +1313,21 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
       rw.hidden = false;
     }
     $('#dIg').href = igUrl;
+    const ld = $('#ldProduct');
+    if (ld) {
+      const offer = { '@type': 'Offer', priceCurrency: 'ARS', availability: 'https://schema.org/PreOrder', url: location.href };
+      if (p.price != null) offer.price = p.price;
+      ld.textContent = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'Product',
+        name: p.name,
+        brand: { '@type': 'Brand', name: p.brand },
+        category: p.tipo || p.category || undefined,
+        sku: p.num != null ? String(p.num) : p.id,
+        image: new URL(p.thumb, location.href).href,
+        description: `${p.name} — ${p.brand}${p.tipo ? ' · ' + p.tipo : ''}. Disponible por encargue en Supply BA.`,
+        offers: offer,
+      });
+    }
     $('#prev').disabled = i <= 0; $('#next').disabled = i >= list.length - 1;
     if (!dlg.open) { dlg.showModal(); document.body.classList.add('lock'); }
     dlg.scrollTop = 0;
@@ -1214,6 +1451,89 @@ dialog#cart{width:min(640px,100vw);height:auto;max-height:92dvh}
   $('#clear').addEventListener('click', () => { $('#q').value = ''; go({ brand: '', tipo: '', q: '', ver: 'todo' }); });
   $('#sort').addEventListener('change', (e) => go({ sort: e.target.value, ver: 'todo' }, true));
   window.addEventListener('hashchange', () => { readHash(); render(); });
+
+  /* ---------- barra de anuncios rotativa ---------- */
+  (() => {
+    const el = $('#tb'); if (!el) return;
+    const msgs = [
+      'Envíos a todo el país · con seguimiento',
+      'Encargues con seña del 50% · el resto al recibir',
+      'Transferencia en ARS o USD',
+      'Plazo habitual de 25 a 35 días',
+      'Respondemos por WhatsApp todos los días',
+    ];
+    let k = 0;
+    setInterval(() => {
+      el.classList.add('out');
+      setTimeout(() => { k = (k + 1) % msgs.length; el.textContent = msgs[k]; el.classList.remove('out'); }, 360);
+    }, 4200);
+  })();
+
+  /* ---------- guía de talles ---------- */
+  (() => {
+    const sd = $('#sizeDlg'); if (!sd) return;
+    $('#dGuide').addEventListener('click', () => {
+      $('#sizeWa').href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! Necesito ayuda para elegir un talle.')}`;
+      sd.showModal();
+    });
+    $('#sizeClose').addEventListener('click', () => sd.close());
+    sd.addEventListener('click', (e) => { if (e.target === sd) sd.close(); });
+  })();
+
+  /* ---------- aviso de cookies ---------- */
+  (() => {
+    const el = $('#cookie'); if (!el) return;
+    try { if (localStorage.getItem('supplyba_cookie_ok') === '1') return; } catch {}
+    setTimeout(() => { el.hidden = false; }, 1200);
+    $('#cookieOk').addEventListener('click', () => {
+      el.hidden = true;
+      try { localStorage.setItem('supplyba_cookie_ok', '1'); } catch {}
+    });
+  })();
+
+  /* ---------- selector de moneda ARS / USD ---------- */
+  (() => {
+    const b = $('#curBtn'); if (!b) return;
+    const paint = () => {
+      b.hidden = !cfg.mostrarPrecios;
+      b.textContent = divisa;
+      b.title = divisa === 'USD' ? 'Ver precios en pesos (ARS)' : 'Ver precios en dólares (USD)';
+    };
+    paint();
+    b.addEventListener('click', async () => {
+      if (divisa === 'ARS') {
+        if (!(cotiz.val > 0)) await asegurarCotizacion();
+        if (!(cotiz.val > 0)) { toast('No pudimos obtener la cotización del día. Probá más tarde.'); return; }
+        divisa = 'USD';
+      } else divisa = 'ARS';
+      try { localStorage.setItem('supplyba_cur_v1', divisa); } catch {}
+      paint();
+      render(true);
+    });
+  })();
+
+  /* ---------- popup de bienvenida (10% en el primer encargue) ---------- */
+  (() => {
+    const wl = $('#welcome'); if (!wl) return;
+    const promo = Object.assign({ activo: true, porcentaje: 10, cupon: 'BIENVENIDO10', titulo: '', texto: '' }, cfg.promo || {});
+    if (promo.activo === false) return;
+    try { if (localStorage.getItem('supplyba_welcome_v1') === '1') return; } catch {}
+    const pct = Number(promo.porcentaje) || 10;
+    const code = promo.cupon || 'BIENVENIDO10';
+    $('#wTitle').textContent = promo.titulo || `${pct}% OFF en tu primer encargue`;
+    $('#wText').textContent = promo.texto || `Es tu primera vez en Supply BA. Te dejamos un ${pct}% de descuento en tu primer encargue: escribinos por WhatsApp y aplicá tu cupón.`;
+    $('#wCupon').textContent = code;
+    $('#wWa').href = `${waBase}?text=${encodeURIComponent(`Hola Supply BA! Quiero usar el ${pct}% OFF de mi primer encargue (cupón ${promo.cupon || 'BIENVENIDO10'}).`)}`;
+    const closeW = () => { try { localStorage.setItem('supplyba_welcome_v1', '1'); } catch {} if (wl.open) wl.close(); };
+    $('#wClose').addEventListener('click', closeW);
+    $('#wSkip').addEventListener('click', closeW);
+    wl.addEventListener('click', (e) => { if (e.target === wl) closeW(); });
+    $('#wCopy').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(promo.cupon || 'BIENVENIDO10'); toast('Cupón copiado'); }
+      catch { toast('Tu cupón es ' + (promo.cupon || 'BIENVENIDO10')); }
+    });
+    setTimeout(() => { try { wl.showModal(); } catch {} }, 2600);
+  })();
 
   renderHome();
   readHash();
