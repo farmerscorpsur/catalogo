@@ -10,5 +10,6 @@
     "redondeo": 1000
   },
   "mensaje": "Hola Supply BA! Quiero pedir: {producto} (código {codigo}, marca {marca}). ¿Está disponible?",
-  "logoFondo": "#0c0c0f"
+  "logoFondo": "#0c0c0f",
+  "metaPixelId": "123456789012345"
 }
