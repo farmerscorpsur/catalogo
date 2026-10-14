@@ -89,4 +89,4 @@ La web emite eventos en `window.dataLayer` (`select_item`, `add_to_cart`, `begin
 Están en `site/encargos.html` (página aparte: envíos de stock, cómo funciona el encargue, opciones, tutorial Puerta a Puerta y FAQ). Se editan como texto normal. La home muestra 4 filas de productos por categoría; para cambiarlas, editá `HOME_CATS` en `site/index.html`.
 
 ## 9. Publicar gratis
-Netlify: arrastrá la carpeta `site` en app.netlify.com/drop. Cloudflare Pages: Workers & Pages → Create → Pages → Upload assets → carpeta `site`. Para actualizar, volvés a subirla.
+Cloudflare Pages: Workers & Pages → Create → Pages → Upload assets → carpeta `site`. Para actualizar, volvés a subirla (o conectás el repo y deploya automático).
