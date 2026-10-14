@@ -140,7 +140,6 @@ a{color:inherit}
 .chip:hover{color:var(--text);border-color:rgba(255,255,255,.24)}
 .chip[aria-pressed="true"]{background:var(--chrome);border-color:transparent;color:#000;font-weight:600}
 .row.sm .chip{min-height:34px;font-size:13px}
-.row.sm .chip{min-height:36px;font-size:13.5px}
 
 /* ---------- landing ---------- */
 main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
@@ -254,9 +253,16 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .tile:hover .ph{transform:translateY(-1px)}
 .tile .nm{padding:0;font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:500;letter-spacing:-.01em}
 .tile .meta{padding:0;font-size:12px;color:var(--mute);display:flex;gap:10px;align-items:center}
-.tile .ph::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.08),transparent 70%);opacity:0;transition:opacity .4s var(--ease-out);pointer-events:none}
+.tile .ph::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.08),transparent 70%);opacity:0;transition:opacity .4s var(--ease-out);pointer-events:none;z-index:2}
 .tile:hover .ph::before{opacity:1}
 .ph{position:relative}
+
+/* ---------- skeleton + fade-in ---------- */
+.tile .ph::after,.card .ph::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.06) 50%,transparent 75%);background-size:220% 100%;animation:sk 1.5s var(--ease) infinite}
+.tile .ph.done::after,.card .ph.done::after{display:none}
+@keyframes sk{0%{background-position:180% 0}100%{background-position:-80% 0}}
+.tile img,.card img,.cat img,.bt img{animation:fadein .5s var(--ease-out) both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
 .empty{padding:60px 0;text-align:center;color:var(--mute)}
 .empty .btn{display:inline-flex;margin-top:14px}
 #sentinel{height:1px}
@@ -264,14 +270,14 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 /* ---------- ficha ---------- */
 dialog{
   position:fixed;border:0;padding:0;background:#0b0b0f;color:var(--text);
-  width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;
+  width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;overflow-y:auto;
 }
-@media(min-width:800px){dialog{width:min(1100px,94vw);height:auto;max-height:94dvh;border:1px solid var(--line)}}
+@media(min-width:800px){dialog{width:min(1100px,94vw);height:94dvh;max-height:94dvh;border:1px solid var(--line);overflow:hidden}}
 dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .sheet{display:grid;grid-template-columns:minmax(0,1fr)}
-@media(min-width:800px){.sheet{grid-template-columns:minmax(0,52%) minmax(0,48%);align-items:start}}
-.pic{position:sticky;top:0;background:var(--surface);aspect-ratio:1/1;display:grid;place-items:center;min-width:0;height:100dvh;max-height:100dvh}
-@media(max-width:799px){.pic{position:relative;height:auto;max-height:none;aspect-ratio:1/1}}
+@media(min-width:800px){.sheet{grid-template-columns:minmax(0,52%) minmax(0,48%);height:100%}}
+.pic{position:relative;background:var(--surface);aspect-ratio:1/1;display:grid;place-items:center;min-width:0}
+@media(min-width:800px){.pic{aspect-ratio:auto;height:100%}}
 .pic img{width:100%;height:100%;object-fit:contain;transition:opacity .25s var(--ease-out)}
 /* ---------- escenario + glow para recortes ---------- */
 .card .ph,.tile .ph,.pic{background:
@@ -279,8 +285,8 @@ dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(4px);-webkit-ba
   radial-gradient(140% 100% at 50% 20%,#151820 0%,#0f1218 60%,#0b0b0f 100%)}
 .card img,.tile img,.pic img{filter:drop-shadow(0 0 10px rgba(255,255,255,.12))}
 @media(min-width:800px){.pic img{filter:drop-shadow(0 0 8px rgba(255,255,255,.13)) drop-shadow(0 22px 26px rgba(0,0,0,.55))}}
-.info{padding:24px var(--pad) 32px;display:flex;flex-direction:column;gap:16px;min-width:0;position:sticky;top:0;align-self:start;max-height:100dvh;overflow-y:auto}
-@media(min-width:800px){.info{gap:12px;padding:40px clamp(24px,5vw,56px) 40px clamp(20px,4vw,40px)}}
+.info{padding:24px var(--pad) 40px;display:flex;flex-direction:column;gap:16px;min-width:0}
+@media(min-width:800px){.info{gap:12px;padding:40px clamp(24px,5vw,56px) 40px clamp(20px,4vw,40px);overflow-y:auto}}
 .info h2{margin:0;font-size:clamp(22px,3.6vw,32px);font-weight:600;line-height:1.15;letter-spacing:-.02em;overflow-wrap:anywhere;min-width:0}
 @media(min-width:800px){.info h2{font-size:clamp(24px,3vw,34px)}}
 .info .sub{color:var(--mute);font-size:14px;margin:0}
@@ -303,19 +309,18 @@ dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(4px);-webkit-ba
   color:#e7e9ee;font-size:18px;line-height:1;cursor:pointer;z-index:5;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
   transition:all .2s var(--ease-out);
 }
-.x:hover{border-color:rgba(255,255,255,.32);background:rgba(11,11,15,.88)}
-.x:hover{background:#26282e;color:#fff;border-color:#3a3d44}
+.x:hover{border-color:rgba(255,255,255,.34);background:rgba(11,11,15,.9);color:#fff}
 .x svg{width:16px;height:16px;display:block}
 
 /* ---------- ficha: jerarquía ---------- */
 .ihead{display:flex;flex-direction:column;gap:7px}
-.info .eyebrow{align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#cfd4da;text-decoration:none}
+.info .eyebrow{align-self:flex-start;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#cfd4da;text-decoration:none}
 .info .eyebrow:hover{color:#fff}
 .info .eyebrow[hidden]{display:none}
-.info h2{font-size:clamp(22px,5.4vw,30px);font-weight:800;letter-spacing:-.01em;line-height:1.12}
-@media(min-width:800px){.info h2{font-size:26px}}
+.info h2{font-size:clamp(22px,5.4vw,30px);font-weight:600;letter-spacing:-.02em;line-height:1.14}
+@media(min-width:800px){.info h2{font-size:clamp(24px,2.6vw,30px)}}
 .pricerow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.info .price{font-size:26px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.info .price{font-size:26px;font-weight:600;letter-spacing:-.02em;color:#fff}
 .info .price small{margin-left:8px;font-size:13px;color:var(--mute);font-weight:500}
 .info .price .apc{font-size:16px;font-weight:600}
 .ptag{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#cfd4da;border:1px solid #34373e;background:rgba(20,21,25,.9);padding:5px 8px;border-radius:2px}
@@ -462,6 +467,16 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 
 @media(prefers-reduced-motion:reduce){
   .tile img,.cat img,.toast,.ph,.qa,.top{transition:none}
+  .tile .ph::after,.card .ph::after{animation:none;display:none}
+  .tile img,.card img,.cat img,.bt img{animation:none}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.reveal.in{opacity:1;transform:none}
+@media(min-width:900px){
+  .catrow .sech{flex-direction:row;justify-content:space-between;align-items:flex-end;text-align:left;margin:52px 0 20px;gap:16px}
 }
 
 /* ---------- filas por categoria ---------- */
@@ -757,6 +772,25 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   const track = (name, props) => { try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: name }, props)); } catch {} };
   const fmtArs = (v) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(v);
   const _siz = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+  const markImg = (im) => { if (!im || im.tagName !== 'IMG') return; const ph = im.closest('.ph'); if (ph) ph.classList.add('done'); };
+  document.addEventListener('load', (e) => markImg(e.target), true);
+  document.addEventListener('error', (e) => markImg(e.target), true);
+  const sweepImgs = () => { document.querySelectorAll('.ph img').forEach((im) => { if (im.complete) markImg(im); }); };
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let revObs;
+  const markReveals = () => {
+    if (reduceMotion) return;
+    const els = document.querySelectorAll('.homeonly .doors,.homeonly .heroctl,.homeonly .trust,.homeonly .sec,.homeonly .catrow,.homeonly .cats,.homeonly .brandgrid,.homeonly .relwrap2');
+    if (!revObs) revObs = new IntersectionObserver((ents) => {
+      ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); revObs.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 });
+    let first = true;
+    els.forEach((el) => {
+      if (el.classList.contains('reveal')) return;
+      el.classList.add('reveal');
+      if (first) { el.classList.add('in'); first = false; } else revObs.observe(el);
+    });
+  };
   function expandTalles(r) {
     if (!r) return null;
     const n = r.match(/^(\d+)\s*-\s*(\d+)$/);
@@ -1066,6 +1100,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     }));
     buildCatRows();
     renderExtras();
+    markReveals();
+    sweepImgs();
   }
 
   /* ---------- reseñas / colecciones (se llenan desde config.json) ---------- */
@@ -1220,6 +1256,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     list.slice(shown, shown + PAGE).forEach((p, k) => frag.append(tile(p, shown + k)));
     shown = Math.min(shown + PAGE, list.length);
     $('#grid').append(frag);
+    sweepImgs();
   }
   new IntersectionObserver((e) => { if (e[0].isIntersecting) more(); }, { rootMargin: '900px' }).observe($('#sentinel'));
 
@@ -1323,15 +1360,21 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     $('#dIg').href = igUrl;
     const ld = $('#ldProduct');
     if (ld) {
-      const offer = { '@type': 'Offer', priceCurrency: 'ARS', availability: 'https://schema.org/PreOrder', url: location.href };
+      const seller = { '@type': 'Organization', name: 'Supply BA' };
+      const offer = {
+        '@type': 'Offer', priceCurrency: 'ARS', availability: 'https://schema.org/PreOrder',
+        itemCondition: 'https://schema.org/NewCondition', url: location.href, seller,
+      };
       if (p.price != null) offer.price = p.price;
+      const imgs = [new URL(p.thumb, location.href).href];
+      if (p.img && p.img !== p.thumb) imgs.push(new URL(p.img, location.href).href);
       ld.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product',
         name: p.name,
         brand: { '@type': 'Brand', name: p.brand },
         category: p.tipo || p.category || undefined,
         sku: p.num != null ? String(p.num) : p.id,
-        image: new URL(p.thumb, location.href).href,
+        image: imgs,
         description: `${p.name} — ${p.brand}${p.tipo ? ' · ' + p.tipo : ''}. Disponible por encargue en Supply BA.`,
         offers: offer,
       });
