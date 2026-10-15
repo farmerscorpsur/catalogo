@@ -259,6 +259,8 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
     transition:transform .55s ease,filter .4s ease}
   .door .ph::after{content:'';position:absolute;inset:auto 0 0;height:72%;pointer-events:none;background:linear-gradient(rgba(8,9,11,.04),rgba(8,9,11,.82))}
   .door b{position:relative;color:#fff;font-stretch:125%;font-weight:800;font-size:clamp(36px,7vw,66px);letter-spacing:.05em;text-transform:uppercase;line-height:1;text-shadow:0 2px 26px rgba(0,0,0,.55)}
+  .door .dtxt{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center}
+  .door .dtxt small{color:rgba(255,255,255,.84);font-size:clamp(11px,1.5vw,13px);letter-spacing:.18em;text-transform:uppercase;font-weight:600;text-shadow:0 1px 12px rgba(0,0,0,.55)}
   .door.s b{color:#d2efdb}
   .door:hover .ph{transform:scale(1.045);filter:brightness(1.16)}
   .door:hover{border-color:#41464f;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
@@ -630,11 +632,11 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <div class="doors">
       <a class="door s" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=portada&utm_campaign=ver_stock" target="_blank" rel="noopener" title="Ver el stock disponible en supplyba.com.ar">
         <div class="ph"></div>
-        <b>Stock</b>
+        <span class="dtxt"><b>Stock</b><small>Listo para enviar</small></span>
       </a>
       <a class="door e" href="#ver=todo" title="Ver todo el catálogo por encargue">
         <div class="ph"></div>
-        <b>Encargues</b>
+        <span class="dtxt"><b>Encargues</b><small>Todo el catálogo</small></span>
       </a>
     </div>
     <div class="heroctl">
