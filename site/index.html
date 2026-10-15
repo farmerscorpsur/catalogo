@@ -177,6 +177,33 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .bt img{width:100%;height:100%;object-fit:cover;display:block}
 .bt span{font-stretch:125%;font-weight:800;font-size:clamp(12px,2.2vw,15px);text-align:center;line-height:1.15;letter-spacing:.02em;text-transform:uppercase;overflow-wrap:anywhere}
 
+/* ---------- cinta de marcas (marquee) ---------- */
+.brandbar{
+  width:100vw;margin-left:calc(50% - 50vw);overflow:hidden;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:clamp(12px,2.4vw,20px) 0;margin-top:var(--space-5);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.brandbar .mtrack{display:flex;width:max-content;will-change:transform;animation:bmq 42s linear infinite}
+.brandbar:hover .mtrack,.brandbar:focus-within .mtrack{animation-play-state:paused}
+.brandbar .mtile{
+  flex:none;height:clamp(42px,6.5vw,58px);margin-right:clamp(26px,4.5vw,56px);
+  display:flex;align-items:center;text-decoration:none;
+}
+.brandbar .mtile img{
+  height:100%;width:auto;aspect-ratio:1/1;object-fit:contain;display:block;
+  opacity:.7;filter:grayscale(1) contrast(1.05);
+  transition:opacity .3s var(--ease-out),filter .3s var(--ease-out);
+}
+.brandbar .mtile:hover img,.brandbar .mtile:focus-visible img{opacity:1;filter:grayscale(0)}
+@keyframes bmq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){
+  .brandbar{-webkit-mask-image:none;mask-image:none}
+  .brandbar .mtrack{animation:none;overflow-x:auto;scrollbar-width:none}
+  .brandbar .mtrack::-webkit-scrollbar{display:none}
+}
+
 /* ---------- destacados ---------- */
 .rail{display:flex;gap:10px;overflow-x:auto;padding:2px 0 10px;scroll-snap-type:x proximity;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
@@ -631,6 +658,9 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span><b>Atención diaria</b><p>Por WhatsApp e Instagram</p></span></div>
     </div>
     <p class="stats" id="heroStats"></p>
+    <div class="brandbar" aria-label="Marcas que trabajamos">
+      <div class="mtrack" id="brandMarquee"></div>
+    </div>
     <h2 class="sec"><span aria-hidden="true">✦</span> Marcas</h2>
     <div class="brandgrid" id="brandTiles"></div>
     <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados</h2>
@@ -1100,6 +1130,18 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       }, { once: true });
       return a;
     }));
+    const mq = $('#brandMarquee');
+    if (mq) {
+      const mtile = (b, dup) => {
+        const a = document.createElement('a');
+        a.className = 'mtile'; a.href = `#marca=${b.slug}`; a.title = b.name;
+        if (dup) { a.setAttribute('aria-hidden', 'true'); a.tabIndex = -1; }
+        a.innerHTML = `<img loading="lazy" decoding="async" src="${esc(b.logo || `logos/${b.slug}.webp`)}" alt="${dup ? '' : esc(b.name)}">`;
+        a.firstChild.addEventListener('error', () => a.remove(), { once: true });
+        return a;
+      };
+      mq.replaceChildren(...brandList.map((b) => mtile(b, false)), ...brandList.map((b) => mtile(b, true)));
+    }
     $('#featured').replaceChildren(...onePerBrand().map((p) => {
       const a = document.createElement('a');
       a.className = 'card'; a.href = `#p=${p.id}`;
