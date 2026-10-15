@@ -373,6 +373,8 @@ footer a{color:var(--text)}
   transition:opacity .2s,transform .2s;z-index:50;text-align:center
 }
 .toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.act.on{pointer-events:auto;cursor:pointer}
+.toast.act::after{content:'Ver pedido →';display:block;margin-top:5px;font-size:12px;font-weight:800;letter-spacing:.04em;color:rgba(0,0,0,.55)}
 .tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:22px 0 14px}
 .tools .count{margin:0}
 .sort{display:inline-flex;align-items:center;gap:8px;color:var(--mute);font-size:13px}
@@ -801,6 +803,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       <button class="btn" id="cCopy" type="button">Copiar pedido</button>
       <button class="btn ghost" id="cClear" type="button">Vaciar</button>
     </div>
+    <p class="hint">Seña del 50% para confirmar · llegada habitual en 25 a 35 días.</p>
   </div>
 </dialog>
 
@@ -995,7 +998,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     saveCart(); badgeQty();
     const p = prodById.get(id);
     track('add_to_cart', { product: id, categoria: p?.tipo, marca: p?.brand });
-    toast(`Agregado a tu pedido: ${p?.name || ''}`);
+    toast(`Agregado a tu pedido: ${p?.name || ''}`, openCart);
   }
   function cartText() {
     const lines = []; let n = 0;
@@ -1349,9 +1352,13 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 
   /* ---------- ficha ---------- */
   const dlg = $('#dlg');
-  const toast = (t) => {
-    const el = $('#toast'); el.textContent = t; el.classList.add('on');
-    clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 3200);
+  const toast = (t, act) => {
+    const el = $('#toast'); if (!el) return;
+    el.textContent = t;
+    el.classList.toggle('act', !!act);
+    el.onclick = act ? () => { act(); el.classList.remove('on'); } : null;
+    el.classList.add('on');
+    clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), act ? 5200 : 3200);
   };
   function open(i, fromHash) {
     const p = list[i]; if (!p) return;
