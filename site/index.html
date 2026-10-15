@@ -693,6 +693,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
         <select id="sort" aria-label="Ordenar productos">
           <option value="">Relevancia</option>
           <option value="new">Novedades</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
           <option value="az">A → Z</option>
         </select>
       </label>
@@ -1289,6 +1291,14 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       items = [...items].sort((a, b) => (b.num ?? 0) - (a.num ?? 0) || a.name.localeCompare(b.name, 'es'));
     } else if (state.sort === 'az') {
       items = [...items].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    } else if (state.sort === 'price-asc' || state.sort === 'price-desc') {
+      const dir = state.sort === 'price-asc' ? 1 : -1;
+      items = [...items].sort((a, b) => {
+        if (a.price == null && b.price == null) return a.name.localeCompare(b.name, 'es');
+        if (a.price == null) return 1;
+        if (b.price == null) return -1;
+        return dir * (a.price - b.price) || a.name.localeCompare(b.name, 'es');
+      });
     } else if (!state.brand) {
       items = interleave(items);
     }
