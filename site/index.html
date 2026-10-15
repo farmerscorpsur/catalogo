@@ -37,7 +37,6 @@
   --line:rgba(255,255,255,.08);
   --text:#eceef1;
   --mute:#a3a9b3;
-  --logo-bg:#0c0c0f;
   --chrome:linear-gradient(100deg,#5b6068 0%,#f6f8fa 22%,#8c929a 40%,#fff 58%,#6e747c 78%,#c9ced4 100%);
   --pad:clamp(16px,3.5vw,48px);
   --space-1:4px;--space-2:8px;--space-3:16px;--space-4:24px;--space-5:32px;--space-6:48px;--space-7:64px;
@@ -166,17 +165,6 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 }
 .cat b{font-stretch:125%;font-weight:800;font-size:clamp(15px,2.6vw,21px);letter-spacing:.01em}
 .cat small{color:#b9bec6;font-size:12.5px}
-.brandgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
-.bt{
-  flex:0 0 clamp(104px,13vw,150px);aspect-ratio:1/1;display:grid;place-items:center;padding:16%;
-  background:var(--logo-bg);border:1px solid var(--line);border-radius:3px;text-decoration:none;
-  transition:border-color .2s
-}
-.bt:hover{border-color:#6a707a}
-.bt.has-logo{padding:0;overflow:hidden}
-.bt img{width:100%;height:100%;object-fit:cover;display:block}
-.bt span{font-stretch:125%;font-weight:800;font-size:clamp(12px,2.2vw,15px);text-align:center;line-height:1.15;letter-spacing:.02em;text-transform:uppercase;overflow-wrap:anywhere}
-
 /* ---------- cinta de marcas (marquee) ---------- */
 .brandbar{
   width:100vw;margin-left:calc(50% - 50vw);overflow:hidden;
@@ -299,7 +287,7 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .tile .ph::after,.card .ph::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.06) 50%,transparent 75%);background-size:220% 100%;animation:sk 1.5s var(--ease) infinite}
 .tile .ph.done::after,.card .ph.done::after{display:none}
 @keyframes sk{0%{background-position:180% 0}100%{background-position:-80% 0}}
-.tile img,.card img,.cat img,.bt img{animation:fadein .5s var(--ease-out) both}
+.tile img,.card img,.cat img{animation:fadein .5s var(--ease-out) both}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 .empty{padding:60px 0;text-align:center;color:var(--mute)}
 .empty .btn{display:inline-flex;margin-top:14px}
@@ -506,7 +494,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 @media(prefers-reduced-motion:reduce){
   .tile img,.cat img,.toast,.ph,.qa,.top{transition:none}
   .tile .ph::after,.card .ph::after{animation:none;display:none}
-  .tile img,.card img,.cat img,.bt img{animation:none}
+  .tile img,.card img,.cat img{animation:none}
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
 }
 
@@ -661,8 +649,6 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <div class="brandbar" aria-label="Marcas que trabajamos">
       <div class="mtrack" id="brandMarquee"></div>
     </div>
-    <h2 class="sec"><span aria-hidden="true">✦</span> Marcas</h2>
-    <div class="brandgrid" id="brandTiles"></div>
     <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados</h2>
     <div class="relwrap2">
       <div class="rail" id="featured"></div>
@@ -825,7 +811,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   let revObs;
   const markReveals = () => {
     if (reduceMotion) return;
-    const els = document.querySelectorAll('.homeonly .doors,.homeonly .heroctl,.homeonly .trust,.homeonly .sec,.homeonly .catrow,.homeonly .cats,.homeonly .brandgrid,.homeonly .relwrap2');
+    const els = document.querySelectorAll('.homeonly .doors,.homeonly .heroctl,.homeonly .trust,.homeonly .sec,.homeonly .catrow,.homeonly .cats,.homeonly .relwrap2');
     if (!revObs) revObs = new IntersectionObserver((ents) => {
       ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); revObs.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 });
@@ -899,7 +885,6 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   };
   const encBadge = '<span class="bd">Por encargue</span>';
   if (usdCfg.mostrar || (divisa === 'USD' && money)) await asegurarCotizacion();
-  if (cfg.logoFondo) document.documentElement.style.setProperty('--logo-bg', cfg.logoFondo);
 
   const tipoBySlug = new Map(data.tipos.map((t) => [t.slug, t]));
   const brandBySlug = new Map(data.brands.map((b) => [b.slug, b]));
@@ -1119,17 +1104,6 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     doorImg('.door.s .ph', 'img/hero-stock.jpg');
     doorImg('.door.e .ph', 'img/hero-encargues.jpg');
     const brandList = [...data.brands].sort((a, b) => countOf(b.slug) - countOf(a.slug) || a.name.localeCompare(b.name, 'es'));
-    $('#brandTiles').replaceChildren(...brandList.map((b) => {
-      const a = document.createElement('a');
-      a.className = 'bt has-logo'; a.href = `#marca=${b.slug}`; a.title = b.name;
-      a.innerHTML = `<img loading="lazy" decoding="async" src="${esc(b.logo || `logos/${b.slug}.webp`)}" alt="${esc(b.name)}">`;
-      // si no hay logo para esta marca, el botón muestra el nombre en texto
-      a.firstChild.addEventListener('error', () => {
-        a.classList.remove('has-logo');
-        a.innerHTML = `<span>${esc(b.name)}</span>`;
-      }, { once: true });
-      return a;
-    }));
     const mq = $('#brandMarquee');
     if (mq) {
       const mtile = (b, dup) => {
