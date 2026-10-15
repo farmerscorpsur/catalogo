@@ -67,7 +67,7 @@ a{color:inherit}
 .bar{display:flex;align-items:center;gap:var(--space-3);padding:10px var(--pad);max-width:1600px;margin:0 auto}
 .logo{display:flex;align-items:center;text-decoration:none;flex:none}
 .logo img{display:block;height:clamp(36px,8vw,48px);width:auto}
-.search{flex:1;min-width:0;max-width:360px;margin-left:auto}
+.search{flex:1;min-width:0;max-width:360px;margin-left:auto;position:relative}
 .search input{
   width:100%;height:38px;padding:0 12px;background:transparent;
   border:1px solid var(--line);border-radius:0;outline-offset:0;font-size:14px;
@@ -75,6 +75,9 @@ a{color:inherit}
 }
 .search input::placeholder{color:var(--mute);font-weight:400}
 .search input:focus{border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.02);outline:none}
+.search .sk{position:absolute;right:8px;top:50%;transform:translateY(-50%);font:inherit;font-size:11px;line-height:1;color:var(--mute);border:1px solid var(--line);padding:3px 6px;pointer-events:none;transition:opacity .2s var(--ease-out)}
+.search:focus-within .sk,.search input:not(:placeholder-shown)~.sk{opacity:0}
+@media(max-width:560px){.search .sk{display:none}}
 .nav{display:flex;align-items:stretch;gap:var(--space-2)}
 .dd{position:relative}
 .ddb{
@@ -610,6 +613,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <label class="search">
       <span class="sr">Buscar</span>
       <input type="search" id="q" placeholder="Buscar producto" autocomplete="off" enterkeyhint="search">
+      <kbd class="sk" aria-hidden="true">/</kbd>
     </label>
     <a class="btn main hcta" id="hWa" href="#" target="_blank" rel="noopener">Encargar por WhatsApp</a>
     <button class="curbtn" id="curBtn" type="button" hidden aria-label="Cambiar moneda">ARS</button>
@@ -1525,6 +1529,17 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       const q = e.target.value.trim();
       go(q ? { q, brand: '', tipo: '', ver: 'todo' } : { q: '' }, true);
     }, 180);
+  });
+  /* atajos: "/" enfoca la búsqueda · Esc limpia o sale */
+  document.addEventListener('keydown', (e) => {
+    const q = $('#q'); if (!q) return;
+    const ae = document.activeElement;
+    const typing = ae && (/^(input|textarea|select)$/i.test(ae.tagName) || ae.isContentEditable);
+    if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      e.preventDefault(); q.focus();
+    } else if (e.key === 'Escape' && ae === q) {
+      if (q.value) { q.value = ''; go({ q: '' }, true); } else { q.blur(); }
+    }
   });
   const reset = (e) => {
     e?.preventDefault();
