@@ -1663,7 +1663,12 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       try { await navigator.clipboard.writeText(promo.cupon || 'BIENVENIDO10'); toast('Cupón copiado'); }
       catch { toast('Tu cupón es ' + (promo.cupon || 'BIENVENIDO10')); }
     });
-    setTimeout(() => { try { wl.showModal(); } catch {} }, 2600);
+    const openW = () => { try { if (!wl.open && !dlg.open && !$('#cart').open) wl.showModal(); } catch {} };
+    const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('q'); };
+    if (!cart.length && !deep()) { setTimeout(openW, 2600); return; }
+    if (cart.length || !matchMedia('(pointer:fine)').matches) return;
+    const onOut = (e) => { if (!e.relatedTarget && e.clientY <= 0) { document.removeEventListener('mouseout', onOut); openW(); } };
+    document.addEventListener('mouseout', onOut);
   })();
 
   renderHome();
