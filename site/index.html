@@ -597,7 +597,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 
 <a class="skip" href="#main">Saltar al contenido</a>
 
-<div class="topbar"><span class="tb" id="tb">Envíos a todo el país · Encargues con seña del 50% · Respondemos por WhatsApp todos los días</span></div>
+<div class="topbar"><span class="tb" id="tb">10% OFF en tu primer encargue · cupón BIENVENIDO10</span></div>
 <header class="top">
   <div class="bar">
     <a class="logo" href="#" id="home" aria-label="Supply BA, ir al inicio">
@@ -1566,17 +1566,23 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   (() => {
     const el = $('#tb'); if (!el) return;
     const msgs = [
+      '10% OFF en tu primer encargue · cupón BIENVENIDO10',
       'Envíos a todo el país · con seguimiento',
       'Encargues con seña del 50% · el resto al recibir',
       'Transferencia en ARS o USD',
       'Plazo habitual de 25 a 35 días',
       'Respondemos por WhatsApp todos los días',
     ];
-    let k = 0;
-    setInterval(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = msgs[0]; return; }
+    let k = 0, iv = null;
+    const tick = () => {
       el.classList.add('out');
       setTimeout(() => { k = (k + 1) % msgs.length; el.textContent = msgs[k]; el.classList.remove('out'); }, 360);
-    }, 4200);
+    };
+    const start = () => { if (!iv) iv = setInterval(tick, 4200); };
+    const stop = () => { clearInterval(iv); iv = null; };
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    start();
   })();
 
   /* ---------- guía de talles ---------- */
