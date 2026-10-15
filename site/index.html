@@ -978,6 +978,9 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 
   $('#hWa').href = $('#fab').href;
   $('#mWa').href = $('#fab').href;
+  [['#hWa', 'header'], ['#mWa', 'barra'], ['#fab', 'flotante']].forEach(([s, src]) => {
+    const el = $(s); if (el) el.addEventListener('click', () => track('whatsapp_click', { source: src }));
+  });
   const _wa = String(cfg.whatsapp);
   const fwn = $('#fWaNum'); fwn.href = waBase; fwn.textContent = `+${_wa.slice(0,2)} ${_wa.slice(2,3)} ${_wa.slice(3,5)} ${_wa.slice(5,9)}-${_wa.slice(9)}`;
 
@@ -1501,8 +1504,10 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   $('#cartExplore').addEventListener('click', () => { $('#cart').close(); location.hash = '#ver=todo'; });
   $('#cartWa').addEventListener('click', (e) => {
     if (!cart.length) { e.preventDefault(); toast('Tu pedido está vacío. Agregá productos desde el catálogo.'); return; }
+    track('send_order_whatsapp', { items: cart.length, qty: totalQty() });
     toast('Abrimos WhatsApp con tu pedido listo para enviar.');
   });
+  $('#dWa').addEventListener('click', () => { const p = list[cur]; if (p) track('whatsapp_product', { product: p.id, categoria: p.tipo, marca: p.brand }); });
   $('#cCopy').addEventListener('click', () => {
     if (!cart.length) { toast('Tu pedido está vacío.'); return; }
     navigator.clipboard?.writeText(cartText()).then(
