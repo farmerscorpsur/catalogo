@@ -426,6 +426,10 @@ body.lock .mbar{display:none}
 .cartbtn:hover{border-color:#3a3d44}
 .cartbtn svg{width:20px;height:20px;display:block}
 .ct{position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#25D366;color:#04130a;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+@keyframes ctpop{0%{transform:scale(1)}45%{transform:scale(1.32)}100%{transform:scale(1)}}
+.ct.pop{animation:ctpop .34s var(--ease-out)}
+#cart.empty .citems,#cart.empty .ctotal,#cart.empty .cprice,#cart.empty .cactions,#cart.empty .hint{display:none}
+#cartExplore{margin-top:6px}
 .ct[hidden]{display:none}
 .btn.add{border-color:#4ade80;color:#4ade80;font-weight:700}
 .btn.add:hover{background:rgba(74,222,128,.08)}
@@ -795,6 +799,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   <div class="cinfo">
     <h2 id="cartTitle">Tu pedido</h2>
     <p class="sub" id="cartEmpty">Todavía no agregaste productos. Abrí cualquier producto y tocá “Agregar al pedido”.</p>
+    <button class="btn main" id="cartExplore" type="button" hidden>Explorar el catálogo</button>
     <div class="citems" id="citems"></div>
     <div class="ctotal"><span>Productos</span><b id="cCount">0</b></div>
     <div class="cprice" id="cPrice" hidden><span>Total estimado</span><b id="cPriceV"></b></div>
@@ -985,11 +990,14 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   const totalQty = () => cart.reduce((s, e) => s + (e.q || 1), 0);
   const cartEntry = (id) => cart.find((e) => e.id === id);
   const saveCart = () => localStorage.setItem('supplyba_cart_v1', JSON.stringify(cart));
+  let lastQty = 0;
   const badgeQty = () => {
     const n = totalQty();
     cartEls.badge.hidden = n === 0;
     if (n) cartEls.badge.textContent = n;
     cartEls.cnt.textContent = String(n);
+    if (n > lastQty) { const b = cartEls.badge; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+    lastQty = n;
   };
   function addToCart(id, talle) {
     const e = cartEntry(id);
@@ -1019,7 +1027,10 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     return head;
   }
   function renderCart() {
-    cartEls.empty.hidden = cart.length > 0;
+    const isEmpty = cart.length === 0;
+    cartEls.empty.hidden = !isEmpty;
+    const expl = $('#cartExplore'); if (expl) expl.hidden = !isEmpty;
+    cartEls.dl.classList.toggle('empty', isEmpty);
     cartEls.cnt.textContent = String(totalQty());
     const cpr = $('#cPrice');
     if (cpr) {
@@ -1487,8 +1498,10 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     const en = cart.find((x) => x.id === row.dataset.id); if (!en) return;
     en.talle = inp.value; saveCart();
   });
+  $('#cartExplore').addEventListener('click', () => { $('#cart').close(); location.hash = '#ver=todo'; });
   $('#cartWa').addEventListener('click', (e) => {
-    if (!cart.length) { e.preventDefault(); toast('Tu pedido está vacío. Agregá productos desde el catálogo.'); }
+    if (!cart.length) { e.preventDefault(); toast('Tu pedido está vacío. Agregá productos desde el catálogo.'); return; }
+    toast('Abrimos WhatsApp con tu pedido listo para enviar.');
   });
   $('#cCopy').addEventListener('click', () => {
     if (!cart.length) { toast('Tu pedido está vacío.'); return; }
