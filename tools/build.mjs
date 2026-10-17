@@ -8,6 +8,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
+import { computeColors } from './colors.mjs';
 
 const src = process.argv[2];
 const out = path.resolve(process.argv[3] || 'site');
@@ -234,6 +235,10 @@ async function main() {
     path.join(out, 'data', 'products.json'),
     JSON.stringify({ generated: new Date().toISOString(), brands: [...brandMap.values()], tipos, products }, null, 2) + '\n'
   );
+
+  // color dominante por producto (lo usa la sección "Armá tu outfit")
+  const col = await computeColors(out);
+  console.log(`Colores: ${col.stored}/${col.total} (${col.computed} nuevos, ${col.failed} fallidos).`);
 
   // limpia miniaturas huérfanas de productos (siempre deja intacto lo demás,
   // p. ej. hero-*.jpg que no son webp/png)

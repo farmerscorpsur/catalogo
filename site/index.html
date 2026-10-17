@@ -632,6 +632,102 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .col .lb2{position:relative;padding:18px;background:linear-gradient(180deg,transparent,rgba(8,9,11,.85));width:100%}
 .col b{display:block;color:#fff;font-size:clamp(18px,3vw,24px);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .col small{display:block;color:#cfd4da;font-size:13px;margin-top:4px}
+
+/* ---------- "Armá tu outfit" ---------- */
+.ofsec{margin:var(--space-6) 0 var(--space-5)}
+.ofsec .sec{margin-top:0}
+.ofsub{margin:0 0 18px;color:var(--mute);font-size:13.5px;line-height:1.55;max-width:66ch}
+.ofsub b{color:var(--text);font-weight:600}
+.ofstage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(min-width:660px){.ofstage{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1040px){.ofstage{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.oflot{
+  position:relative;display:flex;flex-direction:column;text-align:left;padding:0;color:inherit;
+  border:1px solid var(--line);overflow:hidden;cursor:pointer;
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.06),transparent 70%),
+    radial-gradient(140% 100% at 50% 20%,#151820 0%,#0f1218 60%,#0b0b0f 100%);
+  transition:border-color .25s var(--ease-out),transform .25s var(--ease-out);
+}
+.oflot:hover{border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.oflot .ph{position:relative;aspect-ratio:4/5;display:grid;place-items:center;overflow:hidden}
+.oflot .ph img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,255,255,.12));animation:fadein .5s var(--ease-out) both}
+.oflot .slot{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px;border-top:1px solid var(--line);min-height:40px}
+.oflot .slot b{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.oflot[data-filled="1"] .slot b{color:var(--text)}
+.oflot .clr{width:12px;height:12px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.3);box-shadow:0 0 0 2px rgba(0,0,0,.4)}
+.oflot .clr[hidden]{display:none}
+.oflot .add{position:absolute;inset:0 0 40px;display:grid;place-items:center;color:var(--mute);pointer-events:none}
+.oflot .add span{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:0 8px}
+.oflot .add i{font-style:normal;font-size:30px;font-weight:200;line-height:1;color:#59606b}
+.oflot .add small{font-size:11px;letter-spacing:.03em}
+.oflot[data-filled="1"] .add{display:none}
+.oflot .x2{position:absolute;top:8px;right:8px;z-index:3;width:26px;height:26px;display:none;place-items:center;
+  background:rgba(11,11,15,.72);border:1px solid rgba(255,255,255,.2);color:#e7e9ee;font-size:15px;line-height:1;cursor:pointer;padding:0}
+.oflot[data-filled="1"] .x2{display:grid}
+.oflot .x2:hover{background:rgba(11,11,15,.96);border-color:rgba(255,255,255,.42)}
+.ofmatch{position:absolute;left:8px;bottom:8px;z-index:3;display:none;align-items:center;gap:6px;padding:4px 7px;
+  background:rgba(11,11,15,.8);border:1px solid rgba(255,255,255,.16);font-size:10.5px;font-weight:700;letter-spacing:.03em;color:#dfe3e8}
+.oflot[data-filled="1"] .ofmatch{display:flex}
+.ofmatch .bar{width:32px;height:4px;background:rgba(255,255,255,.18);overflow:hidden}
+.ofmatch .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c8696,#eef1f5);transition:width .4s var(--ease-out)}
+.oflot.is-new .ph img{animation:ofpop .45s var(--ease-out)}
+@keyframes ofpop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.ofbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.ofbar .btn{min-height:42px;padding:0 16px;font-size:13.5px}
+.ofscore{margin-left:auto;display:flex;align-items:center;gap:9px;color:var(--mute);font-size:12.5px}
+.ofscore[hidden]{display:none}
+.ofscore b{color:var(--text);font-weight:700}
+.ofscore .bar{width:64px;height:5px;background:rgba(255,255,255,.14);overflow:hidden}
+.ofscore .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c8696,#eef1f5);transition:width .5s var(--ease-out)}
+.ofsaved{margin-top:18px}
+.ofsaved[hidden]{display:none}
+.ofsaved .h{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-bottom:8px}
+.ofsvlist{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.ofsvlist::-webkit-scrollbar{display:none}
+.ofsv{flex:none;width:156px;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);color:inherit;cursor:pointer;padding:0;transition:border-color .2s}
+.ofsv:hover{border-color:rgba(255,255,255,.3)}
+.ofsv .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.ofsv .mini img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#0d0e12;display:block}
+.ofsv .mini .gap{background:#0d0e12}
+.ofsv .row{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px 9px}
+.ofsv .row b{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ofsv .row .rmx{background:none;border:0;color:var(--mute);font-size:15px;line-height:1;cursor:pointer;padding:2px 4px}
+.ofsv .row .rmx:hover{color:#fff}
+
+/* ---------- selector de prenda (dialog) ---------- */
+#ofPick{width:100vw}
+@media(min-width:800px){#ofPick{width:min(1180px,96vw)}}
+.ofp{display:flex;flex-direction:column;height:100%;min-height:0}
+.ofp-hd{position:sticky;top:0;z-index:4;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px var(--pad) 12px;background:rgba(11,11,15,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.ofp-tt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:140px}
+.ofp-tt small{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:700}
+.ofp-tt span{font-size:15px;font-weight:600;line-height:1.2}
+.ofp-seg{display:flex;border:1px solid var(--line)}
+.ofp-seg button{background:none;border:0;color:var(--mute);padding:8px 12px;font-size:12.5px;cursor:pointer;font-weight:500;transition:background .2s,color .2s}
+.ofp-seg button+button{border-left:1px solid var(--line)}
+.ofp-seg button.on{background:var(--chrome);color:#000;font-weight:700}
+.ofp-sr{flex:1 0 100%;position:relative}
+.ofp-sr input{width:100%;height:40px;padding:0 12px;background:transparent;border:1px solid var(--line);color:inherit;font-size:14px}
+.ofp-sr input:focus{border-color:rgba(255,255,255,.28);outline:none}
+.ofp-x{flex:none;width:38px;height:38px;display:grid;place-items:center;background:rgba(11,11,15,.7);border:1px solid rgba(255,255,255,.16);color:#e7e9ee;font-size:20px;line-height:1;cursor:pointer}
+.ofp-x:hover{background:rgba(11,11,15,.95);border-color:rgba(255,255,255,.4)}
+.ofp-grid{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 10px;padding:16px var(--pad) 46px}
+@media(min-width:640px){.ofp-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1040px){.ofp-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.ofp-card{display:flex;flex-direction:column;gap:6px;background:none;border:0;color:inherit;text-align:left;padding:0;cursor:pointer}
+.ofp-card .ph{position:relative;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 0%,rgba(255,255,255,.06),transparent 70%),radial-gradient(140% 100% at 50% 20%,#151820 0%,#0f1218 60%,#0b0b0f 100%)}
+.ofp-card .ph img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,255,255,.12));transition:transform .35s var(--ease-out)}
+.ofp-card:hover .ph img{transform:scale(1.04)}
+.ofp-card .dot{position:absolute;top:7px;right:7px;width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,.32);box-shadow:0 0 0 2px rgba(0,0,0,.45)}
+.ofp-card .dot[hidden]{display:none}
+.ofp-card .nm{font-size:13px;line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ofp-card .mt{font-size:11.5px;color:var(--mute);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.ofp-card .mt .pc{color:#8fe3a8;font-weight:700}
+.ofp-card .mt .pc[hidden]{display:none}
+.ofp-more{grid-column:1/-1;display:flex;justify-content:center;padding:8px 0 0}
+.ofp-empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 0;font-size:14px}
 </style>
 <script type="application/ld+json">
 {
@@ -716,6 +812,24 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <div class="brandbar" aria-label="Marcas que trabajamos">
       <div class="mtrack" id="brandMarquee"></div>
     </div>
+    <section class="ofsec" id="outfit" aria-labelledby="ofTitle">
+      <h2 class="sec" id="ofTitle"><span aria-hidden="true">✦</span> Armá tu outfit <a class="secmore" href="#outfit" id="ofHow">Cómo combina →</a></h2>
+      <p class="ofsub">Elegí una prenda en cada casillero y te decimos <b>qué tan bien combinan por color</b>. Guardá tus looks, compartilos por link y pedilos juntos por WhatsApp.</p>
+      <div class="ofstage" id="ofStage"></div>
+      <div class="ofbar">
+        <button type="button" class="btn main" id="ofRandom">Sorprendeme ✨</button>
+        <button type="button" class="btn" id="ofSave">Guardar look</button>
+        <button type="button" class="btn" id="ofShare">Compartir link</button>
+        <button type="button" class="btn" id="ofPng">Descargar imagen</button>
+        <button type="button" class="btn main" id="ofOrder">Pedir por WhatsApp</button>
+        <button type="button" class="btn" id="ofClear">Vaciar</button>
+        <span class="ofscore" id="ofScore" hidden></span>
+      </div>
+      <div class="ofsaved" id="ofSaved" hidden>
+        <span class="h">Tus looks guardados</span>
+        <div class="ofsvlist" id="ofSavedList"></div>
+      </div>
+    </section>
     <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados <a class="secmore" href="#ver=todo">Ver todo →</a></h2>
     <div class="relwrap2">
       <div class="rail" id="featured"></div>
@@ -874,6 +988,21 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   </div>
 </dialog>
 
+<dialog id="ofPick" aria-labelledby="ofpName">
+  <div class="ofp">
+    <div class="ofp-hd">
+      <span class="ofp-tt"><small id="ofpSlot">Prenda</small><span id="ofpName">Elegí una prenda</span></span>
+      <div class="ofp-seg" role="tablist" aria-label="Orden de las prendas">
+        <button type="button" id="ofpSug" class="on" role="tab">Sugeridos</button>
+        <button type="button" id="ofpAll" role="tab">Todos</button>
+      </div>
+      <button type="button" class="ofp-x" id="ofpClose" aria-label="Cerrar">×</button>
+      <div class="ofp-sr"><input type="search" id="ofpQ" placeholder="Buscar por nombre, marca o color…" autocomplete="off" aria-label="Buscar prendas"></div>
+    </div>
+    <div class="ofp-grid" id="ofpGrid"></div>
+  </div>
+</dialog>
+
 <script>
 (async () => {
   const $ = (s) => document.querySelector(s);
@@ -891,7 +1020,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   let revObs;
   const markReveals = () => {
     if (reduceMotion) return;
-    const els = document.querySelectorAll('.homeonly .doors,.homeonly .heroctl,.homeonly .trust,.homeonly .sec,.homeonly .catrow,.homeonly .cats,.homeonly .relwrap2');
+    const els = document.querySelectorAll('.homeonly .doors,.homeonly .heroctl,.homeonly .trust,.homeonly .sec,.homeonly .catrow,.homeonly .cats,.homeonly .relwrap2,.homeonly .ofstage,.homeonly .ofbar');
     if (!revObs) revObs = new IntersectionObserver((ents) => {
       ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); revObs.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.04 });
@@ -1828,6 +1957,360 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     if (cart.length || !matchMedia('(pointer:fine)').matches) return;
     const onOut = (e) => { if (!e.relatedTarget && e.clientY <= 0) { document.removeEventListener('mouseout', onOut); openW(); } };
     document.addEventListener('mouseout', onOut);
+  })();
+
+  /* ================= "Armá tu outfit" ================= */
+  (() => {
+    const stage = $('#ofStage');
+    if (!stage) return;
+
+    const SLOTS = [
+      { id: 'top', label: 'Arriba', hint: 'Remera o buzo', tipos: ['Remeras', 'Buzos'] },
+      { id: 'outer', label: 'Abrigo', hint: 'Campera', tipos: ['Camperas'] },
+      { id: 'bottom', label: 'Abajo', hint: 'Pantalón o short', tipos: ['Pantalones', 'Shorts', 'Faldas'] },
+      { id: 'shoes', label: 'Calzado', hint: 'Zapatillas', tipos: ['Zapatillas'] },
+      { id: 'head', label: 'Cabeza', hint: 'Gorra o beanie', tipos: ['Gorras', 'Beanies'] },
+      { id: 'acc', label: 'Accesorio', hint: 'Cadena, bolso, cinto…', tipos: ['Accesorios', 'Bolsos', 'Riñoneras/Bandoleras'] },
+    ];
+    const slotById = new Map(SLOTS.map((s) => [s.id, s]));
+    const pools = new Map();
+    for (const s of SLOTS) { const set = new Set(s.tipos); pools.set(s.id, data.products.filter((p) => set.has(p.tipo))); }
+
+    let COLORS = {};
+    let colorsReady = false;
+    fetch('data/colors.json').then((r) => r.json()).then((j) => { COLORS = j || {}; colorsReady = true; refreshAll(); if (pickSlot) renderPicker(true); }).catch(() => {});
+
+    const hex2rgb = (h) => { const m = /^#([0-9a-f]{6})$/i.exec(h || ''); if (!m) return null; const n = parseInt(m[1], 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+    const rgb2hsl = (c) => {
+      const r = c[0] / 255, g = c[1] / 255, b = c[2] / 255;
+      const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+      let h = 0, s = 0;
+      if (d) {
+        s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+        if (mx === r) h = (g - b) / d + (g < b ? 6 : 0);
+        else if (mx === g) h = (b - r) / d + 2;
+        else h = (r - g) / d + 4;
+        h *= 60;
+      }
+      return [h, s, l];
+    };
+    const colorOf = (p) => hex2rgb(COLORS[p.id]);
+
+    function pairScore(a, b) {
+      const ca = colorOf(a), cb = colorOf(b);
+      if (!ca || !cb) return .55;
+      const [ha, sa, la] = rgb2hsl(ca), [hb, sb, lb] = rgb2hsl(cb);
+      const an = sa < .16 || la > .9 || la < .12;
+      const bn = sb < .16 || lb > .9 || lb < .12;
+      let s;
+      if (an && bn) s = .86;
+      else if (an || bn) s = .82;
+      else {
+        let d = Math.abs(ha - hb); if (d > 180) d = 360 - d;
+        if (d <= 22) s = .95; else if (d <= 55) s = .86; else if (d >= 150) s = .72; else if (d >= 110) s = .62; else s = .5;
+        s += (1 - Math.abs(sa - sb)) * .05 + (1 - Math.abs(la - lb)) * .05;
+      }
+      if (a.brandSlug && a.brandSlug === b.brandSlug) s += .05;
+      return Math.max(0, Math.min(1, s));
+    }
+    const othersOf = (cur, except) => SLOTS.map((s) => s.id).filter((id) => id !== except && cur[id]).map((id) => prodById.get(cur[id])).filter(Boolean);
+    function candidateScore(cand, cur, except) { const o = othersOf(cur, except); if (!o.length) return .55; return o.reduce((a, x) => a + pairScore(cand, x), 0) / o.length; }
+    function outfitScore(cur) {
+      const it = SLOTS.map((s) => s.id).filter((id) => cur[id]).map((id) => prodById.get(cur[id])).filter(Boolean);
+      if (it.length < 2) return 0;
+      let t = 0, n = 0;
+      for (let i = 0; i < it.length; i++) for (let j = i + 1; j < it.length; j++) { t += pairScore(it[i], it[j]); n++; }
+      return n ? t / n : 0;
+    }
+
+    let sel = {};
+    try { sel = JSON.parse(localStorage.getItem('supplyba_outfit_v1')) || {}; } catch (e) { sel = {}; }
+    for (const k of Object.keys(sel)) if (!slotById.has(k) || !prodById.has(sel[k])) delete sel[k];
+    const persist = () => { try { localStorage.setItem('supplyba_outfit_v1', JSON.stringify(sel)); } catch (e) {} };
+
+    function slotTile(s) {
+      const d = document.createElement('div');
+      d.className = 'oflot'; d.dataset.slot = s.id; d.dataset.filled = '0';
+      d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0');
+      d.setAttribute('aria-label', 'Elegir ' + s.hint);
+      d.innerHTML = '<span class="ph"><span class="ofmatch"><span class="bar"><i></i></span><b></b></span></span>' +
+        '<span class="add"><span><i>+</i><small>' + esc(s.hint) + '</small></span></span>' +
+        '<span class="slot"><b>' + esc(s.label) + '</b><span class="clr" hidden></span></span>';
+      const ph = d.querySelector('.ph');
+      const rm = document.createElement('button');
+      rm.type = 'button'; rm.className = 'x2'; rm.textContent = '×'; rm.setAttribute('aria-label', 'Quitar prenda');
+      rm.addEventListener('click', (e) => { e.stopPropagation(); setSlot(s.id, null); });
+      ph.append(rm);
+      d.addEventListener('click', () => openPicker(s.id));
+      d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(s.id); } });
+      return d;
+    }
+    stage.replaceChildren(...SLOTS.map(slotTile));
+
+    function refreshSlot(id) {
+      const tile = stage.querySelector('.oflot[data-slot="' + id + '"]');
+      if (!tile) return;
+      const p = sel[id] ? prodById.get(sel[id]) : null;
+      const ph = tile.querySelector('.ph');
+      const match = tile.querySelector('.ofmatch');
+      let img = ph.querySelector('img');
+      if (p) {
+        if (!img) { img = document.createElement('img'); img.loading = 'lazy'; img.decoding = 'async'; img.alt = ''; ph.prepend(img); }
+        if (img.getAttribute('src') !== p.thumb) img.src = p.thumb;
+        tile.dataset.filled = '1';
+        const clr = tile.querySelector('.clr'); const hex = COLORS[p.id];
+        if (hex) { clr.hidden = false; clr.style.background = hex; } else clr.hidden = true;
+        const others = othersOf(sel, id);
+        if (colorsReady && others.length) {
+          match.style.display = '';
+          const sc = candidateScore(p, sel, id);
+          tile.querySelector('.ofmatch b').textContent = Math.round(sc * 100) + '%';
+          tile.querySelector('.ofmatch .bar i').style.width = (sc * 100) + '%';
+        } else match.style.display = 'none';
+      } else {
+        if (img) img.remove();
+        tile.dataset.filled = '0';
+        tile.querySelector('.clr').hidden = true;
+      }
+    }
+    function refreshScore() {
+      const box = $('#ofScore');
+      if (!box) return;
+      const n = SLOTS.filter((s) => sel[s.id]).length;
+      if (n < 2 || !colorsReady) { box.hidden = true; return; }
+      const v = Math.round(outfitScore(sel) * 100);
+      box.hidden = false;
+      box.innerHTML = 'Combina <span class="bar"><i style="width:' + v + '%"></i></span><b>' + v + '%</b>';
+    }
+    function refreshAll() { SLOTS.forEach((s) => refreshSlot(s.id)); refreshScore(); }
+    function setSlot(id, pid) { if (pid) sel[id] = pid; else delete sel[id]; persist(); refreshSlot(id); refreshScore(); }
+
+    const randItem = (arr) => (arr && arr.length) ? arr[Math.floor(Math.random() * arr.length)] : null;
+    function bestFor(id, chosen) {
+      const pool = pools.get(id) || [];
+      if (!pool.length) return null;
+      if (!colorsReady) return randItem(pool);
+      const scored = pool.map((p) => [candidateScore(p, chosen, id), p]);
+      scored.sort((a, b) => b[0] - a[0]);
+      return randItem(scored.slice(0, Math.min(10, scored.length)))[1];
+    }
+    function randomOutfit() {
+      const chosen = {};
+      const seed = randItem(['top', 'bottom', 'shoes']);
+      const sp = randItem(pools.get(seed)); if (sp) chosen[seed] = sp.id;
+      for (const id of ['top', 'bottom', 'shoes']) if (!chosen[id]) { const b = bestFor(id, chosen); if (b) chosen[id] = b.id; }
+      for (const id of ['outer', 'head', 'acc']) if (Math.random() < .6) { const b = bestFor(id, chosen); if (b) chosen[id] = b.id; }
+      sel = chosen; persist(); refreshAll();
+      stage.querySelectorAll('.oflot').forEach((t) => { if (t.dataset.filled === '1') { t.classList.remove('is-new'); void t.offsetWidth; t.classList.add('is-new'); } });
+      toast('Te armamos un look. Cambiá lo que quieras.');
+      track('outfit_random', { items: Object.keys(chosen).length });
+    }
+
+    const pk = $('#ofPick'), pkGrid = $('#ofpGrid'), pkQ = $('#ofpQ');
+    let pickSlot = null, pickMode = 'sug', pickList = [], pickShown = 0;
+    let pkTimer = 0;
+    const PKPAGE = 60;
+    function pickerSorted() {
+      let pool = (pools.get(pickSlot) || []).slice();
+      const q = norm(pkQ && pkQ.value ? pkQ.value : '').trim();
+      if (q) pool = pool.filter((p) => p._s.includes(q));
+      if (pickMode === 'sug' && colorsReady) {
+        const scored = pool.map((p) => [candidateScore(p, sel, pickSlot), p]);
+        scored.sort((a, b) => b[0] - a[0] || (a[1].name > b[1].name ? 1 : -1));
+        return scored.map((x) => x[1]);
+      }
+      return pool;
+    }
+    function pickerCard(p) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ofp-card';
+      const sc = (pickMode === 'sug' && colorsReady) ? candidateScore(p, sel, pickSlot) : null;
+      const hex = COLORS[p.id];
+      b.innerHTML = '<span class="ph"><img loading="lazy" decoding="async" src="' + esc(p.thumb) + '" alt=""><span class="dot"' + (hex ? ' style="background:' + hex + '"' : ' hidden') + '></span></span>' +
+        '<span class="nm">' + esc(p.name) + '</span>' +
+        '<span class="mt"><span>' + esc(p.brand) + (p.num != null ? ' · #' + p.num : '') + '</span>' +
+        (sc != null ? '<span class="pc">' + Math.round(sc * 100) + '%</span>' : '<span class="pc" hidden></span>') + '</span>';
+      b.addEventListener('click', () => {
+        setSlot(pickSlot, p.id);
+        pk.close();
+        const t = stage.querySelector('.oflot[data-slot="' + pickSlot + '"]');
+        if (t) { t.classList.remove('is-new'); void t.offsetWidth; t.classList.add('is-new'); }
+      });
+      return b;
+    }
+    function renderPicker(reset) {
+      if (reset) { pickList = pickerSorted(); pickShown = 0; pkGrid.replaceChildren(); }
+      if (!pickList.length) { pkGrid.innerHTML = '<p class="ofp-empty">No encontramos prendas con esos filtros.</p>'; return; }
+      const old = pkGrid.querySelector('.ofp-more'); if (old) old.remove();
+      const frag = document.createDocumentFragment();
+      pickList.slice(pickShown, pickShown + PKPAGE).forEach((p) => frag.append(pickerCard(p)));
+      pkGrid.append(frag);
+      pickShown = Math.min(pickShown + PKPAGE, pickList.length);
+      if (pickShown < pickList.length) {
+        const w = document.createElement('div'); w.className = 'ofp-more';
+        const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn'; bt.textContent = 'Ver más';
+        bt.addEventListener('click', () => renderPicker(false));
+        w.append(bt); pkGrid.append(w);
+      }
+    }
+    function setSeg() {
+      const sug = $('#ofpSug'), all = $('#ofpAll');
+      if (sug) sug.classList.toggle('on', pickMode === 'sug');
+      if (all) all.classList.toggle('on', pickMode === 'all');
+    }
+    function openPicker(id) {
+      pickSlot = id;
+      const s = slotById.get(id);
+      pkQ.value = '';
+      const others = othersOf(sel, id);
+      pickMode = (others.length && colorsReady) ? 'sug' : 'all';
+      $('#ofpSlot').textContent = s.label;
+      $('#ofpName').textContent = sel[id] ? 'Cambiar prenda' : ('Elegí: ' + s.hint);
+      setSeg();
+      renderPicker(true);
+      if (!pk.open) pk.showModal();
+      document.body.classList.add('lock');
+    }
+    function closePicker() { if (pk.open) pk.close(); }
+    pk.addEventListener('click', (e) => { if (e.target === pk) closePicker(); });
+    pk.addEventListener('close', () => { if (!$('#cart').open) document.body.classList.remove('lock'); });
+    $('#ofpClose').addEventListener('click', closePicker);
+    $('#ofpSug').addEventListener('click', () => { pickMode = 'sug'; setSeg(); renderPicker(true); });
+    $('#ofpAll').addEventListener('click', () => { pickMode = 'all'; setSeg(); renderPicker(true); });
+    pkQ.addEventListener('input', () => { clearTimeout(pkTimer); pkTimer = setTimeout(() => renderPicker(true), 140); });
+
+    const SAVE_KEY = 'supplyba_outfits_v1';
+    const loadSaved = () => { try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || []; } catch (e) { return []; } };
+    const putSaved = (a) => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(a)); } catch (e) {} };
+    function renderSaved() {
+      const list = loadSaved(), box = $('#ofSaved'), wrap = $('#ofSavedList');
+      if (!list.length) { wrap.replaceChildren(); box.hidden = true; return; }
+      box.hidden = false;
+      wrap.replaceChildren(...list.map((sv, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'ofsv';
+        const items = SLOTS.map((s) => sv.items[s.id]).filter(Boolean).map((id) => prodById.get(id)).filter(Boolean);
+        let mini = items.slice(0, 6).map((p) => '<img loading="lazy" src="' + esc(p.thumb) + '" alt="">').join('');
+        for (let k = items.length; k < 6; k++) mini += '<span class="gap"></span>';
+        b.innerHTML = '<span class="mini">' + mini + '</span><span class="row"><b>' + esc(sv.name) + '</b><span class="rmx" role="button" aria-label="Borrar look" title="Borrar">×</span></span>';
+        b.addEventListener('click', (e) => {
+          if (e.target.closest('.rmx')) { const a = loadSaved(); a.splice(i, 1); putSaved(a); renderSaved(); return; }
+          sel = Object.assign({}, sv.items); persist(); refreshAll();
+          const sec = document.getElementById('outfit'); if (sec) sec.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          toast('Cargamos «' + sv.name + '».');
+        });
+        return b;
+      }));
+    }
+    function saveLook() {
+      const items = Object.assign({}, sel);
+      const n = SLOTS.filter((s) => items[s.id]).length;
+      if (n < 2) { toast('Elegí al menos 2 prendas para guardar.'); return; }
+      const list = loadSaved();
+      const def = 'Look ' + (list.length + 1);
+      let name = '';
+      try { name = (prompt('Nombre del look', def) || '').trim(); } catch (e) { name = ''; }
+      if (!name) name = def;
+      list.unshift({ name, items, ts: Date.now() });
+      putSaved(list.slice(0, 24)); renderSaved();
+      toast('Guardamos «' + name + '».');
+      track('outfit_save', { items: n });
+    }
+    function clearLook() { sel = {}; persist(); refreshAll(); toast('Vaciamos el look.'); }
+    function orderLook() {
+      const ids = SLOTS.map((s) => sel[s.id]).filter(Boolean);
+      if (!ids.length) { toast('Elegí alguna prenda primero.'); return; }
+      ids.forEach((id) => { if (!cartEntry(id)) cart.push({ id, q: 1, talle: '' }); });
+      saveCart(); badgeQty(); renderCart();
+      track('outfit_order', { items: ids.length });
+      openCart();
+    }
+    async function shareLook() {
+      const pairs = SLOTS.map((s) => sel[s.id] ? (s.id + ':' + sel[s.id]) : '').filter(Boolean).join(',');
+      const count = pairs.split(',').filter(Boolean).length;
+      if (count < 2) { toast('Armá al menos 2 prendas.'); return; }
+      const url = location.origin + location.pathname + '#outfit=' + encodeURIComponent(pairs);
+      track('outfit_share', { items: count });
+      try {
+        if (navigator.share) { await navigator.share({ title: 'Mi outfit — Supply BA', text: 'Mirá el look que armé en Supply BA', url }); return; }
+        await navigator.clipboard.writeText(url); toast('Link del look copiado.');
+      } catch (e) {
+        try { await navigator.clipboard.writeText(url); toast('Link del look copiado.'); } catch (e2) { toast('No pudimos copiar el link.'); }
+      }
+    }
+    async function exportPng() {
+      const items = SLOTS.map((s) => ({ s, p: sel[s.id] ? prodById.get(sel[s.id]) : null })).filter((x) => x.p);
+      if (!items.length) { toast('Elegí alguna prenda primero.'); return; }
+      toast('Generando imagen…');
+      const load = (src) => new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
+      const imgs = await Promise.all(items.map(async (it) => ({ s: it.s, im: await load(it.p.thumb) })));
+      const cols = Math.min(3, Math.max(1, Math.ceil(Math.sqrt(imgs.length))));
+      const rows = Math.ceil(imgs.length / cols);
+      const cell = 300, pad = 26, top = 108, foot = 74;
+      const W = cols * cell + pad * 2, H = top + rows * cell + foot;
+      const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+      const x = cv.getContext('2d');
+      const g = x.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, '#171a22'); g.addColorStop(1, '#0b0b0f');
+      x.fillStyle = g; x.fillRect(0, 0, W, H);
+      x.textAlign = 'center';
+      x.fillStyle = '#eceef1'; x.font = '800 40px Inter, Arial, sans-serif';
+      x.fillText('SUPPLY BA', W / 2, 66);
+      x.fillStyle = '#a3a9b3'; x.font = '600 15px Inter, Arial, sans-serif';
+      x.fillText('M I   O U T F I T', W / 2, 90);
+      imgs.forEach((o, i) => {
+        const cx = i % cols, cy = Math.floor(i / cols);
+        const cw = cell - 20, ch = cell - 20;
+        const ox = pad + cx * cell + 10, oy = top + cy * cell + 10;
+        if (o.im && o.im.width) {
+          const r = Math.min(cw / o.im.width, ch / o.im.height);
+          const w = o.im.width * r, h = o.im.height * r;
+          x.drawImage(o.im, ox + (cw - w) / 2, oy + (ch - h) / 2, w, h);
+        }
+        x.fillStyle = '#8b93a0'; x.font = '700 11px Inter, Arial, sans-serif';
+        x.fillText(o.s.label.toUpperCase(), ox + cw / 2, oy + ch + 16);
+      });
+      x.fillStyle = '#a3a9b3'; x.font = '600 15px Inter, Arial, sans-serif';
+      x.fillText('supplyba.com', W / 2, H - 26);
+      try {
+        await new Promise((res) => cv.toBlob((bl) => {
+          if (!bl) { res(); return; }
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(bl);
+          a.download = 'supplyba-outfit.png';
+          document.body.append(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+          res();
+        }, 'image/png'));
+        track('outfit_png', { items: items.length });
+      } catch (e) { toast('No pudimos generar la imagen.'); }
+    }
+
+    $('#ofRandom').addEventListener('click', randomOutfit);
+    $('#ofSave').addEventListener('click', saveLook);
+    $('#ofShare').addEventListener('click', shareLook);
+    $('#ofPng').addEventListener('click', exportPng);
+    $('#ofOrder').addEventListener('click', orderLook);
+    $('#ofClear').addEventListener('click', clearLook);
+    const how = $('#ofHow');
+    if (how) how.addEventListener('click', (e) => { e.preventDefault(); toast('Los neutros (negro, blanco, gris) van con todo. Los tonos parecidos y los complementarios suman más. También premiamos combinar la misma marca.'); });
+
+    const deep = new URLSearchParams(location.hash.slice(1)).get('outfit');
+    const applyDeep = (raw, scroll) => {
+      const d = {};
+      String(raw || '').split(',').forEach((pair) => { const parts = pair.split(':'); if (parts.length === 2 && slotById.has(parts[0]) && prodById.has(parts[1])) d[parts[0]] = parts[1]; });
+      if (!Object.keys(d).length) return false;
+      sel = d; persist(); refreshAll();
+      if (scroll) setTimeout(() => { const sec = document.getElementById('outfit'); if (sec) sec.scrollIntoView({ behavior: 'auto', block: 'start' }); }, 60);
+      return true;
+    };
+    if (deep) applyDeep(deep, true);
+    window.addEventListener('hashchange', () => {
+      const v = new URLSearchParams(location.hash.slice(1)).get('outfit');
+      if (v) applyDeep(v, true);
+    });
+    refreshAll();
+    renderSaved();
   })();
 
   renderHome();
