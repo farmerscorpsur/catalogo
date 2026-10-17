@@ -28,6 +28,27 @@ const slug = (s) =>
 // "RO Shoes (36-46)" -> "RO Shoes",  "Tops (DEPENDE PROVEEDOR)" -> "Tops"
 const cleanFolder = (s) => s.replace(/\s*\([^)]*\)/g, '').trim();
 
+// Normaliza el nombre del producto para mostrarlo: convierte los "_" de los
+// archivos en separadores/espacios (colores, apóstrofes, talles, styles, etc.).
+// Debe coincidir con la limpieza ya aplicada a site/data/products.json.
+function cleanName(name) {
+  let s = String(name || '').replace(/\s+/g, ' ').trim();
+  s = s.replace(/\b_80_\b/g, "'80s");                                 // _80_ -> '80s
+  s = s.replace(/(\d{2,3})_ Cotton/g, '$1% Cotton');                  // 100_ Cotton -> 100% Cotton
+  s = s.replace(/(^|\s)_([^_]+)_(?=\s|$)/g, '$1$2');                 // _ADIDAS_ -> ADIDAS
+  s = s.replace(/P_NK\b/g, 'P*NK').replace(/P_nk\b/g, 'P*nk');        // Sp5der
+  s = s.replace(/\bL_([A-Z])/g, "L'$1");                              // L_Art -> L'Art
+  s = s.replace(/\bOl_/g, "Ol'");                                     // Big Ol_
+  s = s.replace(/([A-Za-z])_s\b/g, "$1's");                           // Women_s -> Women's
+  s = s.replace(/([A-Za-z])_([a-z])/g, "$1'$2");                      // L_oeil -> L'oeil, Can_t -> Can't
+  s = s.replace(/(\d)_\s*Boot\b/g, '$1" Boot');                       // 6_ Boot -> 6" Boot
+  s = s.replace(/\s_(\d{2})\b/g, " '$1");                            // _87 -> '87
+  s = s.replace(/(\d)_(\d)/g, '$1/$2');                               // 50_50 -> 50/50
+  s = s.replace(/\s_\s/g, ' ');                                       // Bag _ Wallet -> Bag Wallet
+  s = s.replace(/_/g, ' ');                                           // colores: Pink_Green -> Pink Green
+  return s.replace(/[ \t]+/g, ' ').trim();
+}
+
 // Clave estable para conservar datos curados (tipo/talles/precio/usd) entre builds,
 // independiente del id (que incluye el tamaño del archivo): marca + numero + nombre.
 const dataKey = (brandSlug, num, name) => `${brandSlug}:${num ?? 'x'}:${slug(name || '')}`;
@@ -138,7 +159,7 @@ async function main() {
     const catParts = rel.slice(1, -1).map(cleanFolder).filter(Boolean);
     const m = base.match(/^\((\d+)\)\s*(.*)$/);
     const num = m ? Number(m[1]) : null;
-    const name = (m ? m[2] : base).replace(/\s+/g, ' ').trim() || base;
+    const name = cleanName(m ? m[2] : base) || base;
     return [{ file, rel: rel.join('/'), brandRaw, category: catParts.join(' / ') || 'General', num, name }];
   });
 
