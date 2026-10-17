@@ -193,9 +193,14 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .brandbar .mtile:hover img,.brandbar .mtile:focus-visible img{opacity:1;filter:grayscale(0)}
 @keyframes bmq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){
-  .brandbar{-webkit-mask-image:none;mask-image:none}
-  .brandbar .mtrack{animation:none;overflow-x:auto;scrollbar-width:none}
-  .brandbar .mtrack::-webkit-scrollbar{display:none}
+  .brandbar{-webkit-mask-image:none;mask-image:none;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .brandbar::-webkit-scrollbar{display:none}
+  .brandbar .mtrack{animation:none}
+}
+@media(hover:none){
+  .brandbar{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+  .brandbar::-webkit-scrollbar{display:none}
+  .brandbar .mtrack{animation:none}
 }
 
 /* ---------- destacados ---------- */
@@ -272,7 +277,12 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
   .heroctl .ban{min-height:58px;display:inline-flex;align-items:center;gap:10px;padding:0 26px;border-radius:0;border:1px solid var(--line);background:linear-gradient(rgba(21,23,27,.92),rgba(21,23,27,.92)),url("brand/monograma-tile.png");background-size:auto,120px 150px;color:var(--text);text-decoration:none;font-weight:600;transition:border-color .2s,box-shadow .2s,background .2s}
   .heroctl .ban:hover{background:linear-gradient(rgba(21,23,27,.84),rgba(21,23,27,.84)),url("brand/monograma-tile.png");background-size:auto,120px 150px;border-color:#626a76;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
   .heroctl .ban span{color:var(--mute);font-weight:400}
-  @media(max-width:859px){.heroctl{gap:10px;justify-content:center}.heroctl .round{width:52px;height:52px}.heroctl .round svg{width:24px;height:24px}.heroctl .ban{min-height:52px;padding:0 18px;font-size:13.5px;white-space:nowrap}}
+  @media(max-width:859px){
+    .heroctl{gap:10px;justify-content:center}
+    .heroctl .round{order:1;width:52px;height:52px}
+    .heroctl .round svg{width:24px;height:24px}
+    .heroctl .ban{order:2;flex:1 1 100%;min-height:52px;padding:0 18px;font-size:13.5px;justify-content:center}
+  }
 
 /* ---------- grilla ---------- */
 .count{margin:var(--space-5) 0 var(--space-3);color:var(--mute);font-size:13px}
@@ -1144,6 +1154,15 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
         return a;
       };
       mq.replaceChildren(...brandList.map((b) => mtile(b, false)), ...brandList.map((b) => mtile(b, true)));
+      const bar = mq.parentElement;
+      const scrollBar = matchMedia('(hover:none)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (bar && scrollBar && !bar.dataset.loopBound) {
+        bar.dataset.loopBound = '1';
+        bar.addEventListener('scroll', () => {
+          const h = bar.scrollWidth / 2;
+          if (h > 0 && bar.scrollLeft >= h) bar.scrollLeft -= h;
+        }, { passive: true });
+      }
     }
     $('#featured').replaceChildren(...onePerBrand().map((p) => {
       const a = document.createElement('a');
