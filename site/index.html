@@ -61,6 +61,47 @@ a{color:inherit}
 [data-view="home"] .catonly{display:none!important}
 [data-view="cat"] .homeonly{display:none!important}
 
+/* ---------- tema por marca (vista #marca=slug) ---------- */
+:root{--brand-rgb:128,128,138;--brand-rgb-2:196,198,204}
+.brandtint{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;
+  transition:opacity .8s var(--ease-out);
+  background:
+    radial-gradient(120% 55% at 50% -12%,rgba(var(--brand-rgb),.28),transparent 62%),
+    radial-gradient(70% 45% at 88% 4%,rgba(var(--brand-rgb-2),.13),transparent 58%),
+    radial-gradient(90% 55% at 6% 104%,rgba(var(--brand-rgb),.12),transparent 60%);
+}
+body.brand-theme .brandtint{opacity:1}
+.catbrand{
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;align-items:flex-end;
+  min-height:clamp(116px,24vw,208px);
+  margin:16px 0 var(--space-4);padding:0 2px 14px;
+  border-bottom:1px solid var(--line);
+}
+.catbrand[hidden]{display:none}
+.cbwm{
+  position:absolute;z-index:-1;top:50%;right:-3%;transform:translateY(-50%);
+  height:min(160%,360px);width:auto;max-width:none;opacity:.06;
+  filter:grayscale(1) brightness(1.35);
+  -webkit-mask-image:radial-gradient(58% 58% at 55% 50%,#000 34%,transparent 78%);
+  mask-image:radial-gradient(58% 58% at 55% 50%,#000 34%,transparent 78%);
+  pointer-events:none;user-select:none;
+}
+body.brand-color .cbwm{opacity:.16;filter:none}
+.cbmeta{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cbcnt{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.cbname{
+  font-family:'Archivo',sans-serif;font-stretch:112%;font-weight:800;
+  font-size:clamp(36px,9.5vw,104px);line-height:.9;letter-spacing:-.025em;
+  text-transform:uppercase;word-break:break-word;
+}
+body.brand-color .cbname{
+  background:linear-gradient(96deg,rgb(var(--brand-rgb-2)) 0%,rgb(var(--brand-rgb)) 44%,var(--text) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+@media(max-width:640px){.cbwm{right:-10%;height:150%}}
+
 /* ---------- header ---------- */
 .top{position:sticky;top:0;z-index:50;background:rgba(11,11,15,.7);backdrop-filter:blur(12px) saturate(130%);-webkit-backdrop-filter:blur(12px) saturate(130%);border-bottom:1px solid transparent;transition:background .25s var(--ease-out),border-color .25s var(--ease-out),box-shadow .25s var(--ease-out);will-change:transform}
 .top.is-scrolled{background:rgba(11,11,15,.96);border-bottom-color:var(--line);box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 1px 80px -20px rgba(0,0,0,.95)}
@@ -111,9 +152,10 @@ a{color:inherit}
 .ddc:hover{color:var(--text)}
 @media(max-width:899px){
   .bar{flex-wrap:wrap;row-gap:8px;gap:8px}
-  .nav{order:3;flex:1 0 100%;display:flex;flex-wrap:wrap;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .nav{order:3;flex:1 0 100%;display:flex;flex-wrap:wrap;gap:4px}
   .ddb,.ddc{min-height:34px;padding:0 10px;font-size:13px}
-  .ddm{min-width:200px;max-height:min(52vh,380px)}
+  .dd{position:static}
+  .ddm{left:8px;right:8px;width:auto;min-width:0;max-width:none;max-height:min(56vh,420px)}
 }
 
 /* ---------- botones / chips ---------- */
@@ -157,9 +199,9 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 .sec span{color:#cfd4da}
 .sec .secmore{margin-left:auto;font-size:11px;letter-spacing:.1em;color:var(--mute);text-decoration:none;font-weight:600;white-space:nowrap;transition:color .2s var(--ease-out)}
 .sec .secmore:hover{color:var(--text)}
-.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
-@media(min-width:700px){.cats{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1100px){.cats{grid-template-columns:repeat(4,1fr)}}
+.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px}
+@media(min-width:700px){.cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .verall{display:flex;width:100%;justify-content:center;margin:var(--space-5) 0 var(--space-4);letter-spacing:.02em}
 .cat{position:relative;display:block;aspect-ratio:1/1;background:var(--surface);overflow:hidden;text-decoration:none}
 .cat img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
@@ -286,10 +328,10 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 
 /* ---------- grilla ---------- */
 .count{margin:var(--space-5) 0 var(--space-3);color:var(--mute);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-6) var(--space-3)}
-@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:var(--space-7) var(--space-3)}}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:1400px){.grid{grid-template-columns:repeat(5,1fr)}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-3)}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-7) var(--space-3)}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(min-width:1400px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .tile{display:flex;flex-direction:column;gap:var(--space-2);padding:0;background:none;border:0;text-align:left;cursor:pointer;position:relative;content-visibility:auto;contain-intrinsic-size:auto 320px}
 .tile .ph{aspect-ratio:1/1;background:var(--surface);display:block;overflow:hidden;will-change:transform}
 .tile img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .4s var(--ease-out);will-change:transform}
@@ -555,7 +597,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .megagrid a>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .megagrid small{margin-left:auto;color:var(--mute);font-size:12px;flex:none}
 .megagrid a.on small{color:rgba(0,0,0,.6)}
-@media(max-width:899px){.ddm.mega{min-width:min(94vw,340px)}.megagrid{grid-template-columns:1fr}}
+@media(max-width:899px){.megagrid{grid-template-columns:1fr}}
 
 /* ---------- popup de bienvenida ---------- */
 #welcome{width:min(440px,100vw);height:auto;max-height:92dvh;border:0;background:#08080a}
@@ -691,7 +733,15 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 
   <!-- ===== catálogo ===== -->
   <div class="catonly">
+    <div class="brandtint" id="brandTint" aria-hidden="true"></div>
     <h1 class="sr">Catálogo Supply BA — ropa y zapatillas por encargue</h1>
+    <div class="catbrand" id="catBrand" aria-hidden="true" hidden>
+      <img class="cbwm" id="cbLogo" alt="" decoding="async">
+      <div class="cbmeta">
+        <span class="cbcnt" id="cbCount"></span>
+        <span class="cbname" id="cbName"></span>
+      </div>
+    </div>
     <div class="rows" style="margin-top:18px">
       <nav class="row" id="tipoRow" aria-label="Tipo de producto"></nav>
       <nav class="row sm" id="brandRow" aria-label="Marcas"></nav>
@@ -1361,9 +1411,84 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     more();
   }
 
+  /* ---------- tema por marca ---------- */
+  const brandColorCache = new Map();
+  function brandColor(slug) {
+    if (brandColorCache.has(slug)) return brandColorCache.get(slug);
+    const b = brandBySlug.get(slug);
+    const src = b && (b.logo || `logos/${slug}.webp`);
+    const pr = new Promise((resolve) => {
+      if (!src) return resolve(null);
+      const im = new Image();
+      im.decoding = 'async';
+      im.onload = () => {
+        try {
+          const S = 32, c = document.createElement('canvas');
+          c.width = c.height = S;
+          const ctx = c.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(im, 0, 0, S, S);
+          const d = ctx.getImageData(0, 0, S, S).data;
+          let r = 0, g = 0, bl = 0, w = 0, ar = 0, ag = 0, ab = 0, an = 0;
+          for (let i = 0; i < d.length; i += 4) {
+            if (d[i + 3] < 24) continue;
+            const R = d[i], G = d[i + 1], B = d[i + 2];
+            ar += R; ag += G; ab += B; an++;
+            const mx = Math.max(R, G, B), mn = Math.min(R, G, B);
+            const sat = mx ? (mx - mn) / mx : 0;
+            const lum = (0.299 * R + 0.587 * G + 0.114 * B) / 255;
+            if (sat > 0.16 && lum > 0.14 && lum < 0.9) {
+              const k = sat * (1 - Math.abs(lum - 0.5));
+              r += R * k; g += G * k; bl += B * k; w += k;
+            }
+          }
+          let col = null;
+          if (w > 0.5) col = [r / w, g / w, bl / w];
+          else if (an) col = [ar / an, ag / an, ab / an];
+          resolve(col ? col.map((v) => Math.max(0, Math.min(255, Math.round(v)))) : null);
+        } catch { resolve(null); }
+      };
+      im.onerror = () => resolve(null);
+      im.src = src;
+    });
+    brandColorCache.set(slug, pr);
+    return pr;
+  }
+  let brandThemeSlug = '';
+  function applyBrandTheme() {
+    const slug = state.brand && brandBySlug.has(state.brand) ? state.brand : '';
+    if (slug === brandThemeSlug) return;
+    brandThemeSlug = slug;
+    const hero = $('#catBrand');
+    if (!slug) {
+      document.body.classList.remove('brand-theme', 'brand-color');
+      if (hero) hero.hidden = true;
+      return;
+    }
+    const b = brandBySlug.get(slug);
+    document.body.classList.add('brand-theme');
+    document.body.classList.remove('brand-color');
+    if (hero) {
+      const lg = $('#cbLogo');
+      lg.hidden = false;
+      lg.src = b.logo || `logos/${slug}.webp`;
+      lg.onerror = () => { lg.hidden = true; };
+      $('#cbName').textContent = b.name;
+      $('#cbCount').textContent = b.count ? `${b.count.toLocaleString('es-AR')} productos` : 'Colección';
+      hero.hidden = false;
+    }
+    brandColor(slug).then((col) => {
+      if (slug !== brandThemeSlug || !col) return;
+      const rt = document.documentElement.style;
+      rt.setProperty('--brand-rgb', col.join(','));
+      rt.setProperty('--brand-rgb-2', col.map((v) => Math.min(255, Math.round(v * 1.7 + 46))).join(','));
+      document.body.classList.add('brand-color');
+    });
+  }
+
   function render(keepScroll) {
     const home = isHome();
     document.body.dataset.view = home ? 'home' : 'cat';
+    applyBrandTheme();
     buildHeaderMenus();
     const bits = [];
     if (state.q) bits.push(`“${state.q}”`);
