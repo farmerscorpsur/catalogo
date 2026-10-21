@@ -56,7 +56,15 @@ a{color:inherit}
 .ddc{min-height:38px;padding:0 12px;display:inline-flex;align-items:center;color:var(--mute);text-decoration:none;font-size:14px;font-weight:500;border-radius:0;white-space:nowrap;transition:color .2s var(--ease-out)}
 .ddc:hover{color:var(--text)}
 .ddc.on{color:var(--text)}
-@media(max-width:640px){.nav .ddc.lbl{display:none}}
+@media(max-width:640px){
+  .bar{flex-wrap:wrap;row-gap:6px}
+  .logo{min-height:44px}
+  .nav{flex:1 0 100%;margin-left:0;justify-content:space-between;gap:6px}
+  .nav .ddc,.nav .btn{min-height:44px}
+  .nav .btn{white-space:nowrap}
+  .nav .ddc.lbl{display:none}
+  footer a{display:inline-block;padding:10px 0;margin:-10px 0}
+}
 
 /* ---------- botones ---------- */
 .btn{
@@ -175,7 +183,7 @@ footer a{color:var(--text)}
     </a>
     <nav class="nav" aria-label="Navegación">
       <a class="ddc" href="index.html">Catálogo</a>
-      <a class="ddc on" href="encargos.html" aria-current="page">Encargos y envíos</a>
+      <a class="ddc on lbl" href="encargos.html" aria-current="page">Encargos y envíos</a>
       <a class="btn main" id="hWa" href="#" target="_blank" rel="noopener">Encargar por WhatsApp</a>
     </nav>
   </div>
