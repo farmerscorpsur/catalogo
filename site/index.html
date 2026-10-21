@@ -349,8 +349,9 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
 @keyframes sk{0%{background-position:180% 0}100%{background-position:-80% 0}}
 .tile img,.card img,.cat img{animation:fadein .5s var(--ease-out) both}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
-.empty{padding:60px 0;text-align:center;color:var(--mute)}
-.empty .btn{display:inline-flex;margin-top:14px}
+.empty{padding:60px 0;text-align:center;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:10px}
+.empty .btn{display:inline-flex;margin-top:4px}
+.empty .hint{max-width:42ch;color:var(--mute);font-size:13px;line-height:1.6;margin:6px auto 0}
 #sentinel{height:1px}
 
 /* ---------- ficha ---------- */
@@ -914,6 +915,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <div class="empty" id="empty" hidden>
       <p id="emptyMsg"></p>
       <button class="btn" id="clear" type="button">Ver todo el catálogo</button>
+      <a class="btn main" id="quoteMissing" href="#" target="_blank" rel="noopener">¿No encontrás lo que buscabas? Cotizalo por WhatsApp</a>
+      <p class="hint">No solo trabajamos con nuestros +2.400 productos, estamos en constante expansión y tenemos millones de ítems disponibles. Envianos una foto, link o descripción del producto que buscás.</p>
     </div>
     <div id="sentinel"></div>
   </div>
@@ -1149,6 +1152,10 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   $('#hgIg').href = `https://instagram.com/${cfg.instagram}`;
   $('#hgWa').href = waBase;
   $('#fab').href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! Quiero hacer un encargue.')}`;
+  const quoteMissing = $('#quoteMissing');
+  if (quoteMissing) {
+    quoteMissing.href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! No encuentro el producto que busco en el catálogo. Te envío foto, link o descripción para que me cotices.')}`;
+  }
 
   /* ---------- menús del header ---------- */
   function buildHeaderMenus() {
