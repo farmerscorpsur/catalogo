@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://catalogo-eij.pages.dev/sitemap.xml
+Sitemap: https://catalogo.supplyba.store/sitemap.xml

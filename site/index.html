@@ -7,17 +7,18 @@
 <meta name="description" content="Catálogo de Supply BA: +2.400 productos de ropa y zapatillas de las mejores marcas. Mirá el stock disponible o pedí por encargue por WhatsApp o Instagram.">
 <meta name="theme-color" content="#000000">
 <meta name="robots" content="index,follow,max-image-preview:large">
-<link rel="canonical" href="https://catalogo-eij.pages.dev/">
+<link rel="canonical" href="https://catalogo.supplyba.store/">
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
 <link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script src="medicion.js" defer></script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Supply BA">
 <meta property="og:locale" content="es_AR">
 <meta property="og:title" content="Supply BA — Ropa y zapatillas | Encargue y stock">
 <meta property="og:description" content="+2.400 productos de las mejores marcas. Stock disponible o por encargue. Pedí por WhatsApp o Instagram.">
-<meta property="og:url" content="https://catalogo-eij.pages.dev/">
-<meta property="og:image" content="https://catalogo-eij.pages.dev/brand/og.png">
+<meta property="og:url" content="https://catalogo.supplyba.store/">
+<meta property="og:image" content="https://catalogo.supplyba.store/brand/og.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -25,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Supply BA — Ropa y zapatillas | Encargue y stock">
 <meta name="twitter:description" content="+2.400 productos de las mejores marcas. Stock disponible o por encargue. Pedí por WhatsApp o Instagram.">
-<meta name="twitter:image" content="https://catalogo-eij.pages.dev/brand/og.png">
+<meta name="twitter:image" content="https://catalogo.supplyba.store/brand/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,6 +59,9 @@ button,input{font:inherit;color:inherit}
 a{color:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 :focus-visible{outline:2px solid #dfe3e8;outline-offset:2px}
+.loadfail{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:40px var(--pad)}
+.loadfail h1{margin:0;font-family:'Archivo',sans-serif;font-stretch:118%;font-size:clamp(26px,5vw,40px)}
+.loadfail p{margin:0;color:var(--mute);max-width:44ch}
 [data-view="home"] .catonly{display:none!important}
 [data-view="cat"] .homeonly{display:none!important}
 
@@ -316,8 +320,8 @@ main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
   .heroctl .round{width:58px;height:58px;flex:none;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:transform .2s,border-color .2s,color .2s}
   .heroctl .round:hover{transform:translateY(-2px);border-color:#5d636e;color:#fff}
   .heroctl .round svg{width:26px;height:26px;display:block}
-  .heroctl .ban{min-height:58px;display:inline-flex;align-items:center;gap:10px;padding:0 26px;border-radius:0;border:1px solid var(--line);background:linear-gradient(rgba(21,23,27,.92),rgba(21,23,27,.92)),url("brand/monograma-tile.png");background-size:auto,120px 150px;color:var(--text);text-decoration:none;font-weight:600;transition:border-color .2s,box-shadow .2s,background .2s}
-  .heroctl .ban:hover{background:linear-gradient(rgba(21,23,27,.84),rgba(21,23,27,.84)),url("brand/monograma-tile.png");background-size:auto,120px 150px;border-color:#626a76;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+  .heroctl .ban{min-height:58px;display:inline-flex;align-items:center;gap:10px;padding:0 26px;border-radius:0;border:1px solid var(--line);background:linear-gradient(rgba(21,23,27,.92),rgba(21,23,27,.92)),url("brand/monograma-tile.webp");background-size:auto,120px 150px;color:var(--text);text-decoration:none;font-weight:600;transition:border-color .2s,box-shadow .2s,background .2s}
+  .heroctl .ban:hover{background:linear-gradient(rgba(21,23,27,.84),rgba(21,23,27,.84)),url("brand/monograma-tile.webp");background-size:auto,120px 150px;border-color:#626a76;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
   .heroctl .ban span{color:var(--mute);font-weight:400}
   @media(max-width:859px){
     .heroctl{gap:10px;justify-content:center}
@@ -420,6 +424,11 @@ dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(4px);-webkit-ba
 
 footer{padding:34px var(--pad) 44px;border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;align-items:center}
 footer a{color:var(--text)}
+.seol{flex:1 1 100%;display:grid;gap:12px;padding-bottom:18px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+.seol div{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
+.seol b{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--mute);min-width:92px}
+.seol a{color:var(--mute);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}
+.seol a:hover{color:var(--text)}
 .toast{
   position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
   background:#e9ecef;color:#000;padding:12px 18px;border-radius:0;font-size:14px;max-width:min(92vw,420px);
@@ -773,9 +782,9 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   "@type": "ClothingStore",
   "name": "Supply BA",
   "description": "Importación de ropa y zapatillas hype. Encargue y stock disponible.",
-  "url": "https://catalogo-eij.pages.dev/",
-  "image": "https://catalogo-eij.pages.dev/brand/og.png",
-  "logo": "https://catalogo-eij.pages.dev/brand/icon-512.png",
+  "url": "https://catalogo.supplyba.store/",
+  "image": "https://catalogo.supplyba.store/brand/og.png",
+  "logo": "https://catalogo.supplyba.store/brand/icon-512.png",
   "telephone": "+5491144785658",
   "address": {"@type": "PostalAddress", "addressLocality": "Lomas de Zamora", "addressRegion": "Buenos Aires", "addressCountry": "AR"},
   "sameAs": ["https://www.instagram.com/supply_ba_/", "https://supplyba.com.ar"]
@@ -898,7 +907,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       <nav class="row" id="tipoRow" aria-label="Tipo de producto"></nav>
       <nav class="row sm" id="brandRow" aria-label="Marcas"></nav>
     </div>
-    <p class="strip">Todo se hace por encargue: seña del 50%, llegada habitual dentro de las 4 semanas y seguimiento personalizado. <a href="encargos.html">Cómo funciona</a></p>
+    <p class="strip">Todo se hace por encargue: seña del 50%, llegada habitual en 25 a 35 días y seguimiento personalizado. <a href="encargos.html">Cómo funciona</a></p>
     <div class="tools">
       <p class="count" id="count" aria-live="polite"></p>
       <label class="sort"><span>Ordenar</span>
@@ -923,6 +932,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 </main>
 
 <footer>
+  <!--seo-links--><nav class="seol" aria-label="Marcas y categorías"><div><b>Marcas</b><a href="marca/adidas">Adidas</a><a href="marca/balenciaga">Balenciaga</a><a href="marca/bape">BAPE</a><a href="marca/chrome-hearts">Chrome Hearts</a><a href="marca/corteiz">Corteiz</a><a href="marca/der-schutze">Der Schutze</a><a href="marca/hellstar">Hellstar</a><a href="marca/mm6">MM6</a><a href="marca/nike-y-jordan">Nike &amp; Jordan</a><a href="marca/rick-owens">Rick Owens</a><a href="marca/sp5der">Sp5der</a><a href="marca/stussy">Stussy</a><a href="marca/supreme">Supreme</a><a href="marca/valley-dreams">Valley Dreams</a></div><div><b>Categorías</b><a href="tipo/remeras">Remeras</a><a href="tipo/buzos">Buzos</a><a href="tipo/camperas">Camperas</a><a href="tipo/pantalones">Pantalones</a><a href="tipo/shorts">Shorts</a><a href="tipo/zapatillas">Zapatillas</a><a href="tipo/gorras">Gorras</a><a href="tipo/beanies">Beanies</a><a href="tipo/medias">Medias</a><a href="tipo/ropa-interior">Ropa interior</a><a href="tipo/conjuntos">Conjuntos</a><a href="tipo/mochilas">Mochilas</a><a href="tipo/rinoneras-bandoleras">Riñoneras/Bandoleras</a><a href="tipo/bolsos">Bolsos</a><a href="tipo/accesorios">Accesorios</a><a href="tipo/faldas">Faldas</a></div></nav><!--/seo-links-->
   <span>✦ Supply BA · Lomas de Zamora, Buenos Aires · <a href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=pie&utm_campaign=ver_stock" target="_blank" rel="noopener">Ver stock</a> · <a href="encargos.html">Encargos y envíos</a></span>
   <span><a id="fWa" href="#" target="_blank" rel="noopener">WhatsApp</a> · <a id="fIg" href="#" target="_blank" rel="noopener">Instagram</a></span>
   <span><a id="fWaNum" href="#" target="_blank" rel="noopener"></a> · <a href="https://maps.google.com/?q=Lomas+de+Zamora,+Buenos+Aires" target="_blank" rel="noopener">Cómo llegar</a></span>
@@ -965,7 +975,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
         <button class="lnk" id="dShare" type="button">Compartir</button>
         <button class="lnk" id="dCopy" type="button">Copiar</button>
       </div>
-      <p class="hint">Todo es por encargue: seña del 50% y llegada habitual dentro de las 4 semanas. <a href="encargos.html">Cómo funciona y envíos</a></p>
+      <p class="hint">Todo es por encargue: seña del 50% y llegada habitual en 25 a 35 días. <a href="encargos.html">Cómo funciona y envíos</a></p>
       <div class="relwrap" id="dRelWrap" hidden>
         <div class="secl"><span aria-hidden="true">✦</span> Te puede gustar</div>
         <div class="rail" id="dRel"></div>
@@ -1049,7 +1059,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   const PAGE = 48;
   const norm = (s) => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const track = (name, props) => { try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: name }, props)); } catch {} };
+  const track = (name, props) => { try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: name }, props)); window.sbMedir?.(name, props); } catch {} };
   const fmtArs = (v) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(v);
   const _siz = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
   const markImg = (im) => { if (!im || im.tagName !== 'IMG') return; const ph = im.closest('.ph'); if (ph) ph.classList.add('done'); };
@@ -1095,8 +1105,11 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
       fetch('data/products.json').then((r) => r.json()),
     ]);
   } catch {
-    $('.hero h1').textContent = 'No se pudo cargar el catálogo.';
-    $('.hero p').textContent = 'Corré el script de armado y abrí el sitio desde un servidor (ver README).';
+    const m = $('#main');
+    m.innerHTML = '<div class="loadfail"><h1>No pudimos cargar el catálogo</h1><p>Puede ser la conexión. Probá de nuevo o escribinos y te pasamos lo que buscás.</p>' +
+      '<button class="btn main" type="button" id="lfRetry">Reintentar</button>' +
+      '<a class="btn" href="https://wa.me/5491144785658?text=' + encodeURIComponent('Hola Supply BA! No me carga el catálogo, ¿me ayudás?') + '" target="_blank" rel="noopener">Escribir por WhatsApp</a></div>';
+    $('#lfRetry').addEventListener('click', () => location.reload());
     return;
   }
 
@@ -1119,7 +1132,15 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     ? new Intl.NumberFormat('es-AR', { style: 'currency', currency: cfg.moneda || 'ARS', maximumFractionDigits: 0 })
     : null;
   const usdOn = () => !!(usdCfg.mostrar && cotiz.val > 0);
-  const arsOf = (usd) => { const r = Number(usdCfg.redondeo) || 1000; return fmtArs(Math.ceil((usd * cotiz.val) / r) * r); };
+  const arsNum = (usd) => { const r = Number(usdCfg.redondeo) || 1000; return Math.ceil((usd * cotiz.val) / r) * r; };
+  const arsOf = (usd) => fmtArs(arsNum(usd));
+  // precio unitario en pesos que se usa en el pedido (USD convertido o precio fijo en ARS)
+  const unitArs = (p) => {
+    if (!p) return 0;
+    if (usdOn() && p.usd != null && p.usd > 0) return arsNum(p.usd);
+    if (money && p.price > 0) return p.price;
+    return 0;
+  };
   let divisa = 'ARS';
   try { divisa = localStorage.getItem('supplyba_cur_v1') === 'USD' ? 'USD' : 'ARS'; } catch {}
   const fmtUsd = (v) => 'US$ ' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(Math.round(v));
@@ -1139,6 +1160,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   const brandBySlug = new Map(data.brands.map((b) => [b.slug, b]));
   const prodById = new Map(data.products.map((x) => [x.id, x]));
   const slugOf = (s) => norm(s).replace(/&/g, ' y ').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  // misma regla que tools/pages.mjs → página estática con foto para compartir
+  const productUrl = (p) => `${location.origin}/p/${slugOf(p.name).slice(0, 70).replace(/-+$/, '')}-${p.id.split('-').pop()}`;
   data.products.forEach((p) => { p.tipoSlug = slugOf(p.tipo || 'otros'); });
 
   const state = { brand: '', tipo: '', q: '', ver: '', p: '', sort: '' };
@@ -1209,7 +1232,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   const message = (p) => cfg.mensaje
     .replace('{producto}', p.name)
     .replace('{codigo}', p.num != null ? `#${p.num}` : p.id)
-    .replace('{marca}', p.brand);
+    .replace('{marca}', p.brand) + `
+${productUrl(p)}`;
 
   $('#hWa').href = $('#fab').href;
   $('#mWa').href = $('#fab').href;
@@ -1243,7 +1267,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     else cart.push({ id, q: 1, talle: talle || '' });
     saveCart(); badgeQty();
     const p = prodById.get(id);
-    track('add_to_cart', { product: id, categoria: p?.tipo, marca: p?.brand });
+    track('add_to_cart', { product: id, categoria: p?.tipo, marca: p?.brand, value: unitArs(p) || undefined, currency: 'ARS' });
     toast(`Agregado a tu pedido: ${p?.name || ''}`, openCart);
   }
   function cartText() {
@@ -1251,18 +1275,23 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     cart.forEach((e) => {
       const p = prodById.get(e.id); if (!p) return;
       n += e.q || 1;
-      let l = `${n}. ${p.name}` + (p.num != null ? ` (código ${p.num})` : '') + (p.brand ? ` · ${p.brand}` : '');
+      let l = `${lines.length + 1}. ${p.name}` + (p.num != null ? ` (código ${p.num})` : '') + (p.brand ? ` · ${p.brand}` : '');
       if (e.talle) l += ` · Talle ${e.talle}`;
       if ((e.q || 1) > 1) l += ` · ${e.q} unidades`;
-      if (usdOn() && p.usd != null && p.usd > 0) l += ` · ${arsOf(p.usd)}`;
+      const u = unitArs(p);
+      if (u) l += ` · ${fmtArs(u * (e.q || 1))}`;
+      else if (money) l += ' · precio a confirmar';
       lines.push(l);
     });
     const head = `Hola Supply BA! Quiero hacer un encargue con estos ${n} ${n === 1 ? 'producto' : 'productos'}:\n\n` + lines.join('\n');
-    if (usdOn() && cart.some((e) => { const p = prodById.get(e.id); return p && p.usd != null && p.usd > 0; })) {
-      const t = cart.reduce((s, e) => { const p = prodById.get(e.id); return s + (p ? (p.usd || 0) * (e.q || 1) : 0); }, 0);
-      return `${head}\n\nTotal estimado: ${arsOf(t)}`;
-    }
+    const { total, missing } = cartTotal();
+    if (total > 0) return `${head}\n\nTotal estimado: ${fmtArs(total)}${missing ? ` (+ ${missing} a confirmar)` : ''}`;
     return head;
+  }
+  function cartTotal() {
+    let total = 0, missing = 0;
+    cart.forEach((e) => { const u = unitArs(prodById.get(e.id)); if (u) total += u * (e.q || 1); else missing++; });
+    return { total, missing };
   }
   function renderCart() {
     const isEmpty = cart.length === 0;
@@ -1272,10 +1301,9 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     cartEls.cnt.textContent = String(totalQty());
     const cpr = $('#cPrice');
     if (cpr) {
-      const totals = cart.map((e) => { const p = prodById.get(e.id); return p && p.usd != null && p.usd > 0 ? p.usd * (e.q || 1) : 0; });
-      const any = totals.some((v) => v > 0);
-      cpr.hidden = !(usdOn() && cart.length && any);
-      if (!cpr.hidden) $('#cPriceV').textContent = arsOf(totals.reduce((s, v) => s + v, 0));
+      const { total, missing } = cartTotal();
+      cpr.hidden = !(cart.length && total > 0);
+      if (!cpr.hidden) $('#cPriceV').textContent = fmtArs(total) + (missing ? ` + ${missing} a confirmar` : '');
     }
     cartEls.wa.href = `${waBase}?text=${encodeURIComponent(cartText())}`;
     cartEls.rw.replaceChildren(...cart.map((e) => {
@@ -1363,8 +1391,8 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
         ph.style.backgroundPosition = 'center';
       }
     };
-    doorImg('.door.s .ph', 'img/hero-stock.jpg');
-    doorImg('.door.e .ph', 'img/hero-encargues.jpg');
+    doorImg('.door.s .ph', 'img/hero-stock.webp');
+    doorImg('.door.e .ph', 'img/hero-encargues.webp');
     const brandList = [...data.brands].sort((a, b) => countOf(b.slug) - countOf(a.slug) || a.name.localeCompare(b.name, 'es'));
     const mq = $('#brandMarquee');
     if (mq) {
@@ -1832,7 +1860,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   $('#cartExplore').addEventListener('click', () => { $('#cart').close(); location.hash = '#ver=todo'; });
   $('#cartWa').addEventListener('click', (e) => {
     if (!cart.length) { e.preventDefault(); toast('Tu pedido está vacío. Agregá productos desde el catálogo.'); return; }
-    track('send_order_whatsapp', { items: cart.length, qty: totalQty() });
+    track('send_order_whatsapp', { items: cart.length, qty: totalQty(), value: cartTotal().total || undefined, currency: 'ARS' });
     toast('Abrimos WhatsApp con tu pedido listo para enviar.');
   });
   $('#dWa').addEventListener('click', () => { const p = list[cur]; if (p) track('whatsapp_product', { product: p.id, categoria: p.tipo, marca: p.brand }); });
@@ -1850,7 +1878,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   $('#dShare').addEventListener('click', async () => {
     const p = list[cur]; if (!p) return;
     track('share', { product: p.id });
-    const url = location.href;
+    const url = productUrl(p);
     try {
       if (navigator.share) await navigator.share({ title: `${p.name} — Supply BA`, text: p.name, url });
       else { await navigator.clipboard.writeText(`${p.name}\n${url}`); toast('Link copiado.'); }
@@ -1992,13 +2020,22 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     $('#wClose').addEventListener('click', closeW);
     $('#wSkip').addEventListener('click', closeW);
     wl.addEventListener('click', (e) => { if (e.target === wl) closeW(); });
+    wl.addEventListener('close', closeW); // Escape o botón atrás también cuenta como visto
     $('#wCopy').addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(promo.cupon || 'BIENVENIDO10'); toast('Cupón copiado'); }
       catch { toast('Tu cupón es ' + (promo.cupon || 'BIENVENIDO10')); }
     });
     const openW = () => { try { if (!wl.open && !dlg.open && !$('#cart').open) wl.showModal(); } catch {} };
     const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('q') || h.has('outfit') || h.has('ver'); };
-    if (!cart.length && !deep()) { setTimeout(openW, 2600); return; }
+    if (!cart.length && !deep()) {
+      // esperar a que la persona vea las puertas Stock/Encargues: abre al scrollear o a los 12 s
+      let done = false;
+      const fire = () => { if (done) return; done = true; removeEventListener('scroll', onSc); clearTimeout(t); openW(); };
+      const onSc = () => { if (scrollY > innerHeight * .9) fire(); };
+      const t = setTimeout(fire, 12000);
+      addEventListener('scroll', onSc, { passive: true });
+      return;
+    }
     if (cart.length || !matchMedia('(pointer:fine)').matches) return;
     const onOut = (e) => { if (!e.relatedTarget && e.clientY <= 0) { document.removeEventListener('mouseout', onOut); openW(); } };
     document.addEventListener('mouseout', onOut);
@@ -2361,6 +2398,11 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   renderHome();
   readHash();
   render(true);
+  // viene de "Agregar al pedido" en una página estática de producto (/p/…)
+  if (state.p && new URLSearchParams(location.hash.slice(1)).get('agregar') === '1') {
+    if (!cartEntry(state.p)) addToCart(state.p, '');
+    history.replaceState(null, '', '#' + hashFor(state));
+  }
   renderCart();
   badgeQty();
   syncAdd();

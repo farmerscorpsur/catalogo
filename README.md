@@ -83,7 +83,16 @@ Los talles se guardan por producto y la ficha muestra chips seleccionables que s
 - Si ya están cargados no tenés que hacer nada: el build los conserva.
 
 ## 7. Medición y compartir
-La web emite eventos en `window.dataLayer` (`select_item`, `add_to_cart`, `begin_checkout`, `share`, `ver_stock`). Para medir conectá Google Tag Manager / GA4 usando esos nombres. Los links a la tienda llevan parámetros `utm_source`/`utm_medium`/`utm_campaign`.
+En `site/config.json` cargá `ga4` (ej. `G-ABC123`) y/o `metaPixelId` (el mismo pixel de la tienda). Con eso aparece un aviso de cookies y, si la persona acepta, `site/medicion.js` carga GA4 y el Pixel. Sin IDs no se carga nada.
+- Eventos: `select_item` (Meta: ViewContent), `add_to_cart` (AddToCart), `begin_checkout` (InitiateCheckout), `send_order_whatsapp` y `outfit_order` (Lead), cualquier click a WhatsApp (Contact), más `share`, `ver_stock`, etc.
+- Los links a la tienda llevan parámetros `utm_source`/`utm_medium`/`utm_campaign`.
+
+## 7b. Páginas para Google y para compartir
+El build genera solo (con `tools/pages.mjs`):
+- `site/p/…` una página por producto, con su foto como vista previa en WhatsApp/Instagram y datos de producto para Google.
+- `site/marca/…` y `site/tipo/…` una página por marca y por categoría.
+- `site/sitemap.xml` con todas, y los links a marcas/categorías en el pie de la home.
+Si solo cambiaste precios o nombres en `products.json`, alcanza con `node tools/pages.mjs`. Después de publicar, cargá el sitemap en Google Search Console (`https://catalogo.supplyba.store/sitemap.xml`).
 
 ## 8. Textos de encargos y envíos
 Están en `site/encargos.html` (página aparte: envíos de stock, cómo funciona el encargue, opciones, tutorial Puerta a Puerta y FAQ). Se editan como texto normal. La home muestra 4 filas de productos por categoría; para cambiarlas, editá `HOME_CATS` en `site/index.html`.
