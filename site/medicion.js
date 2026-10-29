@@ -60,7 +60,7 @@
   const banner = () => {
     const b = document.createElement('div');
     b.className = 'consent'; b.setAttribute('role', 'region'); b.setAttribute('aria-label', 'Aviso de cookies');
-    b.innerHTML = '<p>Usamos cookies para medir qué productos se miran y mejorar el catálogo. Nada de datos personales.</p>' +
+    b.innerHTML = '<p>Usamos cookies de Meta y Google para medir qué productos se miran y mostrarte anuncios relevantes. Podés aceptarlas o seguir solo con las necesarias.</p>' +
       '<div><button type="button" class="c-no">Solo necesarias</button><button type="button" class="c-ok">Aceptar</button></div>';
     const st = document.createElement('style');
     st.textContent = '.consent{position:fixed;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));z-index:60;max-width:520px;margin:0 auto;background:rgba(15,16,21,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;color:#eceef1;font:400 13.5px/1.5 Inter,system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.5)}' +
