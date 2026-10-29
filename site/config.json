@@ -9,7 +9,7 @@
     "usdCotizacion": 0,
     "redondeo": 1000,
     "contado": {
-      "porcentaje": 0,
+      "porcentaje": 10,
       "texto": "con transferencia o efectivo"
     }
   },
