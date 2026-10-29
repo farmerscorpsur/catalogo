@@ -77,7 +77,15 @@ En vez de renombrar fotos a mano, hacés una planilla (la guardás como CSV) y l
 
 El precio aparece en las tarjetas, en la ficha (pesos con su equivalencia US$) y se suma en el carrito como *Total estimado*. Al enviar por WhatsApp va incluido renglón por renglón.
 
+## 5b. Precio de contado
+En `site/config.json`, dentro de `precios`:
+```json
+"contado": { "porcentaje": 10, "texto": "con transferencia o efectivo" }
+```
+Con `porcentaje` mayor a 0 aparece el precio con descuento en las tarjetas, la ficha, el carrito y el mensaje de WhatsApp. En `0` queda apagado. Después de cambiarlo corré `node tools/pages.mjs` para actualizar las páginas de producto.
+
 ## 6. Talles
+Las tablas de la guía están en `site/data/talles.json` (zapatillas EU→US→cm, pecho para prendas de arriba, cintura para pantalones). En `marcas` podés escribir el calce de cada marca (ej. `"hellstar": "Calce oversize, pedí tu talle habitual"`); si lo dejás vacío no se muestra. La guía resalta los talles que tiene cada producto.
 Los talles se guardan por producto y la ficha muestra chips seleccionables que se mandan junto al pedido (`M`, `L`, `36`, `46`, etc.). Si traen `DEPENDE PROVEEDOR` se muestra "A confirmar por chat".
 - Al importarlas por Excel se cargan en la columna `talles` (ver paso 3).
 - Si ya están cargados no tenés que hacer nada: el build los conserva.

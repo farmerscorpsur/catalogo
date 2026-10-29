@@ -79,9 +79,28 @@ ${body}
 `;
 }
 
+// precio de contado (config.precios.contado.porcentaje; 0 = apagado). Misma cuenta que index.html.
+function cashHtml(price, cfg, cls) {
+  const c = Object.assign({ porcentaje: 0, texto: 'con transferencia o efectivo' }, cfg.precios?.contado || {});
+  const pct = Math.min(50, Math.max(0, Number(c.porcentaje) || 0));
+  if (!pct || !cfg.mostrarPrecios || !(price > 0)) return '';
+  return `<span class="${cls}"><b>${fmtArs(Math.floor((price * (1 - pct / 100)) / 100) * 100)}</b> ${esc(c.texto)}</span>`;
+}
+
+// tabla de talles estática (data/talles.json), con los talles del producto resaltados
+function sizeTable(p, T) {
+  const key = T?.tipos?.[p.tipo]; const t = key && T.tablas[key];
+  if (!t) return '';
+  const mine = new Set(expandTalles(p.talles) || []);
+  const nota = T.marcas?.[p.brandSlug];
+  return `<details class="guia"><summary>Guía de talles</summary>
+${nota ? `<p class="snota"><b>${esc(p.brand)}:</b> ${esc(nota)}</p>` : ''}<div class="sscroll"><table><caption>${esc(t.titulo)}${mine.size ? ' · <span>resaltados los talles de este producto</span>' : ''}</caption><thead><tr>${t.columnas.map((c) => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>${t.filas.map((f) => `<tr${mine.has(f[0]) ? ' class="on"' : ''}>${f.map((c, i) => (i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`)).join('')}</tr>`).join('')}</tbody></table></div>
+${t.medir ? `<p class="smedir"><b>Cómo medir:</b> ${esc(t.medir)}</p>` : ''}<p class="smedir">Las medidas son de referencia; algunas prendas tienen calce oversize por diseño.</p></details>`;
+}
+
 function card(p, up, cfg) {
   const price = cfg.mostrarPrecios && p.price ? `<span class="pr">${fmtArs(p.price)}</span>` : '';
-  return `<a class="card" href="${up}${productPath(p)}"><span class="ph"><img loading="lazy" decoding="async" src="${up}${esc(p.thumb)}" alt="${esc(p.name)}"></span><span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}${price ? ' · ' + price : ''}</span></a>`;
+  return `<a class="card" href="${up}${productPath(p)}"><span class="ph"><img loading="lazy" decoding="async" src="${up}${esc(p.thumb)}" alt="${esc(p.name)}"></span><span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}${price ? ' · ' + price : ''}</span>${cashHtml(p.price, cfg, 'cash')}</a>`;
 }
 
 const breadcrumbLd = (items) => ({
@@ -127,7 +146,9 @@ function productPage(p, data, cfg) {
     <h1>${esc(p.name)}</h1>
     <p class="sub">${[kind, p.num != null ? `Código #${p.num}` : ''].filter(Boolean).join(' · ')}</p>
     <div class="pricerow">${showPrice ? `<span class="price">${fmtArs(p.price)}</span>` : '<span class="price apc">Precio a convenir</span>'}<span class="tag">Por encargue</span></div>
+    ${cashHtml(showPrice ? p.price : 0, cfg, 'dcash')}
     ${talles ? `<div class="talles" aria-label="Talles disponibles">${talles.map((t) => `<span>${t}</span>`).join('')}</div>` : p.talles ? `<p class="sub">Talles: ${/proveedor/i.test(p.talles) ? 'a confirmar por chat' : esc(p.talles)}</p>` : ''}
+    ${sizeTable(p, cfg._talles)}
     <ul class="serv"><li>Seña del 50% y el resto al recibir</li><li>Llegada en 25 a 35 días</li><li>Seguimiento personalizado</li><li>Envíos a todo el país</li></ul>
     <div class="cta">
       <a class="btn main" href="${esc(wa)}" target="_blank" rel="noopener">${WA_ICON}Pedir por WhatsApp</a>
@@ -174,6 +195,7 @@ ${other.length ? `<nav class="chips" aria-label="${kind === 'marca' ? 'Categorí
 export async function buildPages(out = 'site') {
   const data = JSON.parse(await fs.readFile(path.join(out, 'data', 'products.json'), 'utf8'));
   const cfg = JSON.parse(await fs.readFile(path.join(out, 'config.json'), 'utf8'));
+  try { cfg._talles = JSON.parse(await fs.readFile(path.join(out, 'data', 'talles.json'), 'utf8')); } catch { cfg._talles = null; }
   const ensure = async (d) => { await fs.rm(path.join(out, d), { recursive: true, force: true }); await fs.mkdir(path.join(out, d), { recursive: true }); };
   await ensure('p'); await ensure('marca'); await ensure('tipo');
 

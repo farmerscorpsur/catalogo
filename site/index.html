@@ -522,6 +522,13 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .ctotal b{color:var(--text);font-size:18px}
 .cprice{display:flex;justify-content:space-between;align-items:baseline;padding-top:8px;font-size:13px;color:var(--mute)}
 .cprice b{color:var(--text);font-size:16px}
+.ccash{padding-top:2px}
+.ccash b{color:#3ddc84}
+/* precio de contado */
+.tile .cash{font-size:12px;line-height:1.3;color:var(--mute)}
+.tile .cash b{color:#3ddc84;font-weight:600}
+.dcash{display:inline-flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-size:13.5px;color:var(--mute);border:1px solid rgba(61,220,132,.28);background:rgba(61,220,132,.06);padding:7px 10px}
+.dcash b{color:#3ddc84;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 .cactions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cactions .btn{width:100%}
 .cactions .maincol{grid-column:1/-1}
@@ -536,6 +543,21 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .guide li{font-size:14px;line-height:1.45;color:var(--mute);padding-left:16px;position:relative}
 .guide li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#1db954}
 .guide b{color:var(--text)}
+.stabla{display:flex;flex-direction:column;gap:10px}
+.guide[hidden],.stabla[hidden]{display:none}
+.sscroll{overflow-x:auto;border:1px solid var(--line)}
+.stabla table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.stabla caption{text-align:left;padding:10px 12px;font-weight:600;border-bottom:1px solid var(--line)}
+.stabla caption span{font-weight:400;color:var(--mute);font-size:12.5px}
+.stabla th,.stabla td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.stabla thead th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.stabla tbody th{font-weight:600}
+.stabla td{color:var(--mute)}
+.stabla tr.on{background:rgba(255,255,255,.06)}
+.stabla tr.on th,.stabla tr.on td{color:var(--text)}
+.stabla tr.on th::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#3ddc84;margin-right:8px;vertical-align:middle}
+.snota,.smedir{margin:0;font-size:13.5px;line-height:1.5;color:var(--mute)}
+.snota b,.smedir b{color:var(--text)}
 .tguide{align-self:flex-start;background:none;border:0;padding:0;margin-top:-4px;color:var(--mute);font:inherit;font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .tguide:hover{color:var(--text)}
 
@@ -958,6 +980,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
         <div class="price" id="dPrice" hidden></div>
         <span class="ptag">Por encargue</span>
       </div>
+      <div id="dCash" hidden></div>
       <div class="talles" id="dTalles" hidden></div>
       <button class="tguide" id="dGuide" type="button">¿Cómo elijo mi talle?</button>
       <ul class="iserv">
@@ -1000,10 +1023,11 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <p class="sub">Los talles disponibles de cada producto están en su ficha. Tené en cuenta que la numeración puede variar según la marca.</p>
     <ul class="guide">
       <li><b>Ropa (superiores e inferiores):</b> suelen usar numeración US (S, M, L, XL…). Si estás entre dos talles, elegí el más grande para un calce más suelto.</li>
-      <li><b>Calzado:</b> la numeración es US/UK. Medí tu pie de talón a punta y consultanos si dudás entre dos números.</li>
+      <li><b>Calzado:</b> la numeración del catálogo es europea (EU). Medí tu pie de talón a punta y consultanos si dudás entre dos números.</li>
       <li><b>¿No estás seguro?</b> Escribinos con tu talle habitual, altura y peso, y te recomendamos según la marca.</li>
     </ul>
-    <p class="hint">Algunas prendas tienen calce oversize por diseño, no es un error de talle.</p>
+    <div class="stabla" id="sizeTable" hidden></div>
+    <p class="hint">Algunas prendas tienen calce oversize por diseño, no es un error de talle. Las medidas son de referencia.</p>
     <div class="cta"><a class="btn main" id="sizeWa" href="#" target="_blank" rel="noopener">Consultar mi talle por WhatsApp</a></div>
   </div>
 </dialog>
@@ -1029,6 +1053,7 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     <div class="citems" id="citems"></div>
     <div class="ctotal"><span>Productos</span><b id="cCount">0</b></div>
     <div class="cprice" id="cPrice" hidden><span>Total estimado</span><b id="cPriceV"></b></div>
+    <div class="cprice ccash" id="cCash" hidden></div>
     <div class="cactions">
       <a class="btn main maincol" id="cartWa" href="#" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
       <button class="btn" id="cCopy" type="button">Copiar pedido</button>
@@ -1152,6 +1177,14 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
     }
     if (money) return `<span class="apc">Precio a convenir</span>`;
     return '';
+  };
+  // precio de contado (transferencia/efectivo): config.precios.contado.porcentaje; 0 = apagado
+  const cash = Object.assign({ porcentaje: 0, texto: 'con transferencia o efectivo' }, usdCfg.contado || {});
+  const cashPct = Math.min(50, Math.max(0, Number(cash.porcentaje) || 0));
+  const cashOf = (v) => Math.floor((v * (1 - cashPct / 100)) / 100) * 100;
+  const cashLine = (p, cls = 'cash') => {
+    const u = cashPct ? unitArs(p) : 0;
+    return u ? `<span class="${cls}"><b>${fmtArs(cashOf(u))}</b> ${esc(cash.texto)}</span>` : '';
   };
   const encBadge = '<span class="bd">Por encargue</span>';
   if (usdCfg.mostrar || (divisa === 'USD' && money)) await asegurarCotizacion();
@@ -1285,7 +1318,11 @@ ${productUrl(p)}`;
     });
     const head = `Hola Supply BA! Quiero hacer un encargue con estos ${n} ${n === 1 ? 'producto' : 'productos'}:\n\n` + lines.join('\n');
     const { total, missing } = cartTotal();
-    if (total > 0) return `${head}\n\nTotal estimado: ${fmtArs(total)}${missing ? ` (+ ${missing} a confirmar)` : ''}`;
+    if (total > 0) {
+      const extra = missing ? ` (+ ${missing} a confirmar)` : '';
+      const c = cashPct ? `\n${fmtArs(cashOf(total))} ${cash.texto} (${cashPct}% off)` : '';
+      return `${head}\n\nTotal estimado: ${fmtArs(total)}${extra}${c}`;
+    }
     return head;
   }
   function cartTotal() {
@@ -1304,6 +1341,9 @@ ${productUrl(p)}`;
       const { total, missing } = cartTotal();
       cpr.hidden = !(cart.length && total > 0);
       if (!cpr.hidden) $('#cPriceV').textContent = fmtArs(total) + (missing ? ` + ${missing} a confirmar` : '');
+      const cc = $('#cCash');
+      cc.hidden = cpr.hidden || !cashPct;
+      if (!cc.hidden) cc.innerHTML = `<span>${esc(cash.texto[0].toUpperCase() + cash.texto.slice(1))} (${cashPct}% off)</span><b>${fmtArs(cashOf(total))}</b>`;
     }
     cartEls.wa.href = `${waBase}?text=${encodeURIComponent(cartText())}`;
     cartEls.rw.replaceChildren(...cart.map((e) => {
@@ -1582,7 +1622,8 @@ ${productUrl(p)}`;
       `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="">${encBadge}` +
       `<button type="button" class="qa${inCart ? ' in' : ''}" data-i="${i}" aria-label="${inCart ? `Tu pedido tiene ${esc(p.name)}. Tocalo para verlo.` : `Agregar ${esc(p.name)} a tu pedido`}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h12a1 1 0 0 1 1 1v1h2a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h2V3a1 1 0 0 1 1-1Zm0 4H4v14h16V6h-2v1H6V6Zm2-2v3h8V4H8Z"/></svg></button></span>` +
       `<span class="nm">${esc(p.name)}</span>` +
-      `<span class="meta"><span class="bm">${esc(p.brand)}</span>${p.num != null ? `<span>#${p.num}</span>` : ''}${priceSpan(p)}</span>`;
+      `<span class="meta"><span class="bm">${esc(p.brand)}</span>${p.num != null ? `<span>#${p.num}</span>` : ''}${priceSpan(p)}</span>` +
+      cashLine(p);
     d.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
     });
@@ -1743,6 +1784,7 @@ ${productUrl(p)}`;
       bl.hidden = false; bl.textContent = p.brand; bl.dataset.slug = p.brandSlug;
     } else { bl.hidden = true; }
     const pr = $('#dPrice'); pr.hidden = !priceSpan(p); if (!pr.hidden) pr.innerHTML = priceSpan(p);
+    const dc = $('#dCash'); const cl = cashLine(p, 'dcash'); dc.hidden = !cl; dc.innerHTML = cl;
     const tl = $('#dTalles'); selTalle = '';
     if (p.talles) {
       tl.hidden = false; tl.replaceChildren();
@@ -1962,9 +2004,32 @@ ${productUrl(p)}`;
   /* ---------- guía de talles ---------- */
   (() => {
     const sd = $('#sizeDlg'); if (!sd) return;
-    $('#dGuide').addEventListener('click', () => {
-      $('#sizeWa').href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! Necesito ayuda para elegir un talle.')}`;
+    let TALLES = null;
+    const tabla = (p) => {
+      const box = $('#sizeTable');
+      const key = TALLES && p && TALLES.tipos[p.tipo];
+      const t = key && TALLES.tablas[key];
+      const guide = sd.querySelector('.guide');
+      box.hidden = !t; guide.hidden = !!t;
+      if (!t) return;
+      const mine = new Set(expandTalles(p.talles) || []);
+      const nota = TALLES.marcas[p.brandSlug];
+      box.innerHTML =
+        (nota ? `<p class="snota"><b>${esc(p.brand)}:</b> ${esc(nota)}</p>` : '') +
+        `<div class="sscroll"><table><caption>${esc(t.titulo)}${mine.size ? ' · <span>resaltados los talles de este producto</span>' : ''}</caption>` +
+        `<thead><tr>${t.columnas.map((c) => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>` +
+        t.filas.map((f) => `<tr${mine.has(f[0]) ? ' class="on"' : ''}>${f.map((c, i) => i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`).join('')}</tr>`).join('') +
+        '</tbody></table></div>' +
+        (t.medir ? `<p class="smedir"><b>Cómo medir:</b> ${esc(t.medir)}</p>` : '');
+    };
+    $('#dGuide').addEventListener('click', async () => {
+      const p = cur >= 0 ? list[cur] : null;
+      const txt = p ? `Hola Supply BA! Necesito ayuda con el talle de ${p.name}${p.num != null ? ` (código ${p.num})` : ''}. Mi talle habitual es: ` : 'Hola Supply BA! Necesito ayuda para elegir un talle.';
+      $('#sizeWa').href = `${waBase}?text=${encodeURIComponent(txt)}`;
+      if (!TALLES) { try { TALLES = await fetch('data/talles.json').then((r) => r.json()); } catch { TALLES = null; } }
+      tabla(p);
       sd.showModal();
+      track('size_guide', { product: p?.id, categoria: p?.tipo });
     });
     $('#sizeClose').addEventListener('click', () => sd.close());
     sd.addEventListener('click', (e) => { if (e.target === sd) sd.close(); });

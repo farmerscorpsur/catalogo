@@ -7,7 +7,11 @@
   "precios": {
     "mostrar": false,
     "usdCotizacion": 0,
-    "redondeo": 1000
+    "redondeo": 1000,
+    "contado": {
+      "porcentaje": 0,
+      "texto": "con transferencia o efectivo"
+    }
   },
   "mensaje": "Hola Supply BA! Quiero pedir: {producto} (código {codigo}, marca {marca}). ¿Está disponible?",
   "logoFondo": "#0c0c0f",
