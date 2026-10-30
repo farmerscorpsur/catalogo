@@ -876,6 +876,24 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .btbar button[aria-selected="true"]{background:var(--chrome);color:var(--on-chrome);border-color:transparent}
 [data-theme="light"] .card.hc .cash b{color:var(--cash)}
 
+/* ---------- home: club ---------- */
+.clubtz{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px 20px;align-items:center;margin:44px 0 0;padding:clamp(18px,3vw,28px);text-decoration:none;color:#eceef1;border:1px solid #2b2f36;
+  background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.06) 1px,transparent 0) 0 0/18px 18px,linear-gradient(150deg,#0b0c0f,#1b1e24);transition:border-color .25s,transform .25s var(--ease-out)}
+.clubtz[hidden],.ddc[hidden]{display:none!important}
+@media(max-width:560px){.xs-hide{display:none}.nav .ddb,.nav .ddc{padding:0 8px}}
+.clubtz:hover{border-color:#5d636e;transform:translateY(-2px)}
+@media(min-width:760px){.clubtz{grid-template-columns:auto minmax(0,1fr) auto}}
+.ctz-stk{width:clamp(72px,14vw,104px);aspect-ratio:1/1;border-radius:50%;display:grid;place-items:center;border:5px solid #fff;transform:rotate(-8deg);box-shadow:0 12px 26px -12px rgba(0,0,0,.8);
+  background:linear-gradient(135deg,#5b6068 0%,#f6f8fa 22%,#8c929a 40%,#fff 58%,#6e747c 78%,#c9ced4 100%);transition:transform .4s var(--ease-out)}
+.clubtz:hover .ctz-stk{transform:rotate(4deg) scale(1.05)}
+.ctz-stk b{font:800 clamp(20px,4vw,28px)/1 'Archivo',sans-serif;font-stretch:125%;color:#0b0c0f}
+.ctz-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ctz-txt small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#a3a9b3;font-weight:700}
+.ctz-txt b{font:800 clamp(20px,3.2vw,30px)/1.05 'Archivo',sans-serif;font-stretch:118%;text-transform:uppercase}
+.ctz-txt span{color:#a3a9b3;font-size:14px;line-height:1.5;max-width:56ch}
+.ctz-go{grid-column:1/-1;justify-self:start;font-weight:700;font-size:14px;border-bottom:1px solid currentColor;padding-bottom:2px}
+@media(min-width:760px){.ctz-go{grid-column:auto}}
+
 /* ---------- tema claro (botón en el header, ver tema.js) ---------- */
 html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:background-color .35s var(--ease-out),color .35s var(--ease-out)}
 .thbtn{flex:none;width:42px;height:42px;border:1px solid var(--line);background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer;padding:0}
@@ -988,7 +1006,8 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
         <button type="button" class="ddb" aria-haspopup="true" aria-expanded="false">Categorías <span class="car">▾</span></button>
         <div class="ddm" id="ddmTipos"></div>
       </div>
-      <a class="ddc" href="encargos.html">Encargos / Envíos</a>
+      <a class="ddc" href="encargos.html">Encargos<span class="xs-hide"> / Envíos</span></a>
+      <a class="ddc" href="club" id="navClub" hidden>Club</a>
     </nav>
     <label class="search">
       <span class="sr">Buscar</span>
@@ -1080,6 +1099,13 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
         <button type="button" class="railbtn next" id="btNext" aria-label="Ver siguientes">›</button>
       </div>
     </section>
+
+    <!-- Club Supply BA (se muestra con club.publicado en config.json) -->
+    <a class="clubtz" id="clubTeaser" href="club" hidden>
+      <span class="ctz-stk" aria-hidden="true"><b>01</b></span>
+      <span class="ctz-txt"><small>Club Supply BA</small><b>Un sticker nuevo por mes con tu compra</b><span>Juntalos y subí de nivel VIP: descuentos permanentes, envíos gratis y drops antes que nadie.</span></span>
+      <span class="ctz-go" aria-hidden="true">Ver el álbum →</span>
+    </a>
 
     <div id="catRows"></div>
     <div id="reviewsWrap" hidden></div>
@@ -1513,9 +1539,14 @@ ${productUrl(p)}`;
     if (total > 0) {
       const extra = missing ? ` (+ ${missing} a confirmar)` : '';
       const c = cashPct ? `\n${fmtArs(cashOf(total))} ${cash.texto} (${cashPct}% off)` : '';
-      return `${head}\n\nTotal estimado: ${fmtArs(total)}${extra}${c}`;
+      return `${head}\n\nTotal estimado: ${fmtArs(total)}${extra}${c}${socioLine()}`;
     }
-    return head;
+    return head + socioLine();
+  }
+  // código del Club Supply BA (club.html lo guarda en este navegador)
+  function socioLine() {
+    try { const s = JSON.parse(localStorage.getItem('supplyba_socio_v1')); if (s && s.codigo) return `\n\nSocio del club: ${s.codigo}`; } catch {}
+    return '';
   }
   function cartTotal() {
     let total = 0, missing = 0;
@@ -1611,7 +1642,12 @@ ${productUrl(p)}`;
   }
 
   /* ---------- landing ---------- */
+  function renderClubLinks() {
+    const on = !!(cfg.club && cfg.club.activo && cfg.club.publicado);
+    ['#navClub', '#clubTeaser'].forEach((sel) => { const el = $(sel); if (el) el.hidden = !on; });
+  }
   function renderHome() {
+    renderClubLinks();
     const hs = $('#heroStats');
     if (hs) hs.innerHTML = `<b>${data.products.length.toLocaleString('es-AR')}</b> productos · <b>${data.brands.length}</b> marcas · <b>${data.tipos.length}</b> secciones`;
     const countOf = (slug) => data.products.reduce((n, p) => n + (p.brandSlug === slug ? 1 : 0), 0);

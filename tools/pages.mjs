@@ -32,6 +32,8 @@ function expandTalles(r) {
 
 const WA_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35zM12 21.8h0a9.8 9.8 0 0 1-5-1.37l-.36-.21-3.72.98 1-3.63-.24-.37A9.8 9.8 0 1 1 12 21.8zm8.4-18.2A11.8 11.8 0 0 0 1.68 17.8L0 24l6.3-1.65A11.8 11.8 0 0 0 12 23.8h0A11.8 11.8 0 0 0 20.4 3.6z"/></svg>';
 
+let CLUB_ON = false; // config.club.publicado: muestra el Club en menú y sitemap
+
 function shell({ title, desc, canonical, image, imageAlt, jsonld, body, depth = 1, type = 'website' }) {
   const up = '../'.repeat(depth);
   return `<!doctype html>
@@ -66,7 +68,7 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 <body>
 <header class="top"><div class="bar">
   <a class="logo" href="${up}" aria-label="Supply BA, ir al catálogo"><img src="${up}brand/wordmark.webp" width="96" height="54" alt="Supply BA"></a>
-  <nav class="nav" aria-label="Secciones"><a href="${up}#ver=todo">Catálogo</a><a href="${up}encargos.html">Encargos / Envíos</a><a href="https://supplyba.com.ar?utm_source=catalogo&amp;utm_medium=estatica&amp;utm_campaign=ver_stock" target="_blank" rel="noopener">Stock</a></nav>
+  <nav class="nav" aria-label="Secciones"><a href="${up}#ver=todo">Catálogo</a><a href="${up}encargos.html">Encargos / Envíos</a>${CLUB_ON ? `<a href="${up}club">Club</a>` : ''}<a href="https://supplyba.com.ar?utm_source=catalogo&amp;utm_medium=estatica&amp;utm_campaign=ver_stock" target="_blank" rel="noopener">Stock</a></nav>
   <button class="thbtn" type="button" data-tema aria-pressed="false" aria-label="Pasar a modo claro" title="Modo claro"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
 </div></header>
 <main>
@@ -197,6 +199,7 @@ ${other.length ? `<nav class="chips" aria-label="${kind === 'marca' ? 'Categorí
 export async function buildPages(out = 'site') {
   const data = JSON.parse(await fs.readFile(path.join(out, 'data', 'products.json'), 'utf8'));
   const cfg = JSON.parse(await fs.readFile(path.join(out, 'config.json'), 'utf8'));
+  CLUB_ON = !!(cfg.club?.activo && cfg.club?.publicado);
   try { cfg._talles = JSON.parse(await fs.readFile(path.join(out, 'data', 'talles.json'), 'utf8')); } catch { cfg._talles = null; }
   const ensure = async (d) => { await fs.rm(path.join(out, d), { recursive: true, force: true }); await fs.mkdir(path.join(out, d), { recursive: true }); };
   await ensure('p'); await ensure('marca'); await ensure('tipo');
@@ -237,7 +240,7 @@ export async function buildPages(out = 'site') {
   const today = new Date().toISOString().slice(0, 10);
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[[`${SITE}/`, '1.0'], [`${SITE}/encargos.html`, '0.6'], ...urls].map(([u, pr]) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`).join('\n')}
+${[[`${SITE}/`, '1.0'], [`${SITE}/encargos.html`, '0.6'], ...(CLUB_ON ? [[`${SITE}/club`, '0.7']] : []), ...urls].map(([u, pr]) => `  <url><loc>${u}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`).join('\n')}
 </urlset>
 `;
   await fs.writeFile(path.join(out, 'sitemap.xml'), xml);

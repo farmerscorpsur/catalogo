@@ -16,5 +16,78 @@
   "mensaje": "Hola Supply BA! Quiero pedir: {producto} (código {codigo}, marca {marca}). ¿Está disponible?",
   "logoFondo": "#0c0c0f",
   "ga4": "",
-  "metaPixelId": "1594139719424709"
+  "metaPixelId": "1594139719424709",
+  "club": {
+    "activo": true,
+    "publicado": true,
+    "nombre": "Club Supply BA",
+    "bajada": "Cada mes sale un sticker nuevo y te lo llevás con tu compra. Juntalos, completá el álbum y subí de nivel VIP.",
+    "inicio": "2026-11",
+    "mesesAlbum": 12,
+    "stickers": [
+      {
+        "n": 1,
+        "mes": "2026-11",
+        "nombre": "Sticker 01",
+        "img": ""
+      }
+    ],
+    "niveles": [
+      {
+        "nombre": "Miembro",
+        "stickers": 1,
+        "beneficios": [
+          "Te avisamos los drops antes que a nadie por WhatsApp",
+          "Tu tarjeta de socio con código propio"
+        ]
+      },
+      {
+        "nombre": "Plata",
+        "stickers": 3,
+        "beneficios": [
+          "5% OFF en todos tus encargues",
+          "Prioridad para reservar ingresos de stock"
+        ]
+      },
+      {
+        "nombre": "Oro",
+        "stickers": 6,
+        "beneficios": [
+          "8% OFF en todos tus encargues",
+          "1 envío gratis por año"
+        ]
+      },
+      {
+        "nombre": "Black",
+        "stickers": 12,
+        "beneficios": [
+          "12% OFF en todos tus encargues",
+          "Envío gratis siempre",
+          "Regalo sorpresa en tu cumpleaños"
+        ]
+      }
+    ],
+    "reglas": [
+      [
+        "¿Cómo consigo los stickers?",
+        "Cada mes sale un sticker nuevo de Supply BA y va de regalo con cada compra (encargue o stock) de ese mes."
+      ],
+      [
+        "¿Tengo que entregarlos?",
+        "No. Son tuyos. Para validar tu nivel alcanza con mandarnos una foto por WhatsApp donde se vean."
+      ],
+      [
+        "¿Cuentan los repetidos?",
+        "Para subir de nivel cuentan los stickers distintos. Los repetidos guardalos para cambiar con otros miembros."
+      ],
+      [
+        "¿Se suma a otros descuentos?",
+        "El descuento de nivel no se acumula con el 10% de contado ni con otros cupones: se aplica el más conveniente para vos."
+      ],
+      [
+        "¿Pierdo el nivel?",
+        "No. Una vez que validaste un nivel, te lo quedás."
+      ]
+    ]
+  }
 }
