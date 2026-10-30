@@ -59,7 +59,7 @@ function shell({ title, desc, canonical, image, imageAlt, jsonld, body, depth = 
 <meta name="twitter:image" content="${image}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="${up}tema.js"></script>
 <link rel="stylesheet" href="${up}estatico.css">
 <script src="${up}medicion.js" defer></script>
@@ -67,7 +67,7 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 </head>
 <body>
 <header class="top"><div class="bar">
-  <a class="logo" href="${up}" aria-label="Supply BA, ir al catálogo"><img src="${up}brand/wordmark.webp" width="96" height="54" alt="Supply BA"></a>
+  <a class="logo" href="${up}" aria-label="Supply BA, ir al catálogo"><img class="iso" src="${up}brand/isotipo.webp" width="44" height="44" alt="Supply BA"></a>
   <nav class="nav" aria-label="Secciones"><a href="${up}#ver=todo">Catálogo</a><a href="${up}encargos.html">Encargos / Envíos</a>${CLUB_ON ? `<a href="${up}club">Club</a>` : ''}<a href="https://supplyba.com.ar?utm_source=catalogo&amp;utm_medium=estatica&amp;utm_campaign=ver_stock" target="_blank" rel="noopener">Stock</a></nav>
   <button class="thbtn" type="button" data-tema aria-pressed="false" aria-label="Pasar a modo claro" title="Modo claro"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
 </div></header>
@@ -75,6 +75,7 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 ${body}
 </main>
 <footer>
+  <div class="fwm" aria-hidden="true"><img class="wm-d" src="${up}brand/wordmark-cromo.webp" alt="" width="1100" height="634" loading="lazy" decoding="async"><img class="wm-l" src="${up}brand/wordmark-negro.webp" alt="" width="1100" height="634" loading="lazy" decoding="async"></div>
   <span>✦ Supply BA · Lomas de Zamora, Buenos Aires · Encargue y stock · Envíos a todo el país</span>
   <span><a href="${up}">Catálogo</a> · <a href="${up}encargos.html">Cómo funciona el encargue</a> · <a href="https://instagram.com/supply_ba_" target="_blank" rel="noopener">Instagram</a></span>
 </footer>
@@ -149,7 +150,7 @@ function productPage(p, data, cfg) {
     <a class="eyebrow" href="../marca/${p.brandSlug}">${esc(p.brand)}</a>
     <h1>${esc(p.name)}</h1>
     <p class="sub">${[kind, p.num != null ? `Código #${p.num}` : ''].filter(Boolean).join(' · ')}</p>
-    <div class="pricerow">${showPrice ? `<span class="price">${fmtArs(p.price)}</span>` : '<span class="price apc">Precio a convenir</span>'}<span class="tag">Por encargue</span></div>
+    <div class="pricerow">${showPrice ? `<span class="price">${fmtArs(p.price)}</span>` : '<span class="price apc">Consultar precio</span>'}<span class="tag">Por encargue</span></div>
     ${cashHtml(showPrice ? p.price : 0, cfg, 'dcash')}
     ${talles ? `<div class="talles" aria-label="Talles disponibles">${talles.map((t) => `<span>${t}</span>`).join('')}</div>` : p.talles ? `<p class="sub">Talles: ${/proveedor/i.test(p.talles) ? 'a confirmar por chat' : esc(p.talles)}</p>` : ''}
     ${sizeTable(p, cfg._talles)}

@@ -21,15 +21,51 @@
     "activo": true,
     "publicado": true,
     "nombre": "Club Supply BA",
-    "bajada": "Cada mes sale un sticker nuevo y te lo llevás con tu compra. Juntalos, completá el álbum y subí de nivel VIP.",
+    "bajada": "cada mes sale un sticker nuevo y te lo llevás con tu compra. juntalos, completá el álbum y subí de nivel vip.",
     "inicio": "2026-11",
     "mesesAlbum": 12,
     "stickers": [
       {
         "n": 1,
         "mes": "2026-11",
-        "nombre": "Sticker 01",
-        "img": ""
+        "nombre": "Drop 01 · Box logo rojo",
+        "img": "brand/stickers/drop-01.webp"
+      },
+      {
+        "n": 2,
+        "mes": "2026-12",
+        "nombre": "Drop 02 · Box logo oliva",
+        "img": "brand/stickers/drop-02.webp"
+      },
+      {
+        "n": 3,
+        "mes": "2027-01",
+        "nombre": "Drop 03 · Box logo negro",
+        "img": "brand/stickers/drop-03.webp"
+      },
+      {
+        "n": 4,
+        "mes": "2027-02",
+        "nombre": "Drop 04 · Box logo azul",
+        "img": "brand/stickers/drop-04.webp"
+      },
+      {
+        "n": 5,
+        "mes": "2027-03",
+        "nombre": "Drop 05 · Box logo camo",
+        "img": "brand/stickers/drop-05.webp"
+      },
+      {
+        "n": 6,
+        "mes": "2027-04",
+        "nombre": "Drop 06 · Box logo calaveras",
+        "img": "brand/stickers/drop-06.webp"
+      },
+      {
+        "n": 7,
+        "mes": "2027-05",
+        "nombre": "Drop 07 · Box logo camo rosa",
+        "img": "brand/stickers/drop-07.webp"
       }
     ],
     "niveles": [
