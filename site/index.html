@@ -801,6 +801,81 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
   .search input,.sort select,.citem input,.ofp-sr input{font-size:16px}
 }
 
+/* ---------- home: hero con recién llegados ---------- */
+.hero2{position:relative;isolation:isolate;overflow:hidden;margin:0 calc(var(--pad) * -1);min-height:clamp(440px,calc(100svh - 250px),760px);display:flex;flex-direction:column;justify-content:flex-end;color:#fff}
+.h2bg{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(8,9,11,.35) 0%,rgba(8,9,11,.1) 30%,rgba(8,9,11,.55) 62%,rgba(8,9,11,.92) 100%),
+  url("img/hero-encargues.webp") center 35%/cover no-repeat;transform:scale(1.04);animation:h2zoom 18s var(--ease) infinite alternate}
+@keyframes h2zoom{to{transform:scale(1.12)}}
+@media(min-width:900px){.h2bg{background:
+  linear-gradient(90deg,rgba(8,9,11,.82) 0%,rgba(8,9,11,.35) 55%,rgba(8,9,11,.15) 100%),
+  linear-gradient(180deg,transparent 55%,rgba(8,9,11,.9) 100%),
+  url("img/hero-stock.webp") center 40%/cover no-repeat}}
+.h2txt{padding:0 var(--pad) 22px;display:flex;flex-direction:column;gap:12px;max-width:980px}
+.h2eye{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.82);display:inline-flex;align-items:center;gap:8px}
+.h2eye::before{content:'';width:7px;height:7px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 4px rgba(61,220,132,.2);animation:h2dot 1.8s ease-in-out infinite}
+@keyframes h2dot{50%{box-shadow:0 0 0 7px rgba(61,220,132,0)}}
+.hero2 h1{margin:0;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;text-transform:uppercase;line-height:.92;letter-spacing:-.01em;font-size:clamp(38px,6.2vw,92px);text-wrap:balance;color:#fff}
+.hero2 h1 .chr{background:linear-gradient(100deg,#5b6068 0%,#f6f8fa 22%,#8c929a 40%,#fff 58%,#6e747c 78%,#c9ced4 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.h2sub{margin:0;color:rgba(255,255,255,.78);max-width:46ch;font-size:clamp(14.5px,1.8vw,17px);line-height:1.5}
+.h2cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.h2cta .btn{min-height:48px;padding:0 22px;font-size:15px}
+.hero2 .btn.main{background:linear-gradient(100deg,#5b6068 0%,#f6f8fa 22%,#8c929a 40%,#fff 58%,#6e747c 78%,#c9ced4 100%);color:#000}
+.h2ghost{border-color:rgba(255,255,255,.45)!important;color:#fff!important;background:rgba(255,255,255,.06)!important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.h2ghost:hover{border-color:#fff!important}
+.h2pills{overflow:hidden;padding:6px 0 calc(18px + 2px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.h2track{display:flex;gap:10px;width:max-content;padding-left:var(--pad);animation:h2run var(--dur,60s) linear infinite}
+.h2pills:hover .h2track,.h2pills:focus-within .h2track{animation-play-state:paused}
+@keyframes h2run{to{transform:translateX(-50%)}}
+.h2pill{flex:none;display:flex;align-items:center;gap:12px;width:min(78vw,290px);padding:8px 14px 8px 8px;text-decoration:none;color:#fff;
+  background:rgba(18,19,24,.5);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);transition:background .25s,border-color .25s,transform .25s var(--ease-out)}
+.h2pill:hover{background:rgba(18,19,24,.72);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+.h2pill img{width:58px;height:58px;flex:none;object-fit:contain;background:rgba(255,255,255,.92);padding:4px}
+.h2pill span{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.h2pill b{font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.h2pill small{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.h2pill i{font-style:normal;font-size:18px;opacity:.8}
+@media(prefers-reduced-motion:reduce){.h2bg{animation:none}.h2track{animation:none}.h2pills{overflow-x:auto}}
+
+/* ---------- home: círculos de categorías ---------- */
+.circles{margin:22px calc(var(--pad) * -1) 6px}
+.citrack{display:flex;gap:clamp(12px,2vw,22px);overflow-x:auto;padding:4px var(--pad) 10px;scroll-snap-type:x proximity;scrollbar-width:none}
+.citrack::-webkit-scrollbar{display:none}
+@media(min-width:1200px){.citrack{justify-content:safe center}}
+.circ{flex:none;width:clamp(78px,20vw,108px);display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--text);scroll-snap-align:start;text-align:center}
+.cimg{position:relative;width:100%;aspect-ratio:1/1;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 35%,var(--surface-2),var(--surface));border:1px solid var(--line);transition:transform .35s var(--ease-out)}
+.cimg::after{content:'';position:absolute;inset:-1px;border-radius:50%;padding:2px;background:var(--chrome);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s}
+.circ:hover .cimg,.circ:focus-visible .cimg{transform:translateY(-3px)}
+.circ:hover .cimg::after,.circ:focus-visible .cimg::after{opacity:1}
+.cimg img{position:absolute;inset:9%;width:82%;height:82%;object-fit:contain;opacity:0;transform:scale(.92);transition:opacity .7s var(--ease-out),transform .9s var(--ease-out)}
+.cimg img.on{opacity:1;transform:scale(1)}
+.circ b{font-size:12.5px;font-weight:600;line-height:1.2}
+.circ small{font-size:11px;color:var(--mute);margin-top:-4px}
+
+/* ---------- home: puertas más bajas (el hero ya hace de portada) ---------- */
+.homeonly .door{height:clamp(150px,34vw,210px)}
+@media(min-width:860px){.homeonly .door{height:clamp(200px,20vw,260px)}}
+
+/* ---------- home: tarjetas con precio y agregar ---------- */
+.card.hc{gap:5px}
+.card.hc .ph{position:relative}
+.card.hc .qa{opacity:1;transform:none;right:8px;bottom:8px;width:34px;height:34px}
+.card.hc .bm{order:-1;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--mute);margin-top:4px}
+.card.hc .ph{order:-2}
+.card.hc .hp{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.card.hc .hp small{display:none}
+.card.hc .hp .apc{font-size:13px;font-weight:500;color:var(--mute)}
+.card.hc .cash{font-size:12px;line-height:1.3;color:var(--mute)}
+.card.hc .cash b{color:#3ddc84;font-weight:600}
+
+/* ---------- home: pestañas por marca ---------- */
+.btbar{display:flex;gap:8px;overflow-x:auto;margin:0 calc(var(--pad) * -1) 14px;padding:0 var(--pad) 2px;scrollbar-width:none}
+.btbar::-webkit-scrollbar{display:none}
+.btbar button{flex:none;min-height:38px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--mute);font:inherit;font-size:13.5px;font-weight:600;letter-spacing:.02em;cursor:pointer;white-space:nowrap;transition:all .2s var(--ease-out)}
+.btbar button:hover{color:var(--text);border-color:var(--line-strong)}
+.btbar button[aria-selected="true"]{background:var(--chrome);color:var(--on-chrome);border-color:transparent}
+[data-theme="light"] .card.hc .cash b{color:var(--cash)}
+
 /* ---------- tema claro (botón en el header, ver tema.js) ---------- */
 html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:background-color .35s var(--ease-out),color .35s var(--ease-out)}
 .thbtn{flex:none;width:42px;height:42px;border:1px solid var(--line);background:var(--surface);color:var(--text);display:grid;place-items:center;cursor:pointer;padding:0}
@@ -936,6 +1011,29 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
 <main id="main">
   <!-- ===== landing ===== -->
   <div class="homeonly">
+    <!-- hero: foto + recién llegados pasando -->
+    <section class="hero2" aria-labelledby="h2Title">
+      <div class="h2bg" aria-hidden="true"></div>
+      <div class="h2txt">
+        <span class="h2eye" id="h2Eye">Recién llegados</span>
+        <h1 id="h2Title">Encargá lo que <span class="chr">nadie tiene</span></h1>
+        <p class="h2sub" id="h2Sub">Más de 2.500 productos de las marcas que importan, por encargue a todo el país.</p>
+        <div class="h2cta">
+          <a class="btn main" href="#ver=todo">Ver catálogo <span aria-hidden="true">→</span></a>
+          <a class="btn h2ghost" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=portada&utm_campaign=ver_stock" target="_blank" rel="noopener">Stock inmediato</a>
+        </div>
+      </div>
+      <div class="h2pills" aria-label="Recién llegados">
+        <div class="h2track" id="h2Track"></div>
+      </div>
+    </section>
+
+    <!-- círculos de categorías con fotos que rotan -->
+    <section class="circles" aria-labelledby="ciTitle">
+      <h2 class="sr" id="ciTitle">Categorías</h2>
+      <div class="citrack" id="circles"></div>
+    </section>
+
     <div class="doors">
       <a class="door s" href="https://supplyba.com.ar?utm_source=catalogo&utm_medium=portada&utm_campaign=ver_stock" target="_blank" rel="noopener" title="Ver el stock disponible en supplyba.com.ar">
         <div class="ph"></div>
@@ -965,17 +1063,27 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
     <div class="brandbar" aria-label="Marcas que trabajamos">
       <div class="mtrack" id="brandMarquee"></div>
     </div>
-    <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados <a class="secmore" href="#ver=todo">Ver todo →</a></h2>
+    <h2 class="sec"><span aria-hidden="true">✦</span> Recién llegados <a class="secmore" href="#ver=todo&orden=new">Ver todo →</a></h2>
     <div class="relwrap2">
       <div class="rail" id="featured"></div>
       <button type="button" class="railbtn prev" id="featPrev" aria-label="Ver anteriores">‹</button>
       <button type="button" class="railbtn next" id="featNext" aria-label="Ver siguientes">›</button>
     </div>
+
+    <!-- pestañas por marca -->
+    <section class="btabs" aria-labelledby="btTitle">
+      <h2 class="sec" id="btTitle"><span aria-hidden="true">✦</span> Explorá por marca <a class="secmore" id="btMore" href="#ver=todo">Ver todo →</a></h2>
+      <div class="btbar" role="tablist" aria-label="Marcas" id="btBar"></div>
+      <div class="relwrap2">
+        <div class="rail" id="btRail" role="tabpanel"></div>
+        <button type="button" class="railbtn prev" id="btPrev" aria-label="Ver anteriores">‹</button>
+        <button type="button" class="railbtn next" id="btNext" aria-label="Ver siguientes">›</button>
+      </div>
+    </section>
+
     <div id="catRows"></div>
     <div id="reviewsWrap" hidden></div>
     <div id="colsWrap" hidden></div>
-    <h2 class="sec"><span aria-hidden="true">✦</span> Categorías <a class="secmore" href="#ver=todo">Ver todo →</a></h2>
-    <div class="cats" id="tipoTiles"></div>
     <a class="btn main verall" href="#ver=todo">Ver todo el catálogo <span aria-hidden="true">→</span></a>
     <section class="ofsec" id="outfit" aria-labelledby="ofTitle">
       <h2 class="sec" id="ofTitle"><span aria-hidden="true">✦</span> Armá tu outfit <a class="secmore" href="#outfit" id="ofHow">Cómo combina →</a></h2>
@@ -1539,23 +1647,119 @@ ${productUrl(p)}`;
         }, { passive: true });
       }
     }
-    $('#featured').replaceChildren(...onePerBrand().map((p) => {
-      const a = document.createElement('a');
-      a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}">${encBadge}</span>` +
-        `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
-      return a;
-    }));
-    $('#tipoTiles').replaceChildren(...data.tipos.map((t) => {
-      const a = document.createElement('a');
-      a.className = 'cat'; a.href = `#tipo=${t.slug}`;
-      a.innerHTML = `<img loading="lazy" decoding="async" src="${esc(t.cover)}" alt=""><span class="lb"><b>${esc(t.name)}</b><small>${t.count}</small></span>`;
-      return a;
-    }));
+    const fresh = newest();
+    $('#featured').replaceChildren(...fresh.slice(0, 20).map(homeCard));
+    renderHero(fresh);
+    renderCircles();
+    renderBrandTabs(brandList);
     buildCatRows();
     renderExtras();
     markReveals();
     sweepImgs();
+  }
+
+  /* ---------- home: tarjeta, hero, círculos y pestañas ---------- */
+  // lo último cargado de cada marca (num más alto), mezclado entre marcas
+  function newest() {
+    const by = new Map();
+    data.products.forEach((p) => { if (!by.has(p.brandSlug)) by.set(p.brandSlug, []); by.get(p.brandSlug).push(p); });
+    const top = [];
+    by.forEach((g) => top.push(...g.sort((a, b) => (b.num ?? 0) - (a.num ?? 0)).slice(0, 4)));
+    return interleave(top);
+  }
+  const QA_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>';
+  function homeCard(p) {
+    const a = document.createElement('a');
+    a.className = 'card hc'; a.href = `#p=${p.id}`;
+    const inCart = !!cartEntry(p.id);
+    a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}">${encBadge}` +
+      `<button type="button" class="qa${inCart ? ' in' : ''}" data-id="${esc(p.id)}" aria-label="${inCart ? `Tu pedido tiene ${esc(p.name)}` : `Agregar ${esc(p.name)} a tu pedido`}">${QA_SVG}</button></span>` +
+      `<span class="bm">${esc(p.brand)}</span><span class="nm">${esc(p.name)}</span>` +
+      `<span class="hp">${priceSpan(p)}</span>${cashLine(p)}`;
+    return a;
+  }
+  // agregar rápido desde cualquier tarjeta de la home
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.hc .qa'); if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    const id = b.dataset.id;
+    if (cartEntry(id)) { openCart(); return; }
+    addToCart(id);
+    document.querySelectorAll(`.hc .qa[data-id="${CSS.escape(id)}"]`).forEach((x) => x.classList.add('in'));
+  }, true);
+
+  function renderHero(fresh) {
+    const sub = $('#h2Sub');
+    if (sub) sub.textContent = `Más de ${(Math.floor(data.products.length / 100) * 100).toLocaleString('es-AR')} productos de ${data.brands.length} marcas, por encargue a todo el país.`;
+    const tr = $('#h2Track'); if (!tr) return;
+    const pill = (p, dup) => {
+      const a = document.createElement('a');
+      a.className = 'h2pill'; a.href = `#p=${p.id}`;
+      if (dup) { a.setAttribute('aria-hidden', 'true'); a.tabIndex = -1; }
+      const pr = unitArs(p);
+      a.innerHTML = `<img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt=""><span><b>${esc(p.name)}</b><small>${pr ? fmtArs(pr) : esc(p.brand)}</small></span><i aria-hidden="true">→</i>`;
+      return a;
+    };
+    const items = fresh.slice(0, 14);
+    tr.replaceChildren(...items.map((p) => pill(p, false)), ...items.map((p) => pill(p, true)));
+    tr.style.setProperty('--dur', `${items.length * 4.5}s`);
+  }
+
+  // cada círculo va pasando por fotos de su categoría
+  let circleTimer;
+  function renderCircles() {
+    const box = $('#circles'); if (!box) return;
+    const sets = data.tipos.map((t) => {
+      const pics = interleave(data.products.filter((p) => p.tipoSlug === t.slug)).slice(0, 5).map((p) => p.thumb);
+      const a = document.createElement('a');
+      a.className = 'circ'; a.href = `#tipo=${t.slug}`;
+      a.innerHTML = `<span class="cimg">${pics.map((src, i) => `<img ${i ? 'loading="lazy" ' : ''}decoding="async" src="${esc(src)}" alt=""${i ? '' : ' class="on"'}>`).join('')}</span>` +
+        `<b>${esc(t.name)}</b><small>${t.count}</small>`;
+      return a;
+    });
+    box.replaceChildren(...sets);
+    clearInterval(circleTimer);
+    if (reduceMotion) return;
+    let tick = 0;
+    circleTimer = setInterval(() => {
+      if (document.hidden || !isHome()) return;
+      tick++;
+      box.querySelectorAll('.circ').forEach((c, i) => {
+        if ((tick + i) % 3) return; // no cambian todos juntos
+        const imgs = c.querySelectorAll('img'); if (imgs.length < 2) return;
+        const k = [...imgs].findIndex((im) => im.classList.contains('on'));
+        imgs[k].classList.remove('on'); imgs[(k + 1) % imgs.length].classList.add('on');
+      });
+    }, 1100);
+  }
+
+  function renderBrandTabs(brandList) {
+    const bar = $('#btBar'), rail = $('#btRail'); if (!bar || !rail) return;
+    const brands = brandList.slice(0, 8);
+    const show = (b, focus) => {
+      bar.querySelectorAll('button').forEach((x) => { const on = x.dataset.slug === b.slug; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; if (on && focus) x.focus(); });
+      const items = data.products.filter((p) => p.brandSlug === b.slug).sort((a, c) => (c.num ?? 0) - (a.num ?? 0)).slice(0, 16);
+      rail.replaceChildren(...items.map(homeCard));
+      rail.scrollLeft = 0;
+      $('#btMore').href = `#marca=${b.slug}`;
+      $('#btMore').textContent = `Ver todo ${b.name} →`;
+      sweepImgs();
+    };
+    bar.replaceChildren(...brands.map((b) => {
+      const x = document.createElement('button');
+      x.type = 'button'; x.role = 'tab'; x.dataset.slug = b.slug; x.textContent = b.name;
+      x.addEventListener('click', () => { show(b); track('brand_tab', { marca: b.slug }); });
+      return x;
+    }));
+    bar.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const i = brands.findIndex((b) => b.slug === bar.querySelector('[aria-selected="true"]')?.dataset.slug);
+      show(brands[(i + (e.key === 'ArrowRight' ? 1 : brands.length - 1)) % brands.length], true);
+    });
+    const scroll = (dir) => rail.scrollBy({ left: dir * Math.round(rail.clientWidth * 0.85), behavior: 'smooth' });
+    $('#btPrev').onclick = () => scroll(-1);
+    $('#btNext').onclick = () => scroll(1);
+    show(brands[0]);
   }
 
   /* ---------- reseñas / colecciones (se llenan desde config.json) ---------- */
@@ -1603,13 +1807,7 @@ ${productUrl(p)}`;
   const HOME_CATS = ['zapatillas', 'buzos', 'camperas', 'remeras'];
   function buildCatRows() {
     const wrap = $('#catRows'); if (!wrap) return;
-    const card = (p) => {
-      const a = document.createElement('a');
-      a.className = 'card'; a.href = `#p=${p.id}`;
-      a.innerHTML = `<span class="ph"><img loading="lazy" decoding="async" src="${esc(p.thumb)}" alt="${esc(p.name)}">${encBadge}</span>` +
-        `<span class="nm">${esc(p.name)}</span><span class="bm">${esc(p.brand)}</span>`;
-      return a;
-    };
+    const card = homeCard;
     wrap.replaceChildren(...HOME_CATS.map((slug) => {
       const t = tipoBySlug.get(slug); if (!t) return null;
       const items = interleave(data.products.filter((p) => p.tipoSlug === slug)).slice(0, 16);
