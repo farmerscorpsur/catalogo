@@ -67,7 +67,8 @@
       '.consent p{margin:0;flex:1 1 240px;color:#c3c8cf}.consent div{display:flex;gap:8px}' +
       '.consent button{min-height:40px;padding:0 14px;border:1px solid rgba(255,255,255,.2);background:transparent;color:inherit;font:600 13px Inter,system-ui,sans-serif;cursor:pointer}' +
       '.consent .c-ok{background:linear-gradient(100deg,#5b6068,#f6f8fa 22%,#8c929a 40%,#fff 58%,#6e747c 78%);color:#000;border:0}' +
-      '@media(min-width:860px){.consent{bottom:calc(20px + env(safe-area-inset-bottom))}}';
+      '@media(min-width:860px){.consent{bottom:calc(20px + env(safe-area-inset-bottom))}}' +
+      '[data-theme="light"] .consent{background:rgba(255,255,255,.97);color:#111;border-color:rgba(0,0,0,.12);box-shadow:0 12px 40px rgba(0,0,0,.18)}[data-theme="light"] .consent p{color:#4a4f57}[data-theme="light"] .consent button{border-color:rgba(0,0,0,.2)}[data-theme="light"] .consent .c-ok{background:#111;color:#fff}';
     document.head.appendChild(st);
     const done = (v) => { try { localStorage.setItem(KEY, v); } catch {} b.remove(); if (v === 'si') load(); };
     b.querySelector('.c-ok').addEventListener('click', () => done('si'));
