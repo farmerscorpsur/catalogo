@@ -191,6 +191,7 @@ body.brand-color .cbname{
 .chip:hover{color:var(--text);border-color:rgba(255,255,255,.24)}
 .chip[aria-pressed="true"]{background:var(--chrome);border-color:transparent;color:var(--on-chrome);font-weight:600}
 .row.sm .chip{min-height:34px;font-size:13px}
+.chip .sw{width:12px;height:12px;border-radius:50%;border:1px solid rgba(128,128,128,.55);flex:none}
 
 /* ---------- landing ---------- */
 main{padding:0 var(--pad) 60px;max-width:1500px;margin:0 auto}
@@ -1164,6 +1165,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
     </div>
     <div class="rows" style="margin-top:18px">
       <nav class="row" id="tipoRow" aria-label="Tipo de producto"></nav>
+      <nav class="row sm" id="colorRow" aria-label="Color"></nav>
       <nav class="row sm" id="brandRow" aria-label="Marcas"></nav>
     </div>
     <p class="strip">Todo se hace por encargue: seña del 50%, llegada habitual en 25 a 35 días y seguimiento personalizado. <a href="encargos.html">Cómo funciona</a></p>
@@ -1376,8 +1378,12 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
     return;
   }
 
+  /* colores del filtro: [nombre, muestra]; el orden es el de la fila */
+  const COLORES = [['Negro', '#111111'], ['Blanco', '#f4f4f4'], ['Gris', '#8a8a8a'], ['Beige', '#d8c8a8'], ['Marrón', '#6b4a32'], ['Rojo', '#c62828'], ['Naranja', '#ef7d22'], ['Amarillo', '#f2d024'], ['Verde', '#2e7d4f'], ['Celeste', '#8cc8ee'], ['Azul', '#1f4fb0'], ['Violeta', '#7a4fb8'], ['Rosa', '#f08cb8'], ['Plateado', '#c0c4c8'], ['Dorado', '#c9a227'], ['Camuflado', '#6b7355'], ['Multicolor', 'conic-gradient(#c62828,#f2d024,#2e7d4f,#1f4fb0,#c62828)']];
+  const colorSlug = (n) => n.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const colorBySlug = new Map(COLORES.map(([n, hex]) => [colorSlug(n), { name: n, hex }]));
   data.tipos = data.tipos || [];
-  data.products.forEach((p) => { p._s = norm([p.name, p.brand, p.category, p.tipo || '', p.num ?? '', p.talles ?? ''].join(' ')); });
+  data.products.forEach((p) => { p._s = norm([p.name, p.brand, p.category, p.tipo || '', p.num ?? '', p.talles ?? '', (p.colores || []).join(' ')].join(' ')); p._c = (p.colores || []).map(colorSlug); });
   const usdCfg = cfg.precios || {};
   let cotiz = { val: Number(usdCfg.usdCotizacion) || 0 };
   async function asegurarCotizacion() {
@@ -1435,7 +1441,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
   const productUrl = (p) => `${location.origin}/p/${slugOf(p.name).slice(0, 70).replace(/-+$/, '')}-${p.id.split('-').pop()}`;
   data.products.forEach((p) => { p.tipoSlug = slugOf(p.tipo || 'otros'); });
 
-  const state = { brand: '', tipo: '', q: '', ver: '', p: '', sort: '' };
+  const state = { brand: '', tipo: '', color: '', q: '', ver: '', p: '', sort: '' };
   let list = [], shown = 0, cur = -1, selTalle = '';
 
   /* ---------- contacto ---------- */
@@ -1626,21 +1632,23 @@ ${productUrl(p)}`;
   }
 
   /* ---------- navegación por hash ---------- */
-  const isHome = () => !(state.brand || state.tipo || state.q || state.ver || state.p);
+  const isHome = () => !(state.brand || state.tipo || state.color || state.q || state.ver || state.p);
   function hashFor(s) {
     const h = new URLSearchParams();
     if (s.brand) h.set('marca', s.brand);
     if (s.tipo) h.set('tipo', s.tipo);
+    if (s.color) h.set('color', s.color);
     if (s.q) h.set('q', s.q);
     if (s.p) h.set('p', s.p);
     if (s.sort) h.set('orden', s.sort);
-    if (!s.brand && !s.tipo && !s.q && !s.p && s.ver) h.set('ver', s.ver);
+    if (!s.brand && !s.tipo && !s.color && !s.q && !s.p && s.ver) h.set('ver', s.ver);
     return h.toString();
   }
   function readHash() {
     const h = new URLSearchParams(location.hash.slice(1));
     state.brand = brandBySlug.has(h.get('marca')) ? h.get('marca') : '';
     state.tipo = tipoBySlug.has(h.get('tipo')) ? h.get('tipo') : '';
+    state.color = colorBySlug.has(h.get('color')) ? h.get('color') : '';
     state.q = h.get('q') || '';
     state.ver = h.get('ver') || '';
     state.p = prodById.has(h.get('p')) ? h.get('p') : '';
@@ -1895,8 +1903,8 @@ ${productUrl(p)}`;
     return b;
   }
   function renderChips() {
-    const byBrand = data.products.filter((p) => !state.brand || p.brandSlug === state.brand);
-    const byTipo = data.products.filter((p) => !state.tipo || p.tipoSlug === state.tipo);
+    const byBrand = data.products.filter((p) => (!state.brand || p.brandSlug === state.brand) && (!state.color || p._c.includes(state.color)));
+    const byTipo = data.products.filter((p) => (!state.tipo || p.tipoSlug === state.tipo) && (!state.color || p._c.includes(state.color)));
     const tCount = new Map(), bCount = new Map();
     byBrand.forEach((p) => tCount.set(p.tipoSlug, (tCount.get(p.tipoSlug) || 0) + 1));
     byTipo.forEach((p) => bCount.set(p.brandSlug, (bCount.get(p.brandSlug) || 0) + 1));
@@ -1906,6 +1914,21 @@ ${productUrl(p)}`;
     tr.append(lab('Tipo'), chip('Todo', byBrand.length, !state.tipo, () => go({ tipo: '', ver: 'todo' })));
     data.tipos.filter((t) => tCount.has(t.slug)).forEach((t) =>
       tr.append(chip(t.name, tCount.get(t.slug), state.tipo === t.slug, () => go({ tipo: t.slug, ver: 'todo' }))));
+
+    const cr = $('#colorRow'); cr.replaceChildren();
+    const cCount = new Map();
+    data.products.forEach((p) => {
+      if ((state.brand && p.brandSlug !== state.brand) || (state.tipo && p.tipoSlug !== state.tipo)) return;
+      p._c.forEach((c) => cCount.set(c, (cCount.get(c) || 0) + 1));
+    });
+    cr.append(lab('Color'), chip('Todos', null, !state.color, () => go({ color: '', ver: 'todo' })));
+    COLORES.filter(([n]) => cCount.has(colorSlug(n))).forEach(([n, hex]) => {
+      const sl = colorSlug(n);
+      const b = chip(n, cCount.get(sl), state.color === sl, () => go({ color: state.color === sl ? '' : sl, ver: 'todo' }));
+      const sw = document.createElement('i'); sw.className = 'sw'; sw.style.background = hex; sw.setAttribute('aria-hidden', 'true');
+      b.prepend(sw);
+      cr.append(b);
+    });
 
     const br = $('#brandRow'); br.replaceChildren();
     br.append(lab('Marca'), chip('Todas', byTipo.length, !state.brand, () => go({ brand: '', ver: 'todo' })));
@@ -1934,6 +1957,7 @@ ${productUrl(p)}`;
       (state.ver !== 'stock' || p.price != null || p.usd != null) &&
       (!state.brand || p.brandSlug === state.brand) &&
       (!state.tipo || p.tipoSlug === state.tipo) &&
+      (!state.color || p._c.includes(state.color)) &&
       tokens.every((t) => p._s.includes(t)));
     if (state.sort === 'new') {
       items = [...items].sort((a, b) => (b.num ?? 0) - (a.num ?? 0) || a.name.localeCompare(b.name, 'es'));
@@ -2073,6 +2097,7 @@ ${productUrl(p)}`;
     const bits = [];
     if (state.q) bits.push(`“${state.q}”`);
     if (state.tipo && tipoBySlug.get(state.tipo)) bits.push(tipoBySlug.get(state.tipo).name);
+    if (state.color && colorBySlug.get(state.color)) bits.push(colorBySlug.get(state.color).name);
     if (state.brand && brandBySlug.get(state.brand)) bits.push(brandBySlug.get(state.brand).name);
     document.title = bits.length
       ? `${bits.join(' · ')} — Supply BA`
@@ -2085,7 +2110,7 @@ ${productUrl(p)}`;
       if (state.p) {
         let idx = list.findIndex((x) => x.id === state.p);
         if (idx < 0 && data.products.some((x) => x.id === state.p)) {
-          state.brand = state.tipo = state.q = ''; state.ver = 'todo';
+          state.brand = state.tipo = state.color = state.q = ''; state.ver = 'todo';
           renderChips(); buildList();
           idx = list.findIndex((x) => x.id === state.p);
         }
@@ -2290,7 +2315,7 @@ ${productUrl(p)}`;
     clearTimeout(t);
     t = setTimeout(() => {
       const q = e.target.value.trim();
-      go(q ? { q, brand: '', tipo: '', ver: 'todo' } : { q: '' }, true);
+      go(q ? { q, brand: '', tipo: '', color: '', ver: 'todo' } : { q: '' }, true);
     }, 180);
   });
   /* atajos: "/" enfoca la búsqueda · Esc limpia o sale */
@@ -2307,12 +2332,12 @@ ${productUrl(p)}`;
   const reset = (e) => {
     e?.preventDefault();
     $('#q').value = '';
-    go({ brand: '', tipo: '', q: '', ver: '' });
+    go({ brand: '', tipo: '', color: '', q: '', ver: '' });
   };
   $('#featPrev').addEventListener('click', () => { $('#featured').scrollBy({ left: -360, behavior: 'smooth' }); });
   $('#featNext').addEventListener('click', () => { $('#featured').scrollBy({ left: 360, behavior: 'smooth' }); });
   $('#home').addEventListener('click', reset);
-  $('#clear').addEventListener('click', () => { $('#q').value = ''; go({ brand: '', tipo: '', q: '', ver: 'todo' }); });
+  $('#clear').addEventListener('click', () => { $('#q').value = ''; go({ brand: '', tipo: '', color: '', q: '', ver: 'todo' }); });
   $('#sort').addEventListener('change', (e) => go({ sort: e.target.value, ver: 'todo' }, true));
   window.addEventListener('hashchange', () => { readHash(); render(); });
 
@@ -2429,7 +2454,7 @@ ${productUrl(p)}`;
       catch { toast('Tu cupón es ' + (promo.cupon || 'BIENVENIDO10')); }
     });
     const openW = () => { try { if (!wl.open && !dlg.open && !$('#cart').open) wl.showModal(); } catch {} };
-    const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('q') || h.has('outfit') || h.has('ver'); };
+    const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('color') || h.has('q') || h.has('outfit') || h.has('ver'); };
     if (!cart.length && !deep()) {
       // esperar a que la persona vea las puertas Stock/Encargues: abre al scrollear o a los 12 s
       let done = false;

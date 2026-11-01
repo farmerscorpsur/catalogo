@@ -10,6 +10,7 @@ import crypto from 'node:crypto';
 import sharp from 'sharp';
 import { computeColors } from './colors.mjs';
 import { buildPages } from './pages.mjs';
+import { assignColores } from './colores.mjs';
 
 const src = process.argv[2];
 const out = path.resolve(process.argv[3] || 'site');
@@ -240,6 +241,10 @@ async function main() {
   // color dominante por producto (lo usa la sección "Armá tu outfit")
   const col = await computeColors(out);
   console.log(`Colores: ${col.stored}/${col.total} (${col.computed} nuevos, ${col.failed} fallidos).`);
+
+  // colores para el filtro (salen del nombre)
+  const cl = await assignColores(out);
+  console.log(`Colores del filtro: ${cl.total - cl.sin}/${cl.total} (${cl.sin} sin color en el nombre).`);
 
   // páginas estáticas por producto/marca/categoría + sitemap (SEO y vistas previas)
   const pg = await buildPages(out);
