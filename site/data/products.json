@@ -90,19 +90,19 @@
     {
       "name": "Remeras",
       "slug": "remeras",
-      "count": 562,
+      "count": 561,
       "cover": "img/nike-y-jordan-396-29c36270-s.webp"
     },
     {
       "name": "Buzos",
       "slug": "buzos",
-      "count": 394,
+      "count": 393,
       "cover": "img/nike-y-jordan-389-67c59f69-s.webp"
     },
     {
       "name": "Camperas",
       "slug": "camperas",
-      "count": 213,
+      "count": 214,
       "cover": "img/nike-y-jordan-398-d77c1cc3-s.webp"
     },
     {
@@ -120,19 +120,19 @@
     {
       "name": "Zapatillas",
       "slug": "zapatillas",
-      "count": 496,
+      "count": 495,
       "cover": "img/nike-y-jordan-405-d62c3088-s.webp"
     },
     {
       "name": "Gorras",
       "slug": "gorras",
-      "count": 74,
+      "count": 75,
       "cover": "img/sp5der-245-2c48c0d4-s.webp"
     },
     {
       "name": "Beanies",
       "slug": "beanies",
-      "count": 30,
+      "count": 31,
       "cover": "img/nike-y-jordan-407-a0dd4b74-s.webp"
     },
     {
@@ -4162,7 +4162,7 @@
       "brand": "Balenciaga",
       "brandSlug": "balenciaga",
       "category": "Balenciaga Tops",
-      "tipo": "Remeras",
+      "tipo": "Camperas",
       "num": 50,
       "name": "Balenciaga Hooded Crop Denim Jacket (Beige)",
       "thumb": "img/balenciaga-50-b2a3bda6-s.webp",
@@ -8235,7 +8235,7 @@
       "brand": "Chrome Hearts",
       "brandSlug": "chrome-hearts",
       "category": "CH Accesories",
-      "tipo": "Zapatillas",
+      "tipo": "Gorras",
       "num": 173,
       "name": "Chrome Hearts Matty Boy Sex Records Horse Shoe Trucker Hat Pink White",
       "thumb": "img/chrome-hearts-173-f7d967c0-s.webp",
@@ -10366,7 +10366,7 @@
       "brand": "Corteiz",
       "brandSlug": "corteiz",
       "category": "Corteiz ACCESORIES",
-      "tipo": "Buzos",
+      "tipo": "Beanies",
       "num": 227,
       "name": "Corteiz 5 Starz Knit Bally (Black Gray Green)",
       "thumb": "img/corteiz-227-ba0a2528-s.webp",

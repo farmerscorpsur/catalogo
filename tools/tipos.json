@@ -2,6 +2,10 @@
   "_ayuda": "orden = cómo se muestran los tipos en la web (debe cubrir todos los tipos que ya existen en el catálogo para que un rebuild no los borre). reglas = se prueban en este orden y gana la primera que coincide (primero con el nombre de la carpeta, después con el nombre del producto). Agregá o sacá palabras libremente.",
   "orden": ["Remeras", "Buzos", "Camperas", "Pantalones", "Shorts", "Zapatillas", "Gorras", "Beanies", "Medias", "Ropa interior", "Conjuntos", "Mochilas", "Riñoneras/Bandoleras", "Bolsos", "Accesorios", "Faldas", "Otros"],
   "reglas": [
+    { "nombre": "Gorras", "palabras": ["trucker hat", "trucker hats"] },
+    { "nombre": "Beanies", "palabras": ["knit bally"] },
+    { "nombre": "Camperas", "palabras": ["denim jacket", "trucker jacket"] },
+    { "nombre": "Accesorios", "palabras": ["horseshoe ring", "horse shoe ring"] },
     { "nombre": "Remeras", "palabras": ["short sleeve", "short sleeved"] },
     { "nombre": "Zapatillas", "palabras": ["sneak", "sneaker", "shoe", "zapatilla", "zapa", "boot", "bota", "slide", "ojota", "runner", "dunk", "jordan", "air force", "air max", "yeezy", "croc", "clog", "calzado", "tenis"] },
     { "nombre": "Ropa interior", "palabras": ["boxer", "underwear", "ropa interior", "calzoncillo", "bombacha", "bra"] },
