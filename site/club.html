@@ -61,6 +61,16 @@
 .join input{flex:1;min-width:0;min-height:48px;padding:0 14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:16px}
 .join input:focus{outline:none;border-color:var(--text)}
 .join .note{font-size:12.5px;color:var(--mute);margin:0}
+.codef{width:min(100%,440px);display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.codef label{font-size:13px;color:var(--mute)}
+.codef .f{display:flex;gap:8px}
+.codef input{flex:1;min-width:0;min-height:44px;padding:0 14px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:16px}
+.codef input:focus{outline:none;border-color:var(--text)}
+.codef .btn{min-height:44px}
+.codef .msg{margin:0;font-size:12.5px;color:var(--mute);min-height:1.2em}
+.prevbar{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:10px 14px;border:1px solid var(--text);font-size:13.5px}
+.prevbar[hidden]{display:none}
+.prevbar button{background:none;border:0;padding:6px 0;font:inherit;color:var(--text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .joined{width:min(100%,440px);display:flex;flex-direction:column;gap:10px}
 .joined .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .joined .lnk{background:none;border:0;color:var(--mute);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:center;padding:8px}
@@ -173,10 +183,19 @@
         <a class="btn" id="jAsk" href="#" target="_blank" rel="noopener">¿En qué nivel estoy?</a>
         <button class="lnk" type="button" id="jReset">No soy yo / usar otro nombre</button>
       </div>
+      <form class="codef" id="codeForm" autocomplete="off">
+        <label for="cCode">¿Tenés un código?</label>
+        <div class="f">
+          <input id="cCode" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Ingresalo acá">
+          <button class="btn" type="submit">Canjear</button>
+        </div>
+        <p class="msg" id="codeMsg" role="status"></p>
+      </form>
     </div>
   </section>
 
   <h2 class="sec">✦ Tu álbum</h2>
+  <p class="prevbar" id="prevBar" hidden><span>Vista previa: tenés los 12 stickers desbloqueados. No cambia tu álbum real.</span><button type="button" id="prevOff">Salir de la vista previa</button></p>
   <div class="albhead">
     <p id="albTxt">Tocá los stickers que ya tenés. Los que todavía no salieron se desbloquean mes a mes.</p>
     <div class="albprog"><span id="albN">0/12</span><span class="pb"><i id="albBar"></i></span><span id="albLvl"></span></div>
@@ -209,7 +228,11 @@
 (async () => {
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const KEY = 'supplyba_socio_v1', ALB = 'supplyba_album_v1';
+  const KEY = 'supplyba_socio_v1', ALB = 'supplyba_album_v1', PREV = 'supplyba_club_preview_v1';
+  // códigos de vista previa (guardados como hash): desbloquean los 12 stickers solo en este dispositivo
+  const CODIGOS = { '71348891c0b5193ef7aec134246864b7076e430367f8fff52b412b8b20114282': 'Rama', 'f3797e1c06c338e8e615c1e7f522f20f3510f0d8caa1ef7662984495416472f8': 'Moli' };
+  const sha256 = async (t) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)))].map((b) => b.toString(16).padStart(2, '0')).join('');
+  const preview = () => { try { return JSON.parse(localStorage.getItem(PREV)) || null; } catch { return null; } };
   let cfg;
   try { cfg = await fetch('config.json').then((r) => r.json()); } catch { return; }
   const club = cfg.club || {};
@@ -235,7 +258,7 @@
 
   const levelFor = (n) => niveles.filter((l) => n >= l.stickers).pop() || null;
   const nextFor = (n) => niveles.find((l) => n < l.stickers) || null;
-  const loadAlb = () => { try { const a = JSON.parse(localStorage.getItem(ALB)); return new Set(Array.isArray(a) ? a : []); } catch { return new Set(); } };
+  const loadAlb = (real) => { if (!real && preview()) return new Set(slots.map((x) => x.n)); try { const a = JSON.parse(localStorage.getItem(ALB)); return new Set(Array.isArray(a) ? a : []); } catch { return new Set(); } };
   const saveAlb = (set) => { try { localStorage.setItem(ALB, JSON.stringify([...set].sort((a, b) => a - b))); } catch {} };
   const load = () => { try { const s = JSON.parse(localStorage.getItem(KEY)); return s && s.codigo ? s : null; } catch { return null; } };
 
@@ -262,15 +285,17 @@
     const own = loadAlb();
     $('#album').innerHTML = slots.map((sl) => {
       const has = own.has(sl.n);
-      const cls = !sl.open ? 'lock' : has ? 'av own' : 'av';
-      const face = !sl.open ? `<b>${LOCK}</b>` : sl.img ? `<img src="${esc(sl.img)}" alt="">${has ? '' : `<b>${String(sl.n).padStart(2, '0')}</b>`}` : `<b>${String(sl.n).padStart(2, '0')}</b>`;
-      const state = !sl.open ? 'todavía no salió' : has ? 'lo tengo' : 'no lo tengo';
-      const tag = has ? '<span class="tag">✓ Lo tengo</span>' : sl.open ? '<span class="tag" style="color:var(--mute)">Tocá si lo tenés</span>' : '';
-      return `<button type="button" class="slot ${cls}${popN === sl.n ? ' pop' : ''}" data-n="${sl.n}" style="--r:${rot(sl.n)}deg" ${sl.open ? `aria-pressed="${has}"` : 'disabled'} aria-label="${esc(sl.nombre)}, ${esc(sl.label)}, ${state}">` +
+      const open = sl.open || !!preview();
+      const cls = !open ? 'lock' : has ? 'av own' : 'av';
+      const face = !open ? `<b>${LOCK}</b>` : sl.img ? `<img src="${esc(sl.img)}" alt="">${has ? '' : `<b>${String(sl.n).padStart(2, '0')}</b>`}` : `<b>${String(sl.n).padStart(2, '0')}</b>`;
+      const state = !open ? 'todavía no salió' : has ? 'lo tengo' : 'no lo tengo';
+      const tag = has ? '<span class="tag">✓ Lo tengo</span>' : open ? '<span class="tag" style="color:var(--mute)">Tocá si lo tenés</span>' : '';
+      return `<button type="button" class="slot ${cls}${popN === sl.n ? ' pop' : ''}" data-n="${sl.n}" style="--r:${rot(sl.n)}deg" ${open ? `aria-pressed="${has}"` : 'disabled'} aria-label="${esc(sl.nombre)}, ${esc(sl.label)}, ${state}">` +
         `<span class="stk">${face}</span><small>${esc(sl.label)}</small>${tag}</button>`;
     }).join('');
     const n = own.size;
     const lvl = levelFor(n), nxt = nextFor(n);
+    $('#prevBar').hidden = !preview();
     $('#albN').textContent = `${n}/${total}`;
     $('#albBar').style.width = `${Math.round((n / total) * 100)}%`;
     $('#albLvl').textContent = lvl ? `Nivel ${lvl.nombre}` : '';
@@ -282,14 +307,15 @@
       el.querySelector('.bar i').style.width = `${Math.min(100, Math.round((n / need) * 100))}%`;
     });
     const s = load();
-    const which = [...own].sort((a, b) => a - b).map((k) => String(k).padStart(2, '0')).join(', ');
+    const real = loadAlb(true);
+    const which = [...real].sort((a, b) => a - b).map((k) => String(k).padStart(2, '0')).join(', ');
     $('#albWa').href = `${wa}?text=${encodeURIComponent(
       `Hola Supply BA! Quiero validar mis stickers del club${s ? ` (código ${s.codigo}, ${s.nombre})` : ''}. ` +
-      (n ? `Tengo ${n}: ${which}. Te mando la foto.` : 'Te mando la foto.'))}`;
+      (real.size ? `Tengo ${real.size}: ${which}. Te mando la foto.` : 'Te mando la foto.'))}`;
     paintCard();
   };
   $('#album').addEventListener('click', (e) => {
-    const b = e.target.closest('.slot.av'); if (!b) return;
+    const b = e.target.closest('.slot.av'); if (!b || preview()) return;
     const n = +b.dataset.n; const own = loadAlb();
     const add = !own.has(n);
     if (add) own.add(n); else own.delete(n);
@@ -334,6 +360,23 @@
     setTimeout(() => { $('#jCopy').textContent = 'Copiar código'; }, 1800);
   });
   $('#jReset').addEventListener('click', () => { try { localStorage.removeItem(KEY); } catch {} paintCard(); $('#jName').focus(); });
+
+  /* ---------- código de vista previa ---------- */
+  $('#codeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('#codeMsg');
+    const v = $('#cCode').value.toLowerCase().replace(/\s+/g, '');
+    if (!v) { msg.textContent = 'Escribí tu código.'; return; }
+    let who = null;
+    try { who = CODIGOS[await sha256(v)] || null; } catch {}
+    if (!who) { msg.textContent = 'Ese código no es válido. Revisalo y probá de nuevo.'; return; }
+    try { localStorage.setItem(PREV, JSON.stringify({ quien: who, desde: new Date().toISOString() })); } catch {}
+    if (!load()) { try { localStorage.setItem(KEY, JSON.stringify({ nombre: who, codigo: newCode(), desde: new Date().toISOString() })); } catch {} }
+    $('#cCode').value = ''; msg.textContent = `¡Listo, ${who}! Mirá tu álbum completo.`;
+    renderAlbum();
+    $('#album').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  });
+  $('#prevOff').addEventListener('click', () => { try { localStorage.removeItem(PREV); } catch {} $('#codeMsg').textContent = ''; renderAlbum(); });
 
   // la tarjeta se inclina con el mouse
   const card = $('#sCard');

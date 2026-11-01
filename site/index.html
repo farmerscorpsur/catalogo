@@ -157,6 +157,7 @@ body.brand-color .cbname{
   color:var(--mute);text-decoration:none;font-size:14px;font-weight:500;border-radius:0;white-space:nowrap;transition:color .2s var(--ease-out);
 }
 .ddc:hover{color:var(--text)}
+button.ddc{background:none;border:0;font-family:inherit;cursor:pointer}
 @media(max-width:899px){
   .bar{flex-wrap:wrap;row-gap:8px;gap:8px}
   .bar .nav{order:3;flex:1 0 100%;display:flex;flex-wrap:wrap;gap:4px}
@@ -565,6 +566,54 @@ dialog#cart::backdrop{background:rgba(0,0,0,.6)}
 .tguide{align-self:flex-start;background:none;border:0;padding:0;margin-top:-4px;color:var(--mute);font:inherit;font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .tguide:hover{color:var(--text)}
 
+/* ---------- cotizar con foto ---------- */
+#quoteDlg{width:min(560px,100vw);height:auto;max-height:92dvh;border:0;background:#050505}
+@media(min-width:800px){#quoteDlg{border:1px solid var(--line)}}
+#quoteDlg .sub{color:var(--mute);margin:0}
+.qdrop{display:block}
+.qpick{width:100%;min-height:136px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center;border:1px dashed var(--line-strong,var(--line));background:var(--surface);color:var(--text);font:inherit;cursor:pointer;transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+.qpick svg{width:30px;height:30px;margin-bottom:2px}
+.qpick b{font-size:16px}
+.qpick small{color:var(--mute);font-size:12.5px}
+.qpick:hover,.qdrop.over .qpick{background:var(--surface-2);border-color:var(--text)}
+.qdrop.over .qpick{border-style:solid}
+.qpick:focus-visible,.qf input:focus-visible,.qf textarea:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.qthumbs{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin:0;padding:0}
+.qthumbs:empty{display:none}
+.qthumbs li{position:relative;aspect-ratio:1;border:1px solid var(--line);overflow:hidden;background:var(--surface);display:grid;place-items:center;font-size:11px;color:var(--mute)}
+.qthumbs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.qthumbs .qx{position:absolute;top:4px;right:4px;width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;background:none;color:#fff;cursor:pointer}
+.qthumbs .qx i{width:26px;height:26px;display:grid;place-items:center;background:rgba(5,5,5,.78);font-style:normal;font-size:16px;line-height:1}
+.qthumbs .qx:hover i{background:#050505}
+.qthumbs .qx:focus-visible{outline:2px solid var(--text);outline-offset:-2px}
+.qf{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mute)}
+.qf>span{font-weight:600;color:var(--text)}
+.qf>span i{font-style:normal;font-weight:400;color:var(--mute)}
+.qf input,.qf textarea{width:100%;min-height:48px;padding:12px;border:1px solid var(--line);background:transparent;color:var(--text);font:inherit;font-size:16px;border-radius:0;resize:vertical}
+.qf input::placeholder,.qf textarea::placeholder{color:var(--mute);opacity:.8}
+.qf input:focus,.qf textarea:focus{border-color:var(--text);outline:none}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+@media(min-width:520px){.qrow{grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)}}
+.qerr{margin:0;padding:10px 12px;border:1px solid var(--text);font-size:13.5px;color:var(--text)}
+.qerr[hidden]{display:none}
+.qform .cta{display:flex;margin-top:2px}
+.qform .cta .btn{flex:1;min-height:52px;font-size:16px}
+.qform .cta .btn:disabled{opacity:.5;cursor:default}
+@media(max-width:799px){.qform .cta{position:sticky;bottom:0;margin:4px calc(-1 * var(--pad)) 0;padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line);z-index:1}}
+.qdone{display:flex;flex-direction:column;gap:14px}
+.qdone[hidden],.qform[hidden]{display:none}
+.qdone ol{margin:0;padding-left:20px;display:grid;gap:8px;font-size:14.5px;line-height:1.5;color:var(--mute)}
+.qdone ol b{color:var(--text)}
+.qcp{display:flex;flex-wrap:wrap;gap:8px}
+.qcp .btn{min-height:44px}
+.qband{margin:var(--space-6) 0;padding:clamp(20px,4vw,36px);border:1px solid var(--line);background:var(--surface);display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between}
+.qband h2{margin:0 0 4px;font-size:clamp(18px,3vw,24px);letter-spacing:-.01em}
+.qband p{margin:0;color:var(--mute);max-width:52ch;font-size:14.5px;line-height:1.5}
+.qlink{background:none;border:0;padding:0;font:inherit;color:var(--text);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.qlink:hover{color:var(--mute)}
+@media(max-width:799px){.qlink{min-height:40px;display:inline-flex;align-items:center}}
+@media(prefers-reduced-motion:reduce){.qpick{transition:none}}
+
 /* ---------- agregado rápido + relacionados ---------- */
 .tile{cursor:pointer}
 .tile:focus-visible{outline:2px solid #e0e0e0;outline-offset:2px}
@@ -958,7 +1007,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
 [data-theme="light"] .heroctl .ban:hover{background:linear-gradient(rgba(255,255,255,.8),rgba(255,255,255,.8)),url("brand/monograma-tile.webp");background-size:auto,120px 150px;border-color:rgba(0,0,0,.4)}
 [data-theme="light"] .tile .ph::after,[data-theme="light"] .card .ph::after{background-image:linear-gradient(100deg,transparent 25%,rgba(0,0,0,.05) 50%,transparent 75%)}
 [data-theme="light"] dialog{background:var(--bg)}
-[data-theme="light"] dialog#cart,[data-theme="light"] #sizeDlg,[data-theme="light"] #welcome{background:var(--bg)}
+[data-theme="light"] dialog#cart,[data-theme="light"] #sizeDlg,[data-theme="light"] #quoteDlg,[data-theme="light"] #welcome{background:var(--bg)}
 [data-theme="light"] dialog::backdrop,[data-theme="light"] dialog#cart::backdrop{background:rgba(20,20,20,.45)}
 [data-theme="light"] .pic,[data-theme="light"] .card .ph,[data-theme="light"] .tile .ph,[data-theme="light"] .oflot .ph,[data-theme="light"] .ofp-card .ph{background:radial-gradient(140% 100% at 50% 20%,#ffffff 0%,#f1f1ef 60%,#e8e8e5 100%)}
 [data-theme="light"] .card img,[data-theme="light"] .tile img,[data-theme="light"] .pic img,[data-theme="light"] .oflot .ph img,[data-theme="light"] .ofp-card .ph img{filter:none}
@@ -1032,6 +1081,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
       </div>
       <a class="ddc" href="encargos.html">Encargos<span class="xs-hide"> / Envíos</span></a>
       <a class="ddc" href="club" id="navClub" hidden>Club</a>
+      <button type="button" class="ddc xs-hide qopen" data-src="menu">Cotizá con foto</button>
     </nav>
     <label class="search">
       <span class="sr">Buscar</span>
@@ -1150,6 +1200,15 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
       </div>
     </section>
 
+    <!-- cotizar con foto -->
+    <section class="qband" aria-labelledby="qbTitle">
+      <div>
+        <h2 id="qbTitle">¿No encontraste lo que buscabas?</h2>
+        <p>Mandanos una foto de lo que querés y te lo cotizamos: tenemos acceso a millones de productos más allá del catálogo.</p>
+      </div>
+      <button type="button" class="btn main qopen" data-src="home">Cotizar con una foto</button>
+    </section>
+
   </div>
 
   <!-- ===== catálogo ===== -->
@@ -1168,7 +1227,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
       <nav class="row sm" id="colorRow" aria-label="Color"></nav>
       <nav class="row sm" id="brandRow" aria-label="Marcas"></nav>
     </div>
-    <p class="strip">Todo se hace por encargue: seña del 50%, llegada habitual en 25 a 35 días y seguimiento personalizado. <a href="encargos.html">Cómo funciona</a></p>
+    <p class="strip">Todo se hace por encargue: seña del 50%, llegada habitual en 25 a 35 días y seguimiento personalizado. <a href="encargos.html">Cómo funciona</a> · ¿No lo encontrás? <button type="button" class="qlink qopen" data-src="catalogo">Cotizalo con una foto</button></p>
     <div class="tools">
       <p class="count" id="count" aria-live="polite"></p>
       <label class="sort"><span>Ordenar</span>
@@ -1185,7 +1244,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
     <div class="empty" id="empty" hidden>
       <p id="emptyMsg"></p>
       <button class="btn" id="clear" type="button">Ver todo el catálogo</button>
-      <a class="btn main" id="quoteMissing" href="#" target="_blank" rel="noopener">¿No encontrás lo que buscabas? Cotizalo por WhatsApp</a>
+      <button class="btn main qopen" id="quoteMissing" type="button" data-src="sin_resultados">Mandanos una foto y te lo cotizamos</button>
       <p class="hint">No solo trabajamos con nuestros +2.400 productos, estamos en constante expansión y tenemos millones de ítems disponibles. Envianos una foto, link o descripción del producto que buscás.</p>
     </div>
     <div id="sentinel"></div>
@@ -1270,6 +1329,33 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
     <p class="hint">Algunas prendas tienen calce oversize por diseño, no es un error de talle. Las medidas son de referencia.</p>
     <div class="cta"><a class="btn main" id="sizeWa" href="#" target="_blank" rel="noopener">Consultar mi talle por WhatsApp</a></div>
   </div>
+</dialog>
+
+<dialog id="quoteDlg" aria-labelledby="qTitle">
+  <button class="x" id="qClose" type="button" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg></button>
+  <form class="cinfo qform" id="qForm" novalidate>
+    <h2 id="qTitle">Cotizá lo que no encontraste</h2>
+    <p class="sub">Mandanos una foto del producto y te respondemos con el precio y el tiempo de llegada. Sin compromiso.</p>
+    <div class="qdrop" id="qDrop">
+      <button type="button" class="qpick" id="qPick" autofocus>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9Zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"/></svg>
+        <b id="qPickT">Elegí o sacá una foto</b>
+        <small>También podés arrastrarla o pegarla acá · hasta 4 fotos</small>
+      </button>
+      <input type="file" id="qFile" accept="image/*" multiple hidden>
+    </div>
+    <ul class="qthumbs" id="qThumbs" aria-label="Fotos elegidas"></ul>
+    <label class="qf"><span>¿Qué estás buscando? <i>(opcional)</i></span>
+      <textarea id="qDesc" rows="3" maxlength="500" placeholder="Marca, modelo, color, lo que veas en la foto…"></textarea></label>
+    <div class="qrow">
+      <label class="qf"><span>Talle <i>(opcional)</i></span><input id="qTalle" type="text" maxlength="14" autocomplete="off" placeholder="M, 42…"></label>
+      <label class="qf"><span>Link del producto <i>(opcional)</i></span><input id="qLink" type="url" inputmode="url" autocomplete="off" autocapitalize="off" maxlength="300" placeholder="https://…"></label>
+    </div>
+    <p class="qerr" id="qErr" role="alert" hidden></p>
+    <div class="cta"><button class="btn main" id="qSend" type="submit">Enviar por WhatsApp</button></div>
+    <p class="hint">La foto no se sube a ningún lado: sale directo de tu dispositivo a nuestro WhatsApp. Te respondemos con la cotización en el día.</p>
+  </form>
+  <div class="cinfo qdone" id="qDone" hidden></div>
 </dialog>
 
 <dialog id="welcome" aria-labelledby="wTitle">
@@ -1460,10 +1546,6 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
   $('#hgIg').href = `https://instagram.com/${cfg.instagram}`;
   $('#hgWa').href = waBase;
   $('#fab').href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! Quiero hacer un encargue.')}`;
-  const quoteMissing = $('#quoteMissing');
-  if (quoteMissing) {
-    quoteMissing.href = `${waBase}?text=${encodeURIComponent('Hola Supply BA! No encuentro el producto que busco en el catálogo. Te envío foto, link o descripción para que me cotices.')}`;
-  }
 
   /* ---------- menús del header ---------- */
   function buildHeaderMenus() {
@@ -2406,6 +2488,182 @@ ${productUrl(p)}`;
     sd.addEventListener('click', (e) => { if (e.target === sd) sd.close(); });
   })();
 
+
+  /* ---------- cotizar con foto ---------- */
+  (() => {
+    const dlg = $('#quoteDlg'); if (!dlg) return;
+    const MAX_FOTOS = 4, MAX_PX = 1600;
+    const el = { form: $('#qForm'), done: $('#qDone'), pick: $('#qPick'), pickT: $('#qPickT'), file: $('#qFile'), drop: $('#qDrop'), thumbs: $('#qThumbs'), desc: $('#qDesc'), talle: $('#qTalle'), link: $('#qLink'), err: $('#qErr'), send: $('#qSend') };
+    let fotos = [];            // { file, url }
+    let pendientes = 0;
+    let origen = '';
+
+    const aviso = (t) => { el.err.textContent = t; el.err.hidden = !t; };
+    const pintarEnvio = () => {
+      el.send.disabled = pendientes > 0;
+      el.send.textContent = pendientes > 0 ? 'Preparando fotos…' : 'Enviar por WhatsApp';
+      el.pickT.textContent = fotos.length ? 'Sumar otra foto' : 'Elegí o sacá una foto';
+      el.pick.disabled = fotos.length >= MAX_FOTOS;
+    };
+
+    // achica la foto antes de mandarla: más rápido por WhatsApp y entra en cualquier celular
+    const preparar = async (file, n) => {
+      try {
+        const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+        const k = Math.min(1, MAX_PX / Math.max(bmp.width, bmp.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(bmp.width * k)); c.height = Math.max(1, Math.round(bmp.height * k));
+        const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(bmp, 0, 0, c.width, c.height);
+        if (bmp.close) bmp.close();
+        const blob = await new Promise((r) => c.toBlob(r, 'image/jpeg', 0.86));
+        if (blob) return new File([blob], `cotizacion-${n}.jpg`, { type: 'image/jpeg' });
+      } catch {}
+      return file.size <= 15e6 ? file : null;   // formato que el navegador no lee (ej. HEIC en compu): se manda tal cual
+    };
+
+    const pintarFotos = () => {
+      el.thumbs.replaceChildren(...fotos.map((f, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<img alt="Foto ${i + 1}" src="${f.url}">` +
+          `<button type="button" class="qx" aria-label="Quitar foto ${i + 1}"><i aria-hidden="true">×</i></button>`;
+        li.querySelector('.qx').addEventListener('click', () => {
+          URL.revokeObjectURL(f.url); fotos.splice(i, 1); pintarFotos(); pintarEnvio();
+          (fotos.length ? el.thumbs.querySelector('.qx') : el.pick).focus();
+        });
+        return li;
+      }));
+    };
+
+    const sumar = async (lista) => {
+      const imgs = [...lista].filter((f) => /^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif|gif)$/i.test(f.name));
+      if (!imgs.length) { if (lista.length) aviso('Ese archivo no es una foto. Probá con una imagen (JPG, PNG…).'); return; }
+      aviso('');
+      const lugar = MAX_FOTOS - fotos.length - pendientes;
+      if (imgs.length > lugar) toast(`Podés mandar hasta ${MAX_FOTOS} fotos.`);
+      pendientes += Math.min(imgs.length, Math.max(lugar, 0)); pintarEnvio();
+      for (const f of imgs.slice(0, Math.max(lugar, 0))) {
+        const out = await preparar(f, fotos.length + 1);
+        pendientes--;
+        if (out) fotos.push({ file: out, url: URL.createObjectURL(out) });
+        else aviso('No pudimos leer una de las fotos. Probá con otra.');
+        pintarFotos(); pintarEnvio();
+      }
+    };
+
+    const abrir = (src) => {
+      origen = src || '';
+      el.form.hidden = false; el.done.hidden = true;
+      aviso('');
+      if (state.q && !el.desc.value.trim() && src === 'sin_resultados') el.desc.value = `Busqué: ${state.q}`;
+      pintarFotos(); pintarEnvio();
+      if (!dlg.open) dlg.showModal();
+      track('quote_open', { source: origen });
+    };
+    const limpiar = () => {
+      fotos.forEach((f) => URL.revokeObjectURL(f.url)); fotos = [];
+      el.desc.value = el.talle.value = el.link.value = ''; el.file.value = '';
+      pintarFotos(); pintarEnvio();
+    };
+
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest('.qopen'); if (!b) return;
+      e.preventDefault(); abrir(b.dataset.src);
+    });
+    $('#qClose').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', () => {
+      if (location.hash === '#cotizar') history.replaceState(null, '', location.pathname + location.search);
+    });
+
+    el.pick.addEventListener('click', () => el.file.click());
+    el.file.addEventListener('change', () => { sumar(el.file.files); el.file.value = ''; });
+    ['dragenter', 'dragover'].forEach((t) => el.drop.addEventListener(t, (e) => { e.preventDefault(); el.drop.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach((t) => el.drop.addEventListener(t, (e) => { e.preventDefault(); el.drop.classList.remove('over'); }));
+    el.drop.addEventListener('drop', (e) => sumar(e.dataTransfer.files));
+    dlg.addEventListener('paste', (e) => { const fs = e.clipboardData && e.clipboardData.files; if (fs && fs.length) { e.preventDefault(); sumar(fs); } });
+
+    const mensaje = () => {
+      const l = ['Hola Supply BA! Quiero cotizar un producto que no encontré en el catálogo.'];
+      const d = el.desc.value.trim(), t = el.talle.value.trim(), k = el.link.value.trim();
+      if (d) l.push(`Detalle: ${d}`);
+      if (t) l.push(`Talle: ${t}`);
+      if (k) l.push(`Link: ${k}`);
+      if (fotos.length) l.push(fotos.length === 1 ? 'Te paso la foto.' : `Te paso las ${fotos.length} fotos.`);
+      return l.join('\n');
+    };
+
+    // copia una foto al portapapeles (para pegarla en WhatsApp Web)
+    const copiar = async (file) => {
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.write || typeof ClipboardItem === 'undefined') return false;
+        const bmp = await createImageBitmap(file);
+        const c = document.createElement('canvas'); c.width = bmp.width; c.height = bmp.height;
+        c.getContext('2d').drawImage(bmp, 0, 0); if (bmp.close) bmp.close();
+        const png = await new Promise((r) => c.toBlob(r, 'image/png'));
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]);
+        return true;
+      } catch { return false; }
+    };
+
+    const gracias = (html) => {
+      el.form.hidden = true; el.done.hidden = false;
+      el.done.innerHTML = html;
+      const h = el.done.querySelector('h2'); if (h) { h.tabIndex = -1; h.focus(); }
+      const c = el.done.querySelector('[data-q="cerrar"]'); if (c) c.addEventListener('click', () => dlg.close());
+    };
+
+    el.form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (pendientes > 0) return;
+      const link = el.link.value.trim();
+      if (link && !/^https?:\/\/\S+\.\S+/i.test(link)) { aviso('El link tiene que empezar con https:// (copialo entero desde la página).'); el.link.focus(); return; }
+      if (!fotos.length && !el.desc.value.trim() && !link) { aviso('Sumá una foto, un link o contanos qué buscás.'); el.pick.focus(); return; }
+      aviso('');
+      const texto = mensaje();
+      const files = fotos.map((f) => f.file);
+      const url = `${waBase}?text=${encodeURIComponent(texto)}`;
+
+      // celular: menú de compartir con la foto ya adjunta, el cliente elige WhatsApp
+      if (files.length && navigator.canShare && navigator.canShare({ files })) {
+        try {
+          await navigator.share({ files, text: texto });
+          track('quote_send', { via: 'share', fotos: files.length, source: origen });
+          limpiar();
+          gracias('<h2>¡Listo, lo recibimos!</h2><p class="sub">Te respondemos por WhatsApp con la cotización y el tiempo de llegada.</p><div class="cta"><button class="btn main" type="button" data-q="cerrar">Volver al catálogo</button></div>');
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;   // cerró el menú: no pasa nada, puede reintentar
+        }
+      }
+
+      // compu (o sin foto): abrimos WhatsApp con el texto y dejamos la foto lista para pegar
+      const w = window.open('', '_blank');
+      const copiada = files.length ? await copiar(files[0]) : false;
+      if (w) { try { w.opener = null; } catch {} w.location.href = url; }
+      track('quote_send', { via: 'wa', fotos: files.length, source: origen });
+      const pasos = files.length
+        ? (copiada
+          ? `<li><b>Pegá la foto</b> en el chat (Ctrl+V, o mantené apretado y elegí “Pegar”).${files.length > 1 ? ' Copiamos la primera: las demás adjuntalas con el clip.' : ''}</li>`
+          : '<li><b>Adjuntá la foto</b> en el chat con el clip.</li>')
+        : '';
+      const tieneFotos = files.length > 0;
+      gracias(
+        `<h2>${w ? 'Se abrió WhatsApp' : 'Un paso más'}</h2>` +
+        `<p class="sub">${tieneFotos ? 'Ya tenés el mensaje armado. Falta la foto:' : 'Ya tenés el mensaje armado en el chat.'}</p>` +
+        `<ol>${pasos}<li><b>Enviá el mensaje</b> y te respondemos con la cotización.</li></ol>` +
+        `<div class="qcp"><a class="btn main" href="${url}" target="_blank" rel="noopener">${w ? 'Abrir WhatsApp de nuevo' : 'Abrir WhatsApp'}</a>` +
+        (tieneFotos ? '<button class="btn" type="button" data-q="copiar">Copiar la foto otra vez</button>' : '') +
+        '<button class="btn ghost" type="button" data-q="cerrar">Cerrar</button></div>');
+      const again = el.done.querySelector('[data-q="copiar"]');
+      if (again) again.addEventListener('click', async () => { toast((await copiar(files[0])) ? 'Foto copiada. Pegala en el chat.' : 'No pudimos copiarla: adjuntala con el clip.'); });
+      limpiar();
+    });
+
+    // link directo: …/#cotizar (para Instagram, stickers, QR)
+    const porHash = () => { if (location.hash === '#cotizar') abrir('link'); };
+    porHash(); window.addEventListener('hashchange', porHash);
+  })();
+
   /* ---------- header scroll + volver arriba ---------- */
   (() => {
     const top = document.querySelector('.top');
@@ -2461,8 +2719,8 @@ ${productUrl(p)}`;
       try { await navigator.clipboard.writeText(promo.cupon || 'BIENVENIDO10'); toast('Cupón copiado'); }
       catch { toast('Tu cupón es ' + (promo.cupon || 'BIENVENIDO10')); }
     });
-    const openW = () => { try { if (!wl.open && !dlg.open && !$('#cart').open) wl.showModal(); } catch {} };
-    const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('color') || h.has('q') || h.has('outfit') || h.has('ver'); };
+    const openW = () => { try { if (!wl.open && !dlg.open && !$('#cart').open && !$('#quoteDlg').open && !$('#sizeDlg').open) wl.showModal(); } catch {} };
+    const deep = () => { const h = new URLSearchParams(location.hash.slice(1)); return h.has('p') || h.has('marca') || h.has('tipo') || h.has('color') || h.has('q') || h.has('outfit') || h.has('ver') || h.has('cotizar'); };
     if (!cart.length && !deep()) {
       // esperar a que la persona vea las puertas Stock/Encargues: abre al scrollear o a los 12 s
       let done = false;

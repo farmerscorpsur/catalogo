@@ -6,7 +6,7 @@
   let on = false, ga = '', px = '';
 
   // nombres de evento del sitio → evento estándar de Meta
-  const FB = { select_item: 'ViewContent', add_to_cart: 'AddToCart', begin_checkout: 'InitiateCheckout', send_order_whatsapp: 'Lead', outfit_order: 'Lead', whatsapp: 'Contact', search: 'Search' };
+  const FB = { select_item: 'ViewContent', add_to_cart: 'AddToCart', begin_checkout: 'InitiateCheckout', send_order_whatsapp: 'Lead', outfit_order: 'Lead', quote_send: 'Lead', whatsapp: 'Contact', search: 'Search' };
 
   const send = (name, props) => {
     if (!on) { queue.push([name, props]); return; }
