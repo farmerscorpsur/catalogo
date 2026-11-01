@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="es-AR">
+<html lang="es-AR" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Encargos y envíos — Supply BA</title>
 <meta name="description" content="Cómo funcionan los encargues de Supply BA, las opciones de envío (Correo Argentino, moto en el día, retiro y Puerta a Puerta), formas de pago, plazos y preguntas frecuentes.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#ededed">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://catalogo.supplyba.store/encargos.html">
 <script src="tema.js"></script>
@@ -74,7 +74,7 @@ a{color:inherit}
   border-radius:0;border:1px solid rgba(255,255,255,.16);background:transparent;color:var(--text);text-decoration:none;font-weight:500;font-size:14px;cursor:pointer;transition:all .25s var(--ease-out);
 }
 .btn.main{background:var(--chrome);border-color:transparent;color:var(--on-chrome);font-weight:600}
-.btn.stock{background:#1db954;border-color:transparent;color:#04130a;font-weight:700}
+.btn.stock{background:transparent;border-color:var(--line);color:var(--text);font-weight:600}
 .btn:hover{border-color:rgba(255,255,255,.36);background:rgba(255,255,255,.02)}
 .btn.main:hover,.btn.stock:hover{filter:brightness(1.08)}
 
@@ -115,7 +115,7 @@ section.block{scroll-margin-top:84px;padding-top:8px}
 .grid3 > div{border:1px solid var(--line);background:var(--surface);padding:16px}
 .grid3 b{display:block;font-size:15px}
 .grid3 p{margin:5px 0 0;color:var(--mute);font-size:14px}
-.grid3 .tag{display:inline-block;margin-top:10px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:#4ade80;font-weight:700}
+.grid3 .tag{display:inline-block;margin-top:10px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);font-weight:700}
 .inote{border:1px solid var(--line);border-left:3px solid #bdbdbd;background:var(--surface);padding:14px 16px;margin:0 0 18px;max-width:72ch}
 .inote b{display:block;margin-bottom:4px}
 .inote p{margin:0;color:var(--mute);font-size:14px;line-height:1.5}
@@ -140,7 +140,7 @@ section.block{scroll-margin-top:84px;padding-top:8px}
 .ctabox .btns{display:flex;flex-wrap:wrap;gap:10px}
 
 /* ---------- flotante / footer ---------- */
-.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;width:52px;height:52px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 12px 40px -16px rgba(37,211,102,.9);text-decoration:none;transition:transform .25s var(--ease-out),filter .25s var(--ease-out)}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;width:52px;height:52px;border-radius:50%;background:#050505;color:#ededed;display:grid;place-items:center;box-shadow:0 12px 40px -16px rgba(37,211,102,.9);text-decoration:none;transition:transform .25s var(--ease-out),filter .25s var(--ease-out)}
 .fab:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .fab svg{width:26px;height:26px;display:block}
 footer{padding:34px var(--pad) calc(44px + env(safe-area-inset-bottom));border-top:1px solid var(--line);color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:space-between;align-items:center}
@@ -236,10 +236,6 @@ html.tema-fade body,html.tema-fade .top{transition:background-color .35s var(--e
       <a class="ddc on lbl" href="encargos.html" aria-current="page">Encargos y envíos</a>
       <a class="btn main" id="hWa" href="#" target="_blank" rel="noopener">Encargar por WhatsApp</a>
     </nav>
-    <button class="thbtn" type="button" data-tema aria-pressed="false" aria-label="Pasar a modo claro" title="Modo claro">
-      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg>
-      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
-    </button>
   </div>
 </header>
 

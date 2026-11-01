@@ -37,13 +37,13 @@ let CLUB_ON = false; // config.club.publicado: muestra el Club en menú y sitema
 function shell({ title, desc, canonical, image, imageAlt, jsonld, body, depth = 1, type = 'website' }) {
   const up = '../'.repeat(depth);
   return `<!doctype html>
-<html lang="es-AR">
+<html lang="es-AR" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#ededed">
 <link rel="canonical" href="${canonical}">
 <link rel="icon" type="image/png" sizes="32x32" href="${up}brand/favicon-32.png">
 <link rel="apple-touch-icon" href="${up}brand/apple-touch-icon.png">
@@ -69,7 +69,6 @@ ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j).repl
 <header class="top"><div class="bar">
   <a class="logo" href="${up}" aria-label="Supply BA, ir al catálogo"><img class="iso" src="${up}brand/isotipo.webp" width="44" height="44" alt="Supply BA"></a>
   <nav class="nav" aria-label="Secciones"><a href="${up}#ver=todo">Catálogo</a><a href="${up}encargos.html">Encargos / Envíos</a>${CLUB_ON ? `<a href="${up}club">Club</a>` : ''}<a href="https://supplyba.com.ar?utm_source=catalogo&amp;utm_medium=estatica&amp;utm_campaign=ver_stock" target="_blank" rel="noopener">Stock</a></nav>
-  <button class="thbtn" type="button" data-tema aria-pressed="false" aria-label="Pasar a modo claro" title="Modo claro"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
 </div></header>
 <main>
 ${body}
