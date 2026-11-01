@@ -182,6 +182,13 @@ button.ddc{background:none;border:0;font-family:inherit;cursor:pointer}
 .rows{display:flex;flex-direction:column;gap:var(--space-2);margin:0 calc(var(--pad) * -1) var(--space-4)}
 .row{display:flex;align-items:center;gap:var(--space-2);overflow-x:auto;padding:0 var(--pad);scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .row::-webkit-scrollbar{display:none}
+.rw{position:relative}
+.rarr{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:34px;height:34px;display:none;place-items:center;padding:0;border:1px solid var(--line-strong);background:var(--bg);color:var(--text);border-radius:0;cursor:pointer;box-shadow:0 0 14px 8px var(--bg);transition:background .2s var(--ease-out),border-color .2s var(--ease-out)}
+.rarr.l{left:var(--pad)}
+.rarr.r{right:var(--pad)}
+.rarr:hover{background:var(--surface-2);border-color:var(--text)}
+.rarr:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+@media(hover:hover) and (pointer:fine){.rarr{display:grid}.rarr[hidden]{display:none}}
 .rowlab{flex:none;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);width:52px;opacity:.8}
 .chip{
   flex:none;min-height:36px;padding:0 14px;display:inline-flex;align-items:center;gap:8px;
@@ -985,7 +992,7 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
 [data-theme="light"] dialog{background:var(--bg)}
 [data-theme="light"] dialog#cart,[data-theme="light"] #sizeDlg,[data-theme="light"] #quoteDlg,[data-theme="light"] #welcome{background:var(--bg)}
 [data-theme="light"] dialog::backdrop,[data-theme="light"] dialog#cart::backdrop{background:rgba(20,20,20,.45)}
-[data-theme="light"] .pic,[data-theme="light"] .card .ph,[data-theme="light"] .tile .ph,[data-theme="light"] .oflot .ph,[data-theme="light"] .ofp-card .ph{background:radial-gradient(140% 100% at 50% 20%,#ffffff 0%,#f1f1ef 60%,#e8e8e5 100%)}
+[data-theme="light"] .citem .cth,[data-theme="light"] .pic,[data-theme="light"] .card .ph,[data-theme="light"] .tile .ph,[data-theme="light"] .oflot .ph,[data-theme="light"] .ofp-card .ph{background:radial-gradient(140% 100% at 50% 20%,#ffffff 0%,#f1f1ef 60%,#e8e8e5 100%)}
 [data-theme="light"] .card img,[data-theme="light"] .tile img,[data-theme="light"] .pic img,[data-theme="light"] .oflot .ph img,[data-theme="light"] .ofp-card .ph img{filter:none}
 [data-theme="light"] .x,[data-theme="light"] .ofp-x,[data-theme="light"] .oflot .x2{background:rgba(255,255,255,.9);border-color:rgba(0,0,0,.16);color:#222}
 [data-theme="light"] .x:hover,[data-theme="light"] .ofp-x:hover,[data-theme="light"] .oflot .x2:hover{background:#fff;border-color:rgba(0,0,0,.45);color:#000}
@@ -1991,6 +1998,30 @@ ${productUrl(p)}`;
     data.brands.filter((b) => bCount.has(b.slug)).forEach((b) =>
       br.append(chip(b.name, bCount.get(b.slug), state.brand === b.slug, () => go({ brand: b.slug, ver: 'todo' }))));
   }
+
+  /* flechas para mover las filas de filtros con el mouse (en el celular se desliza con el dedo) */
+  document.querySelectorAll('.rows .row').forEach((row) => {
+    const wrap = document.createElement('div'); wrap.className = 'rw';
+    row.replaceWith(wrap); wrap.append(row);
+    const mk = (dir) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = `rarr ${dir}`; b.hidden = true;
+      b.setAttribute('aria-label', `${row.getAttribute('aria-label')}: ver ${dir === 'l' ? 'anteriores' : 'siguientes'}`);
+      b.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" d="${dir === 'l' ? 'M15 5l-7 7 7 7' : 'M9 5l7 7-7 7'}"/></svg>`;
+      b.addEventListener('click', () => row.scrollBy({ left: (dir === 'l' ? -1 : 1) * row.clientWidth * .7, behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }));
+      return b;
+    };
+    const l = mk('l'), r = mk('r');
+    wrap.append(l, r);
+    const sync = () => {
+      l.hidden = row.scrollLeft < 4;
+      r.hidden = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+    };
+    row.addEventListener('scroll', sync, { passive: true });
+    new ResizeObserver(sync).observe(row);
+    new MutationObserver(sync).observe(row, { childList: true });
+    sync();
+  });
 
   /* ---------- lista ---------- */
   function interleave(items) {

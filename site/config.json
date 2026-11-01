@@ -34,38 +34,68 @@
       {
         "n": 2,
         "mes": "2026-12",
-        "nombre": "Drop 02 · Box logo oliva",
+        "nombre": "Drop 02 · Box logo camo desierto",
         "img": "brand/stickers/drop-02.webp"
       },
       {
         "n": 3,
         "mes": "2027-01",
-        "nombre": "Drop 03 · Box logo negro",
+        "nombre": "Drop 03 · Box logo oliva",
         "img": "brand/stickers/drop-03.webp"
       },
       {
         "n": 4,
         "mes": "2027-02",
-        "nombre": "Drop 04 · Box logo azul",
+        "nombre": "Drop 04 · Box logo camo verde",
         "img": "brand/stickers/drop-04.webp"
       },
       {
         "n": 5,
         "mes": "2027-03",
-        "nombre": "Drop 05 · Box logo camo",
+        "nombre": "Drop 05 · Box logo negro",
         "img": "brand/stickers/drop-05.webp"
       },
       {
         "n": 6,
         "mes": "2027-04",
-        "nombre": "Drop 06 · Box logo calaveras",
+        "nombre": "Drop 06 · Box logo camo rosa",
         "img": "brand/stickers/drop-06.webp"
       },
       {
         "n": 7,
         "mes": "2027-05",
-        "nombre": "Drop 07 · Box logo camo rosa",
+        "nombre": "Drop 07 · Box logo azul",
         "img": "brand/stickers/drop-07.webp"
+      },
+      {
+        "n": 8,
+        "mes": "2027-06",
+        "nombre": "Drop 08 · Box logo lima",
+        "img": "brand/stickers/drop-08.webp"
+      },
+      {
+        "n": 9,
+        "mes": "2027-07",
+        "nombre": "Drop 09 · Box logo celeste",
+        "img": "brand/stickers/drop-09.webp"
+      },
+      {
+        "n": 10,
+        "mes": "2027-08",
+        "nombre": "Drop 10 · Box logo naranja",
+        "img": "brand/stickers/drop-10.webp"
+      },
+      {
+        "n": 11,
+        "mes": "2027-09",
+        "nombre": "Drop 11 · Box logo rosa",
+        "img": "brand/stickers/drop-11.webp"
+      },
+      {
+        "n": 12,
+        "mes": "2027-10",
+        "nombre": "Drop 12 · Box logo dorado",
+        "img": "brand/stickers/drop-12.webp"
       }
     ],
     "niveles": [
