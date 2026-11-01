@@ -1383,6 +1383,14 @@ html.tema-fade body,html.tema-fade .top,html.tema-fade dialog{transition:backgro
   const colorSlug = (n) => n.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const colorBySlug = new Map(COLORES.map(([n, hex]) => [colorSlug(n), { name: n, hex }]));
   data.tipos = data.tipos || [];
+  /* sin precio no se muestra: ni en la grilla, ni en los conteos, ni en los menús */
+  if (cfg.mostrarPrecios !== false) {
+    data.products = data.products.filter((p) => p.price != null || p.usd != null);
+    const nB = new Map(), nT = new Map();
+    data.products.forEach((p) => { nB.set(p.brandSlug, (nB.get(p.brandSlug) || 0) + 1); nT.set(p.tipo, (nT.get(p.tipo) || 0) + 1); });
+    data.brands = data.brands.filter((b) => nB.has(b.slug)).map((b) => ({ ...b, count: nB.get(b.slug) }));
+    data.tipos = data.tipos.filter((t) => nT.has(t.name)).map((t) => ({ ...t, count: nT.get(t.name) }));
+  }
   data.products.forEach((p) => { p._s = norm([p.name, p.brand, p.category, p.tipo || '', p.num ?? '', p.talles ?? '', (p.colores || []).join(' ')].join(' ')); p._c = (p.colores || []).map(colorSlug); });
   const usdCfg = cfg.precios || {};
   let cotiz = { val: Number(usdCfg.usdCotizacion) || 0 };

@@ -199,6 +199,14 @@ ${other.length ? `<nav class="chips" aria-label="${kind === 'marca' ? 'Categorí
 export async function buildPages(out = 'site') {
   const data = JSON.parse(await fs.readFile(path.join(out, 'data', 'products.json'), 'utf8'));
   const cfg = JSON.parse(await fs.readFile(path.join(out, 'config.json'), 'utf8'));
+  // sin precio no se publica (misma regla que site/index.html)
+  if (cfg.mostrarPrecios !== false) {
+    data.products = data.products.filter((p) => p.price != null || p.usd != null);
+    const nB = new Map(), nT = new Map();
+    data.products.forEach((p) => { nB.set(p.brandSlug, (nB.get(p.brandSlug) || 0) + 1); nT.set(p.tipo, (nT.get(p.tipo) || 0) + 1); });
+    data.brands = data.brands.filter((b) => nB.has(b.slug)).map((b) => ({ ...b, count: nB.get(b.slug) }));
+    data.tipos = data.tipos.filter((t) => nT.has(t.name)).map((t) => ({ ...t, count: nT.get(t.name) }));
+  }
   CLUB_ON = !!(cfg.club?.activo && cfg.club?.publicado);
   try { cfg._talles = JSON.parse(await fs.readFile(path.join(out, 'data', 'talles.json'), 'utf8')); } catch { cfg._talles = null; }
   const ensure = async (d) => { await fs.rm(path.join(out, d), { recursive: true, force: true }); await fs.mkdir(path.join(out, d), { recursive: true }); };
